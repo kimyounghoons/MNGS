@@ -39,6 +39,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var emailLoginButton: Button
     private lateinit var callbackManager: CallbackManager
+    private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
+
+
+    override fun onStart() {
+        super.onStart()
+        mAuth?.addAuthStateListener(mAuthListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mAuth?.removeAuthStateListener { mAuthListener }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,8 +106,22 @@ class MainActivity : AppCompatActivity() {
             {
                 // App code
             }
-        });
+        })
 
+        mAuthListener = FirebaseAuth.AuthStateListener {
+            val user: FirebaseUser? = it.currentUser
+            if (user != null) {
+                locateToHome()
+            } else {
+            }
+        }
+
+    }
+
+    private fun locateToHome() {
+        intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
@@ -103,6 +130,7 @@ class MainActivity : AppCompatActivity() {
         mAuth?.signInWithCredential(credential)?.addOnCompleteListener(this, object : OnCompleteListener<AuthResult> {
             override fun onComplete(task: Task<AuthResult>) {
                 if (task.isSuccessful) {
+                    locateToHome()
                     Log.d("MainActivity", "연동 성공")
                 } else {
                     Log.d("MainActivity", "연동 실패")
@@ -177,6 +205,7 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this, "성공", Toast.LENGTH_LONG).show()
                         val user = mAuth?.getCurrentUser()
                         Toast.makeText(this, user.toString(), Toast.LENGTH_LONG).show()
+                        locateToHome()
                     } else {
                         Toast.makeText(this, "실패", Toast.LENGTH_LONG).show()
                     }
