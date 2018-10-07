@@ -1,23 +1,18 @@
 package com.mngs.kimyounghoon.mngs
 
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.content.pm.Signature
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.util.Base64
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -27,7 +22,8 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
-import java.security.MessageDigest
+import com.mngs.kimyounghoon.mngs.databinding.ActivityMainBinding
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,12 +31,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private var mAuth: FirebaseAuth? = null
     private val RC_SIGN_IN: Int = 10
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
-    private lateinit var emailLoginButton: Button
     private lateinit var callbackManager: CallbackManager
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
-
+    private lateinit var activityMainBinding: ActivityMainBinding
 
     override fun onStart() {
         super.onStart()
@@ -55,20 +48,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        emailEditText = findViewById(R.id.edittext_email)
-        passwordEditText = findViewById(R.id.edittext_password)
-        emailLoginButton = findViewById(R.id.email_login_button)
-        val info: PackageInfo
-        info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
-        for (signature: Signature in info.signatures) {
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-            var md: MessageDigest = MessageDigest.getInstance("SHA");
-            md.update(signature.toByteArray());
-            var something = String(Base64.encode(md.digest(), 0));
-            //String something = new String(Base64.encodeBytes(md.digest()));
-            Log.d("hash key", something);
-        }
         mAuth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -83,27 +64,20 @@ class MainActivity : AppCompatActivity() {
             signIn()
         }
 
-        emailLoginButton.setOnClickListener {
-            loginUser(emailEditText.text.toString(), passwordEditText.text.toString())
-//            createUser(emailEditText.text.toString(), passwordEditText.text.toString())
-        }
-
         callbackManager = CallbackManager.Factory.create();
-        val loginButton = findViewById(R.id.facebook_login_button) as LoginButton
-        loginButton.setReadPermissions("email")
-        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
+        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 // App code
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
-            override fun onCancel()
-            {
+            override fun onCancel() {
                 // App code
             }
 
-            override fun onError(error : FacebookException)
-            {
+            override fun onError(error: FacebookException) {
                 // App code
             }
         })
@@ -127,16 +101,14 @@ class MainActivity : AppCompatActivity() {
     private fun handleFacebookAccessToken(token: AccessToken) {
 
         var credential: AuthCredential = FacebookAuthProvider.getCredential(token.getToken())
-        mAuth?.signInWithCredential(credential)?.addOnCompleteListener(this, object : OnCompleteListener<AuthResult> {
-            override fun onComplete(task: Task<AuthResult>) {
-                if (task.isSuccessful) {
-                    locateToHome()
-                    Log.d("MainActivity", "연동 성공")
-                } else {
-                    Log.d("MainActivity", "연동 실패")
-                }
+        mAuth?.signInWithCredential(credential)?.addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                locateToHome()
+                Log.d("MainActivity", "연동 성공")
+            } else {
+                Log.d("MainActivity", "연동 실패")
             }
-        })
+        }
     }
 
     private fun createUser(email: String, password: String) {  // 회원가입
