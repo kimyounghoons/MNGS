@@ -1,15 +1,10 @@
 package com.mngs.kimyounghoon.mngs
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
-import android.util.Base64
 import android.util.Log
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import android.view.View
 import android.widget.Toast
 import com.facebook.AccessToken
@@ -117,39 +112,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
-    private fun createUser(email: String, password: String) {  // 회원가입
-        mAuth?.createUserWithEmailAndPassword(email, password)
-                ?.addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        val user = mAuth?.currentUser
-                        Toast.makeText(this, "success",
-                                Toast.LENGTH_SHORT).show()
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                    }
-
-                    // ...
-                }
-    }
-
-    private fun loginUser(email: String, password: String) {  // 로그인 방법
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(this, "로그인 성공",
-                            Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "로그인 실패",
-                            Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
 
     private fun signIn() {
         val signInIntent = mGoogleSignInClient.signInIntent
