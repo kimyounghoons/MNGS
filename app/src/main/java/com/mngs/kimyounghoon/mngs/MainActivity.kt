@@ -1,11 +1,16 @@
 package com.mngs.kimyounghoon.mngs
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.util.Base64
 import android.util.Log
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import android.view.View
 import android.widget.Toast
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -18,15 +23,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.SignInButton
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.mngs.kimyounghoon.mngs.databinding.ActivityMainBinding
 import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+    override fun onClick(v: View?) {
+        if (v == activityMainBinding.googleLoginButton) {
+            signIn()
+        } else if (v == activityMainBinding.facebookLoginButton) {
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"))
+        }
+    }
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private var mAuth: FirebaseAuth? = null
@@ -59,26 +68,20 @@ class MainActivity : AppCompatActivity() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        var googleLoginButton: SignInButton = findViewById(R.id.google_login_button)
-        googleLoginButton.setOnClickListener {
-            signIn()
-        }
+        callbackManager = CallbackManager.Factory.create()
 
-        callbackManager = CallbackManager.Factory.create();
-
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                // App code
+                Log.d(this@MainActivity.localClassName, "FacebookCallback is Success")
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
             override fun onCancel() {
-                // App code
+                Log.d(this@MainActivity.localClassName, "FacebookCallback is Canceled")
             }
 
             override fun onError(error: FacebookException) {
-                // App code
+                Log.d(this@MainActivity.localClassName, "FacebookCallback is Error")
             }
         })
 
@@ -89,6 +92,10 @@ class MainActivity : AppCompatActivity() {
             } else {
             }
         }
+
+        activityMainBinding.googleLoginButton.setOnClickListener(this)
+        activityMainBinding.facebookLoginButton.setOnClickListener(this)
+
 
     }
 
@@ -145,13 +152,13 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun signIn() {
-        val signInIntent = mGoogleSignInClient.getSignInIntent()
+        val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode === RC_SIGN_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
@@ -160,8 +167,7 @@ class MainActivity : AppCompatActivity() {
                 val account = result.signInAccount
                 firebaseAuthWithGoogle(account!!)
             } else {
-                // Google Sign In failed, update UI appropriately
-                // ...
+                Log.d(this@MainActivity.localClassName,"google login fail")
             }
         }
     }
