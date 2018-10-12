@@ -7,6 +7,7 @@ import com.mngs.kimyounghoon.mngs.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() ,LocateListener{
+
     private lateinit var activityMainBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +18,10 @@ class MainActivity : AppCompatActivity() ,LocateListener{
 
     override fun openLogin() {
         supportFragmentManager.beginTransaction().replace(R.id.container, LoginFragment.newInstance()).commit()
+    }
+
+    override fun openSignup() {
+        supportFragmentManager.beginTransaction().replace(R.id.container, SignupFragment.newInstance()).commit()
     }
 
     override fun openHome() {

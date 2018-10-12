@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">MNGS</string>
-    <string name="facebook_app_id">2190898267854451</string>
-    <string name="fb_login_protocol_scheme">fb2190898267854451</string>
+    <string name="app_name" translatable="false">MNGS</string>
+    <string name="facebook_app_id" translatable="false">2190898267854451</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb2190898267854451</string>
 
 
     <string name="full_app_name">Miracles of the Namiya General Store</string>
+    <string name="insert_nickname">insert nickname</string>
+    <string name="confirm">confirm</string>
+    <string name="exists_already_nickname">already exists nickname</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

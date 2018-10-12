@@ -12,33 +12,33 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
 
-class HomeFragment : Fragment() {
+class HomeFragment : AbstractFragment() {
     companion object {
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }
     }
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var storage: FirebaseStorage
-    private lateinit var database: FirebaseDatabase
+//    private lateinit var auth: FirebaseAuth
+//    private lateinit var storage: FirebaseStorage
+//    private lateinit var database: FirebaseDatabase
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
-    private var locateListener: LocateListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        auth = FirebaseAuth.getInstance()
-        storage = FirebaseStorage.getInstance()
-        database = FirebaseDatabase.getInstance()
+//        auth = FirebaseAuth.getInstance()
+//        storage = FirebaseStorage.getInstance()
+//        database = FirebaseDatabase.getInstance()
+//
+//        fragmentHomeBinding.nameText.text = auth.currentUser?.displayName
+//        fragmentHomeBinding.emailText.text = auth.currentUser?.email
 
-        fragmentHomeBinding.nameText.text = auth.currentUser?.displayName
-        fragmentHomeBinding.emailText.text = auth.currentUser?.email
-        fragmentHomeBinding.logoutButton.setOnClickListener {
-            auth.signOut()
-            LoginManager.getInstance().logOut()
-            locateListener?.openLogin()
-        }
+//        fragmentHomeBinding.logoutButton.setOnClickListener {
+//            auth.signOut()
+//            LoginManager.getInstance().logOut()
+//            locateListener?.openLogin()
+//        }
         return fragmentHomeBinding.root
     }
 }

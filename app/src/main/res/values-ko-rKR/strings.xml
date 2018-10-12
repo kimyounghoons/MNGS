@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="full_app_name">나미야 잡화점의 기적</string>
+    <string name="insert_nickname">닉네임을 입력하세요.</string>
+    <string name="confirm">확인</string>
+    <string name="exists_already_nickname">이미 존재하는 닉네임 입니다.</string>
+</resources>

@@ -6,4 +6,6 @@ interface LocateListener{
     fun openSplash()
 
     fun openHome()
+
+    fun openSignup()
 }

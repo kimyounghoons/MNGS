@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException
 
 class KeyHelper{
     companion object {
-        fun getKey(context : Context){
+        fun getHashKey(context : Context){
             try {
                 val info = context.packageManager.getPackageInfo(
                         "com.mngs.kimyounghoon.mngs",
@@ -17,7 +17,7 @@ class KeyHelper{
                 for (signature in info.signatures) {
                     val md = MessageDigest.getInstance("SHA")
                     md.update(signature.toByteArray())
-                    Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT))
+                    Log.e("HashKey:", Base64.encodeToString(md.digest(), Base64.DEFAULT))
                 }
             } catch (e: PackageManager.NameNotFoundException) {
                 Log.e("log", "log")
