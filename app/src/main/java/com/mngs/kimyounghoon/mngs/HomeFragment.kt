@@ -2,14 +2,9 @@ package com.mngs.kimyounghoon.mngs
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.facebook.login.LoginManager
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
 
 class HomeFragment : AbstractFragment() {
@@ -19,7 +14,7 @@ class HomeFragment : AbstractFragment() {
         }
     }
 
-//    private lateinit var auth: FirebaseAuth
+    //    private lateinit var auth: FirebaseAuth
 //    private lateinit var storage: FirebaseStorage
 //    private lateinit var database: FirebaseDatabase
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
