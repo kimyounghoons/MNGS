@@ -5,7 +5,6 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.VisibleForTesting
-import com.mngs.kimyounghoon.mngs.login.LoginViewModel
 
 class ViewModelFactory private constructor(
         private val application: Application
@@ -14,8 +13,6 @@ class ViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
-                    isAssignableFrom(LoginViewModel::class.java) ->
-                        LoginViewModel(application)
 //                    isAssignableFrom(TaskDetailViewModel::class.java) ->
 //                        TaskDetailViewModel(application, tasksRepository)
 //                    isAssignableFrom(AddEditTaskViewModel::class.java) ->

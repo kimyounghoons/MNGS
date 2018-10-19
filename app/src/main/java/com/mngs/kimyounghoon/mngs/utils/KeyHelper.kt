@@ -1,4 +1,4 @@
-package com.mngs.kimyounghoon.mngs
+package com.mngs.kimyounghoon.mngs.utils
 
 import android.content.Context
 import android.content.pm.PackageManager

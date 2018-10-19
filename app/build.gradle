@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.mngs.kimyounghoon.mngs"
-        minSdkVersion 17
+        minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"

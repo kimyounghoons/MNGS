@@ -6,9 +6,8 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="viewmodel"
-            type="com.mngs.kimyounghoon.mngs.login.LoginViewModel"
-            />
+            name="fragment"
+            type="com.mngs.kimyounghoon.mngs.login.LoginFragment"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -49,7 +48,7 @@
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/guide_center"
-            android:onClick="@{(v)->viewmodel.onGoogleLogin()}"
+            android:onClick="@{(v)->fragment.onGoogleLogin()}"
            />
 
         <ImageView
@@ -61,7 +60,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/guide_center"
-            android:onClick="@{(v)->viewmodel.onFacebookLogin()}"/>
+            android:onClick="@{(v)->fragment.onFacebookLogin()}"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

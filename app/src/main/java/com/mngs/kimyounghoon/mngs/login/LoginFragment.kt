@@ -1,10 +1,7 @@
 package com.mngs.kimyounghoon.mngs.login
 
-import android.app.Activity
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,10 +23,9 @@ import com.google.firebase.database.*
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentLoginBinding
-import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import java.util.*
 
-class LoginFragment : AbstractFragment(), LoginNavigator{
+class LoginFragment : AbstractFragment(), LoginNavigator {
 
     companion object {
         fun newInstance(): LoginFragment {
@@ -44,14 +40,6 @@ class LoginFragment : AbstractFragment(), LoginNavigator{
     override fun onGoogleLogin() {
         signIn()
     }
-
-//    override fun onClick(v: View?) {
-//        if (v == fragmentLoginBinding.googleLoginButton) {
-//            signIn()
-//        } else if (v == fragmentLoginBinding.facebookLoginButton) {
-//            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"))
-//        }
-//    }
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private var auth: FirebaseAuth? = null
@@ -72,12 +60,9 @@ class LoginFragment : AbstractFragment(), LoginNavigator{
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        fragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-//        fragmentLoginBinding.googleLoginButton.setOnClickListener(this)
-//        fragmentLoginBinding.facebookLoginButton.setOnClickListener(this)
         val root = inflater.inflate(R.layout.fragment_login, container, false)
         fragmentLoginBinding = FragmentLoginBinding.bind(root).apply {
-            viewmodel = (context as AppCompatActivity).obtainViewModel(LoginViewModel::class.java)
+            fragment = this@LoginFragment
         }
         return fragmentLoginBinding.root
     }
@@ -134,7 +119,6 @@ class LoginFragment : AbstractFragment(), LoginNavigator{
                     locateListener?.openSignup()
                 }
             }
-
         })
     }
 
@@ -160,7 +144,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator{
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode === RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             if (result.isSuccess) {
                 // Google Sign In was successful, authenticate with Firebase
