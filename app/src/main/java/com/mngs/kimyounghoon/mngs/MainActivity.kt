@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.mngs.kimyounghoon.mngs.databinding.ActivityMainBinding
+import com.mngs.kimyounghoon.mngs.home.HomeFragment
 import com.mngs.kimyounghoon.mngs.login.LoginFragment
 import com.mngs.kimyounghoon.mngs.signup.SignupFragment
 
