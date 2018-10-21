@@ -3,7 +3,6 @@ package com.mngs.kimyounghoon.mngs.home
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,8 @@ import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
 
-class HomeFragment : AbstractFragment() , TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener{
+
+class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -30,39 +30,32 @@ class HomeFragment : AbstractFragment() , TabLayout.OnTabSelectedListener, ViewP
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         setUpTabLayout()
+        fragmentHomeBinding.viewPager.adapter = homeFragmentStatePagerAdapter
+        fragmentHomeBinding.viewPager.offscreenPageLimit = 2
+        fragmentHomeBinding.viewPager.setOnTouchListener { v, event -> true }
+        fragmentHomeBinding.tabLayout.addOnTabSelectedListener(this)
         return fragmentHomeBinding.root
     }
 
     private fun setUpTabLayout() {
-        for (i in 0 until homeFragmentStatePagerAdapter.count) {
+        for (position in 0 until homeFragmentStatePagerAdapter.count) {
             val tab = fragmentHomeBinding.tabLayout.newTab()
             tab.setCustomView(homeFragmentStatePagerAdapter.getCustomView())
-            homeFragmentStatePagerAdapter.bindCustomView(tab.getCustomView(), i)
-            tabLayout.addTab(tab)
+            homeFragmentStatePagerAdapter.bindCustomView(tab.customView!!, position)
+            fragmentHomeBinding.tabLayout.addTab(tab)
         }
     }
 
-    override fun onPageScrollStateChanged(state: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onPageSelected(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onTabReselected(tab: TabLayout.Tab?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        tab?.apply {
+            fragmentHomeBinding.tabLayout.getTabAt(tab.position)!!.select()
+            fragmentHomeBinding.viewPager.currentItem = tab.position
+        }
     }
 }

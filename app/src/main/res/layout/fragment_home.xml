@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:elevation="6dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:tabIndicatorHeight="0dp"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -5,16 +5,18 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.VisibleForTesting
+import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
+import com.mngs.kimyounghoon.mngs.writeletter.WriteViewModel
 
 class ViewModelFactory private constructor(
-        private val application: Application
+        private val application: Application, private val lettersRepository: LettersRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
-//                    isAssignableFrom(TaskDetailViewModel::class.java) ->
-//                        TaskDetailViewModel(application, tasksRepository)
+                    isAssignableFrom(WriteViewModel::class.java) ->
+                        WriteViewModel(application, lettersRepository)
 //                    isAssignableFrom(AddEditTaskViewModel::class.java) ->
 //                        AddEditTaskViewModel(application, tasksRepository)
 //                    isAssignableFrom(TasksViewModel::class.java) ->
@@ -27,11 +29,12 @@ class ViewModelFactory private constructor(
     companion object {
 
         @SuppressLint("StaticFieldLeak")
-        @Volatile private var INSTANCE: ViewModelFactory? = null
+        @Volatile
+        private var INSTANCE: ViewModelFactory? = null
 
         fun getInstance(application: Application) =
                 INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                    INSTANCE ?: ViewModelFactory(application)
+                    INSTANCE ?: ViewModelFactory(application, LettersRepository.getInstance())
                             .also { INSTANCE = it }
                 }
 
