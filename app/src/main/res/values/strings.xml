@@ -9,5 +9,10 @@
     <string name="confirm">confirm</string>
     <string name="exists_already_nickname">already exists nickname</string>
 
+    <string name="sended_letter">success to send a letter</string>
+    <string name="failed_to_send_letter">failed to send a letter</string>
 
+    <string name="title">title</string>
+    <string name="content">content</string>
+    <string name="send">send</string>
 </resources>

@@ -5,8 +5,10 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.annotation.VisibleForTesting
+import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
-import com.mngs.kimyounghoon.mngs.writeletter.WriteViewModel
+import com.mngs.kimyounghoon.mngs.letters.LettersViewModel
+import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterViewModel
 
 class ViewModelFactory private constructor(
         private val application: Application, private val lettersRepository: LettersRepository
@@ -15,12 +17,10 @@ class ViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
-                    isAssignableFrom(WriteViewModel::class.java) ->
-                        WriteViewModel(application, lettersRepository)
-//                    isAssignableFrom(AddEditTaskViewModel::class.java) ->
-//                        AddEditTaskViewModel(application, tasksRepository)
-//                    isAssignableFrom(TasksViewModel::class.java) ->
-//                        TasksViewModel(application, tasksRepository)
+                    isAssignableFrom(WriteLetterViewModel::class.java) ->
+                        WriteLetterViewModel(application, lettersRepository)
+                    isAssignableFrom(LettersViewModel::class.java) ->
+                        LettersViewModel(application, lettersRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }
@@ -34,7 +34,7 @@ class ViewModelFactory private constructor(
 
         fun getInstance(application: Application) =
                 INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                    INSTANCE ?: ViewModelFactory(application, LettersRepository.getInstance())
+                    INSTANCE ?: ViewModelFactory(application, LettersRepository.getInstance(LettersFirebaseDataSource))
                             .also { INSTANCE = it }
                 }
 

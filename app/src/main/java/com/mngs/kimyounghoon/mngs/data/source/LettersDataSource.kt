@@ -6,19 +6,28 @@ interface LettersDataSource {
 
     interface LoadLettersCallback {
         fun onLettersLoaded(letters: List<Letter>)
+
+        fun onFailedToLoadLetters()
     }
 
     interface GetLetterCallback {
         fun onLetterLoaded(letter: Letter)
+
+        fun onFailedToLoadLetters()
     }
 
     interface SendLetterCallback {
-        fun onLetterSended(letter: Letter)
+        fun onLetterSended()
+
+        fun onFailedToSendLetter()
     }
 
-    fun getLetters(callback: LoadLettersCallback)
+    fun loadLetters(callback: LoadLettersCallback)
 
     fun getLetter(letterId: String, callBack: GetLetterCallback)
 
-    fun sendLetter(letter: Letter)
+    fun sendLetter(letter: Letter, callBack: SendLetterCallback)
+
+    fun getId() : String
+
 }

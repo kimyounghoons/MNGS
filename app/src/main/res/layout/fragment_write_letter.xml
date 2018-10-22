@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.mngs.kimyounghoon.mngs.writeletter.WriteViewModel" />
+            type="com.mngs.kimyounghoon.mngs.writeletter.WriteLetterViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -18,6 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:text="@={viewModel.title}"
+            android:hint="@string/title"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -25,14 +27,15 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginTop="30dp"
-            android:hint="내용"
+            android:hint="@string/content"
+            android:text="@={viewModel.content}"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <Button
             android:id="@+id/send_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="보내기"
+            android:text="@string/send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
