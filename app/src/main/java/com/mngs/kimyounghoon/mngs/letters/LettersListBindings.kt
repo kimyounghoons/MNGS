@@ -5,10 +5,10 @@ import android.databinding.ObservableArrayList
 import android.support.v7.widget.RecyclerView
 import com.mngs.kimyounghoon.mngs.data.Letter
 
-object LettersListBindings {
-    @BindingAdapter("bind:item")
-    @JvmStatic
-    fun setItems(recyclerView: RecyclerView, letters: ObservableArrayList<Letter>) {
-        recyclerView.adapter
+@BindingAdapter("items")
+fun setItems(recyclerView: RecyclerView, items: List<Letter>) {
+    with(recyclerView.adapter as LettersAdapter){
+        setItems(items)
     }
 }
+

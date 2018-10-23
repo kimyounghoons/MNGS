@@ -53,5 +53,10 @@ class LettersFragment : AbstractFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.viewModel?.start()
+    }
+
     fun obtainViewModel(): LettersViewModel = obtainViewModel(LettersViewModel::class.java)
 }

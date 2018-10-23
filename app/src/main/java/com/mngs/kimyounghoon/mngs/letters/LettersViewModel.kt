@@ -18,8 +18,12 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
     private val dataLoading = ObservableBoolean(false)
     private val loadLettersCommand = SingleLiveEvent<Void>()
     internal val snackbarMessage = SingleLiveEvent<Int>()
-    internal var items: ObservableList<Letter> = ObservableArrayList()
+    var items: ObservableList<Letter> = ObservableArrayList()
     val empty = ObservableBoolean(false)
+
+    fun start(){
+        loadLetters(false)
+    }
 
     fun loadLetters(forceUpdate: Boolean) {
         loadLetters(forceUpdate, true)

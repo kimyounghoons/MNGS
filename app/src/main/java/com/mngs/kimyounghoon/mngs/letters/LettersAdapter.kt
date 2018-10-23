@@ -24,7 +24,7 @@ class LettersAdapter(var letters : List<Letter> = ArrayList()) : RecyclerView.Ad
         }
     }
 
-    internal fun setItems(letters: List<Letter>?){
+    fun setItems(letters: List<Letter>?){
         letters?.let {
             this.letters = letters
             notifyDataSetChanged()
