@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 27
 
@@ -65,7 +67,7 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:$lifecycle_version"
     // optional - Test helpers for LiveData
     testImplementation "android.arch.core:core-testing:$lifecycle_version"
-
+//    kapt "com.android.databinding:compiler:$gradleVersion" //version should be same gradle version
 
 }
 
