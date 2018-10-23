@@ -4,9 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
 import android.databinding.ObservableList
-import android.util.Log
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
@@ -14,14 +12,18 @@ import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
 
 class LettersViewModel(context: Application, private val lettersRepository: LettersRepository) : AndroidViewModel(context) {
 
-    private val isDataLoadingError = ObservableBoolean(false)
-    private val dataLoading = ObservableBoolean(false)
-    private val loadLettersCommand = SingleLiveEvent<Void>()
+    companion object {
+        const val LOAD_MORE_VISIBLE_THRESHOLD = 4
+    }
+
+    val isDataLoadingError = ObservableBoolean(false)
+    val isLoading = ObservableBoolean(false)
+    val loadLettersCommand = SingleLiveEvent<Void>()
     internal val snackbarMessage = SingleLiveEvent<Int>()
     var items: ObservableList<Letter> = ObservableArrayList()
     val empty = ObservableBoolean(false)
 
-    fun start(){
+    fun start() {
         loadLetters(false)
     }
 
@@ -31,22 +33,20 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
 
     private fun loadLetters(forceUpdate: Boolean, showLoadingUI: Boolean) {
         if (showLoadingUI) {
-            dataLoading.set(true)
+            isLoading.set(true)
         }
-        if(forceUpdate){
+        if (forceUpdate) {
 
         }
 
         lettersRepository.loadLetters(object : LettersDataSource.LoadLettersCallback {
             override fun onLettersLoaded(letters: List<Letter>) {
-                val lettersToShow: List<Letter>
+                val lettersToShow: List<Letter> = letters
 
                 if (showLoadingUI) {
-                    dataLoading.set(false)
+                    isLoading.set(false)
                 }
                 isDataLoadingError.set(false)
-
-                lettersToShow = letters
 
                 with(items) {
                     clear()
@@ -60,6 +60,10 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
             }
 
         })
+    }
+
+    fun loadMoreLetters() {
+        lettersRepository.loadMoreLetters()
     }
 
 }

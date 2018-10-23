@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.mngs.kimyounghoon.mngs.letters.LettersViewModel"/>
+            type="com.mngs.kimyounghoon.mngs.letters.LettersViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            items="@{viewModel.items}"/>
+            android:onRefresh="@{viewModel}"
+            app:refreshing="@{viewModel.isLoading}">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                items="@{viewModel.items}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                android:onScroll="@{viewModel}"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

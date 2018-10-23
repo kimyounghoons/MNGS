@@ -44,4 +44,8 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
     }
 
+    override fun loadMoreLetters() {
+
+    }
+
 }

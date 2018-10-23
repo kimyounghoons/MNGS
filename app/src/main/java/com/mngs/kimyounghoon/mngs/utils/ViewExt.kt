@@ -25,8 +25,8 @@ fun View.showSnackbar(snackbarText: String, timeLength: Int) {
     Snackbar.make(this, snackbarText, timeLength).show()
 }
 
-@BindingAdapter("android:onRefresh")
-fun ScrollChildSwipeRefreshLayout.setSwipeRefreshLayoutOnRefreshListener(
-        viewModel: LettersViewModel) {
-    setOnRefreshListener { viewModel.loadLetters(true) }
-}
+//@BindingAdapter("android:onRefresh")
+//fun ScrollChildSwipeRefreshLayout.setSwipeRefreshLayoutOnRefreshListener(
+//        viewModel: LettersViewModel) {
+//    setOnRefreshListener { viewModel.loadLetters(true) }
+//}

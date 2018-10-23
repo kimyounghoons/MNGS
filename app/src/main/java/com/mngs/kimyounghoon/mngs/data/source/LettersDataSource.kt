@@ -24,6 +24,8 @@ interface LettersDataSource {
 
     fun loadLetters(callback: LoadLettersCallback)
 
+    fun loadMoreLetters()
+
     fun getLetter(letterId: String, callBack: GetLetterCallback)
 
     fun sendLetter(letter: Letter, callBack: SendLetterCallback)

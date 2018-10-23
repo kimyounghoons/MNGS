@@ -3,6 +3,9 @@ package com.mngs.kimyounghoon.mngs.data.source
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 class LettersRepository(val lettersDataSource: LettersDataSource) : LettersDataSource {
+    override fun loadMoreLetters() {
+        lettersDataSource.loadMoreLetters()
+    }
 
     override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {
         lettersDataSource.loadLetters(callback)
