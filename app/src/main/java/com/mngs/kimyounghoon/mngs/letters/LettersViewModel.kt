@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
+import android.databinding.ObservableField
 import android.databinding.ObservableList
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Letter
@@ -20,7 +21,7 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
     val isLoading = ObservableBoolean(false)
     val loadLettersCommand = SingleLiveEvent<Void>()
     internal val snackbarMessage = SingleLiveEvent<Int>()
-    var items: ObservableList<Letter> = ObservableArrayList()
+    var items: ObservableField<ArrayList<Letter>> = ObservableField()
     val empty = ObservableBoolean(false)
 
     fun start() {
@@ -48,11 +49,16 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
                 }
                 isDataLoadingError.set(false)
 
-                with(items) {
-                    clear()
-                    addAll(lettersToShow)
+
+                items.set(null)
+
+                items.set(lettersToShow as ArrayList<Letter>?)
+
+                items.get()?.apply {
                     empty.set(isEmpty())
                 }
+
+//                        empty.set(isEmpty()))
             }
 
             override fun onFailedToLoadLetters() {
@@ -63,7 +69,24 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
     }
 
     fun loadMoreLetters() {
-        lettersRepository.loadMoreLetters()
+        lettersRepository.loadMoreLetters(object : LettersDataSource.LoadMoreLettersCallback {
+            override fun onLettersMoreLoaded(letters: List<Letter>) {
+                val lettersToShow: List<Letter> = letters
+
+                isLoading.set(false)
+                isDataLoadingError.set(false)
+
+                items.get()?.apply {
+                    addAll(size, lettersToShow)
+                    empty.set(isEmpty())
+                    items.notifyChange()
+                }
+            }
+
+            override fun onFailedToLoadMoreLetters() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
     }
 
 }

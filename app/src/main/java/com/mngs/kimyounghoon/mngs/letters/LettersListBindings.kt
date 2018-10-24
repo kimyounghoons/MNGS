@@ -1,6 +1,7 @@
 package com.mngs.kimyounghoon.mngs.letters
 
 import android.databinding.BindingAdapter
+import android.databinding.ObservableField
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -8,9 +9,9 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.letters.LettersViewModel.Companion.LOAD_MORE_VISIBLE_THRESHOLD
 
 @BindingAdapter("items")
-fun setItems(recyclerView: RecyclerView, items: List<Letter>) {
+fun setItems(recyclerView: RecyclerView, items: ObservableField<ArrayList<Letter>>) {
     with(recyclerView.adapter as LettersAdapter) {
-        setItems(items)
+        setItems(items.get())
     }
 }
 

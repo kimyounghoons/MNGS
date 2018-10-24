@@ -10,6 +10,12 @@ interface LettersDataSource {
         fun onFailedToLoadLetters()
     }
 
+    interface LoadMoreLettersCallback {
+        fun onLettersMoreLoaded(letters: List<Letter>)
+
+        fun onFailedToLoadMoreLetters()
+    }
+
     interface GetLetterCallback {
         fun onLetterLoaded(letter: Letter)
 
@@ -24,7 +30,7 @@ interface LettersDataSource {
 
     fun loadLetters(callback: LoadLettersCallback)
 
-    fun loadMoreLetters()
+    fun loadMoreLetters(callback: LoadMoreLettersCallback)
 
     fun getLetter(letterId: String, callBack: GetLetterCallback)
 
