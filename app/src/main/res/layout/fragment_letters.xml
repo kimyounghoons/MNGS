@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:onRefresh="@{viewModel}"
-            app:refreshing="@{viewModel.isLoading}">
+            app:refreshing="@{viewModel.refreshing.get()}">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
@@ -29,7 +29,8 @@
                 android:onScroll="@{viewModel}"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 bind:items="@{viewModel.items.get()}"
-                bind:prev="@{viewModel.prevItemSize.get()}" />
+                bind:prev="@{viewModel.prevItemSize.get()}"
+                bind:isAllLoaded="@{viewModel.isAllLoaded().get()}"/>
         </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

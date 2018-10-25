@@ -15,6 +15,13 @@ fun setItems(recyclerView: RecyclerView, items: List<Letter>?, prevItemSize: Int
     }
 }
 
+@BindingAdapter("bind:isAllLoaded")
+fun setIsAllLoaded(recyclerView: RecyclerView,isAlloaded: Boolean?) {
+    with(recyclerView.adapter as LettersAdapter) {
+        setIsAllLoaded(isAlloaded?:false)
+    }
+}
+
 @BindingAdapter("android:onRefresh")
 fun SwipeRefreshLayout.OnRefreshListener(viewModel: LettersViewModel) {
     setOnRefreshListener {
@@ -23,8 +30,8 @@ fun SwipeRefreshLayout.OnRefreshListener(viewModel: LettersViewModel) {
 }
 
 @BindingAdapter("app:refreshing")
-fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, isLoading: Boolean) {
-    swipeRefreshLayout.isRefreshing = isLoading
+fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, isRefreshing: Boolean?) {
+    swipeRefreshLayout.isRefreshing = isRefreshing?:false
 }
 
 @BindingAdapter("android:onScroll")
@@ -37,7 +44,7 @@ fun RecyclerView.addOnScrollListener(viewModel: LettersViewModel) {
             val firstVisibleItem = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
             if (totalItemCount - visibleItemCount <= firstVisibleItem + LOAD_MORE_VISIBLE_THRESHOLD) {
-                if (adapter != null)
+                if (adapter != null && !viewModel.isAllLoaded.get() && !viewModel.isLoading.get())
                     viewModel.loadMoreLetters()
             }
         }

@@ -4,23 +4,64 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mngs.kimyounghoon.mngs.data.Letter
+import com.mngs.kimyounghoon.mngs.databinding.ItemEmptyBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLetterBinding
+import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
 
-class LettersAdapter(var letters: List<Letter> = ArrayList()) : RecyclerView.Adapter<LettersViewHolder>() {
+class LettersAdapter(var letters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LettersViewHolder {
-        val binding = ItemLetterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return LettersViewHolder(binding)
+    interface ViewType {
+        companion object {
+            const val EMPTY = 0
+            const val ITEM = 1
+            const val LOAD_MORE = 2
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            ViewType.EMPTY -> {
+                val binding = ItemEmptyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                LettersEmptyViewHolder(binding)
+            }
+            ViewType.LOAD_MORE
+            -> {
+                val binding = ItemLoadMoreBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                LoadMoreViewHolder(binding)
+            }
+            else -> {
+                val binding = ItemLetterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                LettersViewHolder(binding)
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when {
+            isEmpty() -> ViewType.EMPTY
+            position > letters.size - 1 -> ViewType.LOAD_MORE
+            else -> ViewType.ITEM
+        }
+    }
+
+    private fun isEmpty(): Boolean {
+        return letters.isEmpty() && isAllLoaded
     }
 
     override fun getItemCount(): Int {
-        return letters.size
+        return letters.size + if (isAllLoaded) {
+            0
+        } else {
+            1
+        }
     }
 
-    override fun onBindViewHolder(holder: LettersViewHolder, position: Int) {
-        val letter: Letter? = letters[position]
-        letter?.apply {
-            holder.bind(this)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is LettersViewHolder) {
+            val letter: Letter? = letters[position]
+            letter?.apply {
+                holder.bind(this)
+            }
         }
     }
 
@@ -31,9 +72,17 @@ class LettersAdapter(var letters: List<Letter> = ArrayList()) : RecyclerView.Ada
             return
         }
 
-        letters?.let {
+        letters.let {
             this.letters = letters
-            notifyItemRangeInserted(prevItemSize, letters.size - prevItemSize)
+            notifyItemRangeInserted(prevItemSize + if(isAllLoaded){0}else{1}, letters.size - prevItemSize)
+        }
+    }
+
+    fun setIsAllLoaded(isAllLoaded: Boolean) {
+        this.isAllLoaded = isAllLoaded
+        notifyDataSetChanged()
+        if(isAllLoaded){
+            notifyItemRemoved(letters.size)
         }
     }
 

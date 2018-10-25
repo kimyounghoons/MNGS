@@ -2,11 +2,10 @@ package com.mngs.kimyounghoon.mngs.letters
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
-import android.databinding.ObservableList
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
+import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
@@ -24,6 +23,8 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
     var items: ObservableField<ArrayList<Letter>> = ObservableField()
     var prevItemSize: ObservableField<Int> = ObservableField(0)
     val empty = ObservableBoolean(false)
+    val isAllLoaded = ObservableBoolean(false)
+    val refreshing = ObservableField<Boolean>(false)
 
     fun start() {
         loadLetters(false)
@@ -35,11 +36,17 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
 
     private fun loadLetters(forceUpdate: Boolean, showLoadingUI: Boolean) {
         if (showLoadingUI) {
+            if(refreshing.get()==false){
+                refreshing.notifyChange()
+            }else {
+                refreshing.set(false)
+            }
             isLoading.set(true)
         }
         if (forceUpdate) {
             items.set(ArrayList())
             prevItemSize.set(0)
+            isAllLoaded.set(false)
         }
 
         lettersRepository.loadLetters(object : LettersDataSource.LoadLettersCallback {
@@ -67,6 +74,8 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
     }
 
     fun loadMoreLetters() {
+        isLoading.set(true)
+
         lettersRepository.loadMoreLetters(object : LettersDataSource.LoadMoreLettersCallback {
             override fun onLettersMoreLoaded(letters: List<Letter>) {
                 val lettersToShow: List<Letter> = letters
@@ -79,6 +88,10 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
                     addAll(size, lettersToShow)
                     empty.set(isEmpty())
                     items.notifyChange()
+                }
+
+                if (letters.size < Constants.LIMIT_PAGE) {
+                    isAllLoaded.set(true)
                 }
             }
 
