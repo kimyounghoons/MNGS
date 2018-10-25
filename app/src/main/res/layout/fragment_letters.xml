@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -22,11 +24,12 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
-                items="@{viewModel.items}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onScroll="@{viewModel}"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                android:onScroll="@{viewModel}"/>
+                bind:items="@{viewModel.items.get()}"
+                bind:prev="@{viewModel.prevItemSize.get()}" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

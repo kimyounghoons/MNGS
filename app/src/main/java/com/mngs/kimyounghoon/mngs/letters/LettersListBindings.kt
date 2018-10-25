@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.letters.LettersViewModel.Companion.LOAD_MORE_VISIBLE_THRESHOLD
 
-@BindingAdapter("items")
-fun setItems(recyclerView: RecyclerView, items: ObservableField<ArrayList<Letter>>) {
+@BindingAdapter("bind:items","bind:prev")
+fun setItems(recyclerView: RecyclerView, items: List<Letter>?, prevItemSize: Int) {
     with(recyclerView.adapter as LettersAdapter) {
-        setItems(items.get())
+        setItems(prevItemSize,items)
     }
 }
 

@@ -22,6 +22,7 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
     val loadLettersCommand = SingleLiveEvent<Void>()
     internal val snackbarMessage = SingleLiveEvent<Int>()
     var items: ObservableField<ArrayList<Letter>> = ObservableField()
+    var prevItemSize: ObservableField<Int> = ObservableField(0)
     val empty = ObservableBoolean(false)
 
     fun start() {
@@ -37,7 +38,8 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
             isLoading.set(true)
         }
         if (forceUpdate) {
-
+            items.set(ArrayList())
+            prevItemSize.set(0)
         }
 
         lettersRepository.loadLetters(object : LettersDataSource.LoadLettersCallback {
@@ -49,16 +51,12 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
                 }
                 isDataLoadingError.set(false)
 
-
-                items.set(null)
-
-                items.set(lettersToShow as ArrayList<Letter>?)
+                items.set(lettersToShow as ArrayList<Letter>)
 
                 items.get()?.apply {
                     empty.set(isEmpty())
                 }
 
-//                        empty.set(isEmpty()))
             }
 
             override fun onFailedToLoadLetters() {
@@ -76,6 +74,7 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
                 isLoading.set(false)
                 isDataLoadingError.set(false)
 
+                prevItemSize.set(items.get()?.size ?: 0)
                 items.get()?.apply {
                     addAll(size, lettersToShow)
                     empty.set(isEmpty())
@@ -84,7 +83,6 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
             }
 
             override fun onFailedToLoadMoreLetters() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
     }
