@@ -1,6 +1,6 @@
 package com.mngs.kimyounghoon.mngs.data
 
-import com.google.firebase.database.ServerValue
+import com.mngs.kimyounghoon.mngs.utils.TimeHelper
 
-data class Letter(val letterId: String = "",val userId: String="",val hasAnswer: Boolean=false,
-                  val title: String = "", val content: String = "",val time:Map<String,String> = ServerValue.TIMESTAMP)
+data class Letter(val letterId: String = "", val userId: String = "", val hasAnswer: Boolean = false,
+                  val title: String = "", val content: String = "", val time: Long = TimeHelper.getCurrentTime())

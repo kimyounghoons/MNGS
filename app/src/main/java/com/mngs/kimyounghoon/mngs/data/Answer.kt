@@ -1,5 +1,6 @@
 package com.mngs.kimyounghoon.mngs.data
 
-import com.google.firebase.database.ServerValue
+import com.mngs.kimyounghoon.mngs.utils.TimeHelper
 
-data class Answer(val answerId: String="", val letterId: String="" ,val originUserId: String="", val answerUserId: String="", val title: String="", val content: String="", val time: Map<String,String> = ServerValue.TIMESTAMP)
+data class Answer(val answerId: String = "", val letterId: String = "", val originUserId: String = "", val answerUserId: String = "",
+                  val title: String = "", val content: String = "", val time: Long = TimeHelper.getCurrentTime())

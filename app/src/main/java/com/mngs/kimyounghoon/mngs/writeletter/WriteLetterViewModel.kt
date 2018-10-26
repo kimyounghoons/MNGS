@@ -5,14 +5,13 @@ import android.arch.lifecycle.AndroidViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
-import com.google.firebase.firestore.FieldValue
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
+import com.mngs.kimyounghoon.mngs.utils.TimeHelper
+import java.util.*
 
 class WriteLetterViewModel(context: Application, private val lettersRepository: LettersRepository) : AndroidViewModel(context), LettersDataSource.SendLetterCallback {
 
@@ -31,7 +30,7 @@ class WriteLetterViewModel(context: Application, private val lettersRepository: 
     }
 
     fun sendLetter() {
-        lettersRepository.sendLetter(Letter(lettersRepository.getId(),FirebaseAuth.getInstance().currentUser!!.uid,false,title.get()!!,content.get()!!,ServerValue.TIMESTAMP),this)
+        lettersRepository.sendLetter(Letter(lettersRepository.getId(),FirebaseAuth.getInstance().currentUser!!.uid,false,title.get()!!,content.get()!!, TimeHelper.getCurrentTime()),this)
         sendLetterCommand.call()
     }
 
