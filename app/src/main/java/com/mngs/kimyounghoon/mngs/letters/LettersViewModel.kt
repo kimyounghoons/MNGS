@@ -64,6 +64,10 @@ class LettersViewModel(context: Application, private val lettersRepository: Lett
                     empty.set(isEmpty())
                 }
 
+                if (letters.size < Constants.LIMIT_PAGE) {
+                    isAllLoaded.set(true)
+                }
+
             }
 
             override fun onFailedToLoadLetters() {

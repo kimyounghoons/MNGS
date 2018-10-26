@@ -8,6 +8,7 @@ import android.support.annotation.VisibleForTesting
 import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
 import com.mngs.kimyounghoon.mngs.letters.LettersViewModel
+import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxViewModel
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterViewModel
 
 class ViewModelFactory private constructor(
@@ -21,6 +22,8 @@ class ViewModelFactory private constructor(
                         WriteLetterViewModel(application, lettersRepository)
                     isAssignableFrom(LettersViewModel::class.java) ->
                         LettersViewModel(application, lettersRepository)
+                    isAssignableFrom(MyInBoxViewModel::class.java) ->
+                        MyInBoxViewModel(application, lettersRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

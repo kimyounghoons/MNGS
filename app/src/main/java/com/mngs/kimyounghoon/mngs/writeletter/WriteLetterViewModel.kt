@@ -4,6 +4,10 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
+import com.google.firebase.firestore.FieldValue
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Letter
@@ -27,7 +31,7 @@ class WriteLetterViewModel(context: Application, private val lettersRepository: 
     }
 
     fun sendLetter() {
-        lettersRepository.sendLetter(Letter(lettersRepository.getId(),title.get()!!,content.get()!!),this)
+        lettersRepository.sendLetter(Letter(lettersRepository.getId(),FirebaseAuth.getInstance().currentUser!!.uid,false,title.get()!!,content.get()!!,ServerValue.TIMESTAMP),this)
         sendLetterCommand.call()
     }
 

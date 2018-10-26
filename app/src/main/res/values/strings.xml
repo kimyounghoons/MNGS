@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">MNGS</string>
+    <string name="app_name" translatable="false">NoWorries</string>
     <string name="facebook_app_id" translatable="false">2190898267854451</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb2190898267854451</string>
 

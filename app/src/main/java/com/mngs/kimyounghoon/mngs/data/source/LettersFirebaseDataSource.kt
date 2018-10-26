@@ -4,12 +4,13 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.mngs.kimyounghoon.mngs.BuildConfig
 import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 object LettersFirebaseDataSource : LettersDataSource {
 
-    private val lettersCollection = FirebaseFirestore.getInstance().collection("letters")
+    private val lettersCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters")
     private lateinit var documentReference: DocumentReference
     private var loadMoreQuery: Query? = null
     override fun getId(): String {
@@ -40,13 +41,13 @@ object LettersFirebaseDataSource : LettersDataSource {
                             letters.add(this)
                         }
                     }
-                    if (letters.size > 0) {
+                    if (letters.size >= 0) {
                         callback.onLettersLoaded(letters)
                     }
-
-                    val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
-                    loadMoreQuery = lettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
-
+                    if (letters.size > 0) {
+                        val lastVisible: DocumentSnapshot = it.documents[it.size() - 1]
+                        loadMoreQuery = lettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                    }
                 }.addOnFailureListener {
                     callback.onFailedToLoadLetters()
                 }
@@ -69,7 +70,6 @@ object LettersFirebaseDataSource : LettersDataSource {
             if (it.documents.size > 0) {
                 val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
                 loadMoreQuery = lettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
-
             }
         }?.addOnFailureListener {
             callback.onFailedToLoadMoreLetters()

@@ -49,6 +49,8 @@ class LettersAdapter(var letters: List<Letter> = ArrayList(), var isAllLoaded: B
     }
 
     override fun getItemCount(): Int {
+        if(isEmpty())
+            return 1
         return letters.size + if (isAllLoaded) {
             0
         } else {
@@ -81,7 +83,7 @@ class LettersAdapter(var letters: List<Letter> = ArrayList(), var isAllLoaded: B
     fun setIsAllLoaded(isAllLoaded: Boolean) {
         this.isAllLoaded = isAllLoaded
         notifyDataSetChanged()
-        if(isAllLoaded){
+        if(isAllLoaded&& !letters.isEmpty()){
             notifyItemRemoved(letters.size)
         }
     }

@@ -6,6 +6,8 @@ import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.Timestamp
+import com.google.firebase.database.ServerValue
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
@@ -24,6 +26,7 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         homeFragmentStatePagerAdapter = HomeFragmentStatePagerAdapter(fragmentManager)
     }
 
@@ -32,7 +35,6 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
         setUpTabLayout()
         fragmentHomeBinding.viewPager.adapter = homeFragmentStatePagerAdapter
         fragmentHomeBinding.viewPager.offscreenPageLimit = 2
-        fragmentHomeBinding.viewPager.setOnTouchListener { v, event -> true }
         fragmentHomeBinding.tabLayout.addOnTabSelectedListener(this)
         return fragmentHomeBinding.root
     }

@@ -1,4 +1,6 @@
 package com.mngs.kimyounghoon.mngs.data
 
-data class Letter(val id: String = "", val title: String = "", val content: String = "")
-//data class Letter(val id: String, val title: String, val content: String, val writer: String, val date: String)
+import com.google.firebase.database.ServerValue
+
+data class Letter(val letterId: String = "",val userId: String="",val hasAnswer: Boolean=false,
+                  val title: String = "", val content: String = "",val time:Map<String,String> = ServerValue.TIMESTAMP)
