@@ -15,22 +15,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<android.support.v4.widget.SwipeRefreshLayout-->
-            <!--android:id="@+id/swipe_refresh_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:onRefresh="@{viewModel}"-->
-            <!--app:refreshing="@{viewModel.refreshing.get()}">-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            bind:inbox_onRefresh="@{viewModel}"
+            bind:inbox_refreshing="@{viewModel.refreshing.get()}">
 
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/recyclerview"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:onScroll="@{viewModel}"-->
-                <!--app:layoutManager="android.support.v7.widget.LinearLayoutManager"-->
-                <!--bind:items="@{viewModel.items.get()}"-->
-                <!--bind:prev="@{viewModel.prevItemSize.get()}"-->
-                <!--bind:isAllLoaded="@{viewModel.isAllLoaded().get()}"/>-->
-        <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                bind:inbox_onScroll="@{viewModel}"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                bind:inbox_items="@{viewModel.items.get()}"
+                bind:inbox_prev="@{viewModel.prevItemSize.get()}"
+                bind:inbox_isAllLoaded="@{viewModel.isAllLoaded().get()}"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -1,5 +1,6 @@
 package com.mngs.kimyounghoon.mngs.data.source
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,6 +14,10 @@ object LettersFirebaseDataSource : LettersDataSource {
     private val lettersCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters")
     private lateinit var documentReference: DocumentReference
     private var loadMoreQuery: Query? = null
+
+    private var inboxCollection :Query?=null
+    private var loadMoreInboxQuery: Query? = null
+
     override fun getId(): String {
         documentReference = lettersCollection.document()
         return documentReference.id
@@ -73,6 +78,53 @@ object LettersFirebaseDataSource : LettersDataSource {
             }
         }?.addOnFailureListener {
             callback.onFailedToLoadMoreLetters()
+        }
+    }
+
+    override fun loadInBox(callback: LettersDataSource.LoadInBoxCallback) {
+        inboxCollection =  FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters").whereEqualTo("userId",FirebaseAuth.getInstance().uid)
+        inboxCollection!!.limit(10)
+                .get().addOnSuccessListener {
+
+                    val letters: ArrayList<Letter> = ArrayList()
+                    for (doc in it.documents) {
+                        val letter = doc.toObject(Letter::class.java)
+                        letter?.apply {
+                            letters.add(this)
+                        }
+                    }
+                    if (letters.size >= 0) {
+                        callback.onInBoxLoaded(letters)
+                    }
+                    if (letters.size > 0) {
+                        val lastVisible: DocumentSnapshot = it.documents[it.size() - 1]
+                        loadMoreInboxQuery = inboxCollection!!.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                    }
+                }.addOnFailureListener {
+                    callback.onFailedToLoadInBox()
+                }
+    }
+
+    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreInBoxCallback) {
+        loadMoreQuery?.get()?.addOnSuccessListener {
+
+            val letters: ArrayList<Letter> = ArrayList()
+            for (doc in it.documents) {
+                val letter = doc.toObject(Letter::class.java)
+                letter?.apply {
+                    letters.add(this)
+                }
+            }
+            if (letters.size > 0) {
+                callback.onInBoxMoreLoaded(letters)
+            }
+
+            if (it.documents.size > 0) {
+                val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
+                loadMoreQuery = lettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+            }
+        }?.addOnFailureListener {
+            callback.onFailedToLoadMoreInBox()
         }
     }
 

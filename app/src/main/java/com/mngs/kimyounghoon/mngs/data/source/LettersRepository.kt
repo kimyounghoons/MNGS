@@ -3,16 +3,24 @@ package com.mngs.kimyounghoon.mngs.data.source
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 class LettersRepository(val lettersDataSource: LettersDataSource) : LettersDataSource {
-    override fun loadMoreLetters(callback: LettersDataSource.LoadMoreLettersCallback) {
-        lettersDataSource.loadMoreLetters(callback)
-    }
 
+    override fun getId() : String {
+        return lettersDataSource.getId()
+    }
     override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {
         lettersDataSource.loadLetters(callback)
     }
 
-    override fun getId() : String {
-       return lettersDataSource.getId()
+    override fun loadMoreLetters(callback: LettersDataSource.LoadMoreLettersCallback) {
+        lettersDataSource.loadMoreLetters(callback)
+    }
+
+    override fun loadInBox(callback: LettersDataSource.LoadInBoxCallback) {
+        lettersDataSource.loadInBox(callback)
+    }
+
+    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreInBoxCallback) {
+        lettersDataSource.loadMoreInBox(callback)
     }
 
     override fun getLetter(letterId: String, callBack: LettersDataSource.GetLetterCallback) {

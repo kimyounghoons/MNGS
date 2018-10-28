@@ -48,7 +48,7 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
 
 //    fun getPageTitleImage(position: Int): Int {
 //        return when (position) {
-//            Type.LETTERS -> R.drawable.letters
+//            Type.LETTERS -> R.drawable.myLetters
 //            Type.WRITE -> R.drawable.write_letter
 //            else -> {
 //                R.drawable.write_letter
