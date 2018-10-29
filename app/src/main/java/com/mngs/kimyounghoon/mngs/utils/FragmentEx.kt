@@ -8,4 +8,4 @@ import com.mngs.kimyounghoon.mngs.ViewModelFactory
 
 
 fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>) =
-        ViewModelProviders.of(this, ViewModelFactory.getInstance((context as AppCompatActivity).application)).get(viewModelClass)
+        ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(viewModelClass)

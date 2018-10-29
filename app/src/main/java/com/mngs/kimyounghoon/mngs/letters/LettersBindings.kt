@@ -5,25 +5,27 @@ import android.databinding.ObservableField
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.mngs.kimyounghoon.mngs.BaseAdapter
+import com.mngs.kimyounghoon.mngs.RecyclerBaseViewModel
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.letters.LettersViewModel.Companion.LOAD_MORE_VISIBLE_THRESHOLD
 
 @BindingAdapter("bind:items","bind:prev")
 fun setItems(recyclerView: RecyclerView, items: List<Letter>?, prevItemSize: Int) {
-    with(recyclerView.adapter as LettersAdapter) {
+    with(recyclerView.adapter as BaseAdapter) {
         setItems(prevItemSize,items)
     }
 }
 
 @BindingAdapter("bind:isAllLoaded")
 fun setIsAllLoaded(recyclerView: RecyclerView,isAlloaded: Boolean?) {
-    with(recyclerView.adapter as LettersAdapter) {
+    with(recyclerView.adapter as BaseAdapter) {
         setIsAllLoaded(isAlloaded?:false)
     }
 }
 
 @BindingAdapter("android:onRefresh")
-fun SwipeRefreshLayout.OnRefreshListener(viewModel: LettersViewModel) {
+fun SwipeRefreshLayout.OnRefreshListener(viewModel: RecyclerBaseViewModel) {
     setOnRefreshListener {
         viewModel.loadLetters(true)
     }
@@ -35,7 +37,7 @@ fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, isRefreshing: 
 }
 
 @BindingAdapter("android:onScroll")
-fun RecyclerView.addOnScrollListener(viewModel: LettersViewModel) {
+fun RecyclerView.addOnScrollListener(viewModel: RecyclerBaseViewModel) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)

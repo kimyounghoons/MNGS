@@ -12,18 +12,18 @@ import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxViewModel
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterViewModel
 
 class ViewModelFactory private constructor(
-        private val application: Application, private val lettersRepository: LettersRepository
+        private val lettersRepository: LettersRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
                     isAssignableFrom(WriteLetterViewModel::class.java) ->
-                        WriteLetterViewModel(application, lettersRepository)
+                        WriteLetterViewModel(lettersRepository)
                     isAssignableFrom(LettersViewModel::class.java) ->
-                        LettersViewModel(application, lettersRepository)
+                        LettersViewModel(lettersRepository)
                     isAssignableFrom(MyInBoxViewModel::class.java) ->
-                        MyInBoxViewModel(application, lettersRepository)
+                        MyInBoxViewModel(lettersRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }
@@ -35,9 +35,9 @@ class ViewModelFactory private constructor(
         @Volatile
         private var INSTANCE: ViewModelFactory? = null
 
-        fun getInstance(application: Application) =
+        fun getInstance() =
                 INSTANCE ?: synchronized(ViewModelFactory::class.java) {
-                    INSTANCE ?: ViewModelFactory(application, LettersRepository.getInstance(LettersFirebaseDataSource))
+                    INSTANCE ?: ViewModelFactory(LettersRepository.getInstance(LettersFirebaseDataSource))
                             .also { INSTANCE = it }
                 }
 

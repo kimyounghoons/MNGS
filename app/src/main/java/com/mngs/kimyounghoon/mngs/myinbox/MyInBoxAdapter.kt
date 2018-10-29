@@ -3,13 +3,14 @@ package com.mngs.kimyounghoon.mngs.myinbox
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.mngs.kimyounghoon.mngs.BaseAdapter
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ItemEmptyMyInboxBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemInboxBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
 import com.mngs.kimyounghoon.mngs.letters.LoadMoreViewHolder
 
-class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseAdapter() {
 
     interface ViewType {
         companion object {
@@ -68,7 +69,7 @@ class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded:
         }
     }
 
-    fun setItems(prevItemSize: Int, letters: List<Letter>?) {
+    override fun setItems(prevItemSize: Int, letters: List<Letter>?) {
         if (letters == null || letters.isEmpty()) {
             this.myLetters = ArrayList()
             notifyDataSetChanged()
@@ -85,7 +86,7 @@ class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded:
         }
     }
 
-    fun setIsAllLoaded(isAllLoaded: Boolean) {
+    override fun setIsAllLoaded(isAllLoaded: Boolean) {
         this.isAllLoaded = isAllLoaded
         notifyDataSetChanged()
         if (isAllLoaded && !myLetters.isEmpty()) {
