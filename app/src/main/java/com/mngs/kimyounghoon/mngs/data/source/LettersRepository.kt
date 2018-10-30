@@ -15,16 +15,16 @@ class LettersRepository(val lettersDataSource: LettersDataSource) : LettersDataS
         lettersDataSource.loadMoreLetters(callback)
     }
 
-    override fun loadInBox(callback: LettersDataSource.LoadInBoxCallback) {
+    override fun loadInBox(callback: LettersDataSource.LoadLettersCallback) {
         lettersDataSource.loadInBox(callback)
     }
 
-    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreInBoxCallback) {
+    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreLettersCallback) {
         lettersDataSource.loadMoreInBox(callback)
     }
 
     override fun getLetter(letterId: String, callBack: LettersDataSource.GetLetterCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun sendLetter(letter: Letter, callback: LettersDataSource.SendLetterCallback) {
@@ -35,15 +35,6 @@ class LettersRepository(val lettersDataSource: LettersDataSource) : LettersDataS
 
         private var INSTANCE: LettersRepository? = null
 
-        /**
-         * Returns the single instance of this class, creating it if necessary.
-
-         * @param tasksRemoteDataSource the backend data source
-         * *
-         * @param tasksLocalDataSource  the device storage data source
-         * *
-         * @return the [TasksRepository] instance
-         */
         @JvmStatic
         fun getInstance(lettersDataSource: LettersDataSource) =
                 INSTANCE ?: synchronized(LettersRepository::class.java) {
@@ -51,11 +42,6 @@ class LettersRepository(val lettersDataSource: LettersDataSource) : LettersDataS
                             .also { INSTANCE = it }
                 }
 
-
-        /**
-         * Used to force [getInstance] to create a new instance
-         * next time it's called.
-         */
         @JvmStatic
         fun destroyInstance() {
             INSTANCE = null

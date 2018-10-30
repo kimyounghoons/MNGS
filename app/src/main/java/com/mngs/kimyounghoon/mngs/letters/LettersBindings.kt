@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.mngs.kimyounghoon.mngs.BaseAdapter
 import com.mngs.kimyounghoon.mngs.RecyclerBaseViewModel
+import com.mngs.kimyounghoon.mngs.RecyclerBaseViewModel.Companion.LOAD_MORE_VISIBLE_THRESHOLD
 import com.mngs.kimyounghoon.mngs.data.Letter
-import com.mngs.kimyounghoon.mngs.letters.LettersViewModel.Companion.LOAD_MORE_VISIBLE_THRESHOLD
 
 @BindingAdapter("bind:items","bind:prev")
 fun setItems(recyclerView: RecyclerView, items: List<Letter>?, prevItemSize: Int) {

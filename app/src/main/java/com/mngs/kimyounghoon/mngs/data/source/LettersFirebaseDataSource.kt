@@ -81,7 +81,7 @@ object LettersFirebaseDataSource : LettersDataSource {
         }
     }
 
-    override fun loadInBox(callback: LettersDataSource.LoadInBoxCallback) {
+    override fun loadInBox(callback: LettersDataSource.LoadLettersCallback) {
         inboxCollection =  FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters").whereEqualTo("userId",FirebaseAuth.getInstance().uid)
         inboxCollection!!.limit(10)
                 .get().addOnSuccessListener {
@@ -94,18 +94,18 @@ object LettersFirebaseDataSource : LettersDataSource {
                         }
                     }
                     if (letters.size >= 0) {
-                        callback.onInBoxLoaded(letters)
+                        callback.onLettersLoaded(letters)
                     }
                     if (letters.size > 0) {
                         val lastVisible: DocumentSnapshot = it.documents[it.size() - 1]
                         loadMoreInboxQuery = inboxCollection!!.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
                     }
                 }.addOnFailureListener {
-                    callback.onFailedToLoadInBox()
+                    callback.onFailedToLoadLetters()
                 }
     }
 
-    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreInBoxCallback) {
+    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreLettersCallback) {
         loadMoreQuery?.get()?.addOnSuccessListener {
 
             val letters: ArrayList<Letter> = ArrayList()
@@ -116,7 +116,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (letters.size > 0) {
-                callback.onInBoxMoreLoaded(letters)
+                callback.onLettersMoreLoaded(letters)
             }
 
             if (it.documents.size > 0) {
@@ -124,7 +124,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 loadMoreQuery = lettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
             }
         }?.addOnFailureListener {
-            callback.onFailedToLoadMoreInBox()
+            callback.onFailedToLoadMoreLetters()
         }
     }
 
