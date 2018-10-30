@@ -1,26 +1,23 @@
-package com.mngs.kimyounghoon.mngs.letters
+package com.mngs.kimyounghoon.mngs
 
 import android.databinding.BindingAdapter
-import android.databinding.ObservableField
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.mngs.kimyounghoon.mngs.BaseAdapter
-import com.mngs.kimyounghoon.mngs.RecyclerBaseViewModel
 import com.mngs.kimyounghoon.mngs.RecyclerBaseViewModel.Companion.LOAD_MORE_VISIBLE_THRESHOLD
 import com.mngs.kimyounghoon.mngs.data.Letter
 
-@BindingAdapter("bind:items","bind:prev")
+@BindingAdapter("bind:items", "bind:prev")
 fun setItems(recyclerView: RecyclerView, items: List<Letter>?, prevItemSize: Int) {
     with(recyclerView.adapter as BaseAdapter) {
-        setItems(prevItemSize,items)
+        setItems(prevItemSize, items)
     }
 }
 
 @BindingAdapter("bind:isAllLoaded")
-fun setIsAllLoaded(recyclerView: RecyclerView,isAlloaded: Boolean?) {
+fun setIsAllLoaded(recyclerView: RecyclerView, isAlloaded: Boolean?) {
     with(recyclerView.adapter as BaseAdapter) {
-        setIsAllLoaded(isAlloaded?:false)
+        setIsAllLoaded(isAlloaded ?: false)
     }
 }
 
@@ -33,7 +30,7 @@ fun SwipeRefreshLayout.OnRefreshListener(viewModel: RecyclerBaseViewModel) {
 
 @BindingAdapter("app:refreshing")
 fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, isRefreshing: Boolean?) {
-    swipeRefreshLayout.isRefreshing = isRefreshing?:false
+    swipeRefreshLayout.isRefreshing = isRefreshing ?: false
 }
 
 @BindingAdapter("android:onScroll")
