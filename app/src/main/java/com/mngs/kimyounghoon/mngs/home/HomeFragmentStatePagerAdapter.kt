@@ -2,25 +2,23 @@ package com.mngs.kimyounghoon.mngs.home
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.letters.LettersFragment
 import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxFragment
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterFragment
 
-class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
+class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
     var fragments: ArrayList<Fragment> = ArrayList()
 
     interface Type {
         companion object {
             const val LETTERS: Int = 0
             const val WRITE: Int = 1
-            const val MYINBOX : Int = 2
+            const val MYINBOX: Int = 2
         }
     }
 

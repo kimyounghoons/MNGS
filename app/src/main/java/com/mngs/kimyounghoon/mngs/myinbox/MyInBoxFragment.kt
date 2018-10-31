@@ -27,6 +27,7 @@ class MyInBoxFragment : AbstractFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpAdapter()
+        binding.viewModel?.start()
     }
 
     private fun setUpAdapter() {
@@ -52,11 +53,6 @@ class MyInBoxFragment : AbstractFragment() {
         obtainViewModel().let {
             view.setupSnackbar(this, it.snackbarMessage, Snackbar.LENGTH_LONG)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.viewModel?.start()
     }
 
     private fun obtainViewModel(): MyInBoxViewModel = obtainViewModel(MyInBoxViewModel::class.java)

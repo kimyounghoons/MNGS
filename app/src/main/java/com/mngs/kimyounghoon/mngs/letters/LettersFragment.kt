@@ -26,6 +26,7 @@ class LettersFragment : AbstractFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpAdapter()
+        binding.viewModel?.start()
     }
 
     private fun setUpAdapter() {
@@ -46,23 +47,11 @@ class LettersFragment : AbstractFragment() {
         return binding.root
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
-
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
             view.setupSnackbar(this, it.snackbarMessage, Snackbar.LENGTH_LONG)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.viewModel?.start()
     }
 
     fun obtainViewModel(): LettersViewModel = obtainViewModel(LettersViewModel::class.java)

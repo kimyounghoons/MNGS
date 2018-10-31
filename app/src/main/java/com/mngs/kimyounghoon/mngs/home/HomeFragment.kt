@@ -27,7 +27,7 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        homeFragmentStatePagerAdapter = HomeFragmentStatePagerAdapter(activity?.supportFragmentManager)
+        homeFragmentStatePagerAdapter = HomeFragmentStatePagerAdapter(childFragmentManager)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,10 +46,6 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
             homeFragmentStatePagerAdapter.bindCustomView(tab.customView!!, position)
             fragmentHomeBinding.tabLayout.addTab(tab)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {

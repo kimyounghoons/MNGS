@@ -22,7 +22,7 @@ abstract class RecyclerBaseViewModel : ViewModel() {
     val refreshing = ObservableField<Boolean>(false)
 
     fun start() {
-        loadLetters(false)
+        loadLetters(true)
     }
 
     fun loadLetters(forceUpdate: Boolean) {
