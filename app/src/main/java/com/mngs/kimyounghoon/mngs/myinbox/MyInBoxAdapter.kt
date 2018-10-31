@@ -3,14 +3,14 @@ package com.mngs.kimyounghoon.mngs.myinbox
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.mngs.kimyounghoon.mngs.BaseAdapter
+import com.mngs.kimyounghoon.mngs.BaseRecyclerAdapter
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ItemEmptyMyInboxBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemInboxBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
 import com.mngs.kimyounghoon.mngs.letters.LoadMoreViewHolder
 
-class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseAdapter() {
+class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
 
     interface ViewType {
         companion object {

@@ -31,7 +31,7 @@ class LettersFragment : AbstractFragment() {
     private fun setUpAdapter() {
         val viewModel = binding.viewModel
         if (viewModel != null) {
-            adapter = LettersAdapter()
+            adapter = LettersAdapter(locateListener!!)
             binding.recyclerview.adapter = adapter
         } else {
             Log.w("", "ViewModel not initialized when attempting to set up adapter.")
@@ -45,6 +45,13 @@ class LettersFragment : AbstractFragment() {
         }
         return binding.root
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

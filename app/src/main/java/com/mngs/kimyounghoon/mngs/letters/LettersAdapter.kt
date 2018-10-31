@@ -3,13 +3,14 @@ package com.mngs.kimyounghoon.mngs.letters
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.mngs.kimyounghoon.mngs.BaseAdapter
+import com.mngs.kimyounghoon.mngs.BaseRecyclerAdapter
+import com.mngs.kimyounghoon.mngs.LocateListener
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ItemEmptyBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLetterBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
 
-class LettersAdapter(var letters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseAdapter() {
+class LettersAdapter(val userActionListener: LocateListener, var letters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
 
     interface ViewType {
         companion object {
@@ -50,7 +51,7 @@ class LettersAdapter(var letters: List<Letter> = ArrayList(), var isAllLoaded: B
     }
 
     override fun getItemCount(): Int {
-        if(isEmpty())
+        if (isEmpty())
             return 1
         return letters.size + if (isAllLoaded) {
             0
@@ -63,12 +64,12 @@ class LettersAdapter(var letters: List<Letter> = ArrayList(), var isAllLoaded: B
         if (holder is LettersViewHolder) {
             val letter: Letter? = letters[position]
             letter?.apply {
-                holder.bind(this)
+                holder.bind(this, userActionListener)
             }
         }
     }
 
-   override fun setItems(prevItemSize: Int, letters: List<Letter>?) {
+    override fun setItems(prevItemSize: Int, letters: List<Letter>?) {
         if (letters == null || letters.isEmpty()) {
             this.letters = ArrayList()
             notifyDataSetChanged()
@@ -77,14 +78,18 @@ class LettersAdapter(var letters: List<Letter> = ArrayList(), var isAllLoaded: B
 
         letters.let {
             this.letters = letters
-            notifyItemRangeInserted(prevItemSize + if(isAllLoaded){0}else{1}, letters.size - prevItemSize)
+            notifyItemRangeInserted(prevItemSize + if (isAllLoaded) {
+                0
+            } else {
+                1
+            }, letters.size - prevItemSize)
         }
     }
 
-    override  fun setIsAllLoaded(isAllLoaded: Boolean) {
+    override fun setIsAllLoaded(isAllLoaded: Boolean) {
         this.isAllLoaded = isAllLoaded
         notifyDataSetChanged()
-        if(isAllLoaded&& !letters.isEmpty()){
+        if (isAllLoaded && !letters.isEmpty()) {
             notifyItemRemoved(letters.size)
         }
     }

@@ -73,6 +73,8 @@ dependencies {
     testImplementation "android.arch.core:core-testing:$lifecycle_version"
     kapt "com.android.databinding:compiler:$gradleVersion" //version should be same gradle version
 
+    implementation 'com.google.code.gson:gson:2.8.5'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

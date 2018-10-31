@@ -2,8 +2,10 @@ package com.mngs.kimyounghoon.mngs.home
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mngs.kimyounghoon.mngs.R
@@ -11,7 +13,7 @@ import com.mngs.kimyounghoon.mngs.letters.LettersFragment
 import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxFragment
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterFragment
 
-class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
+class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
     var fragments: ArrayList<Fragment> = ArrayList()
 
     interface Type {
@@ -46,7 +48,12 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
         }
     }
 
-//    fun getPageTitleImage(position: Int): Int {
+    override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
+        super.setPrimaryItem(container, position, `object`)
+
+    }
+
+    //    fun getPageTitleImage(position: Int): Int {
 //        return when (position) {
 //            Type.LETTERS -> R.drawable.myLetters
 //            Type.WRITE -> R.drawable.write_letter

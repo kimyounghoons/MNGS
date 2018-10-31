@@ -2,19 +2,24 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <import type="com.mngs.kimyounghoon.mngs.utils.TimeHelper" />
 
         <variable
             name="letter"
             type="com.mngs.kimyounghoon.mngs.data.Letter" />
 
+        <variable
+            name="userActionListener"
+            type="com.mngs.kimyounghoon.mngs.LocateListener"/>
+
 
     </data>
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{(v)-> userActionListener.openLetterDetail(letter)}">
 
         <TextView
             android:id="@+id/title"

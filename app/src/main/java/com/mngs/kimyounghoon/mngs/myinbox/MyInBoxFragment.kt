@@ -8,12 +8,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentMyInBoxBinding
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import com.mngs.kimyounghoon.mngs.utils.setupSnackbar
 
-class MyInBoxFragment : Fragment() {
+class MyInBoxFragment : AbstractFragment() {
     lateinit var binding: FragmentMyInBoxBinding
     private lateinit var adapter: MyInBoxAdapter
 

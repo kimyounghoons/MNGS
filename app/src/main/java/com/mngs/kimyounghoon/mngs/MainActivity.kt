@@ -3,13 +3,17 @@ package com.mngs.kimyounghoon.mngs
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ActivityMainBinding
 import com.mngs.kimyounghoon.mngs.home.HomeFragment
+import com.mngs.kimyounghoon.mngs.letterdetail.DetailLetterFragment
 import com.mngs.kimyounghoon.mngs.login.LoginFragment
 import com.mngs.kimyounghoon.mngs.signup.SignupFragment
 
 
-class MainActivity : AppCompatActivity() ,LocateListener{
+class MainActivity : AppCompatActivity(), LocateListener {
 
     private lateinit var activityMainBinding: ActivityMainBinding
 
@@ -32,7 +36,21 @@ class MainActivity : AppCompatActivity() ,LocateListener{
     }
 
     override fun openSplash() {
-        supportFragmentManager.beginTransaction().add(R.id.container, SplashFragment.newInstance()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.container, SplashFragment.newInstance()).commit()
     }
 
+    override fun openLetterDetail(letter: Letter) {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonLetter = gson.toJson(letter)
+        supportFragmentManager.beginTransaction().replace(R.id.container, DetailLetterFragment.newInstance(jsonLetter)).addToBackStack(null).commit()
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
+
+    }
 }

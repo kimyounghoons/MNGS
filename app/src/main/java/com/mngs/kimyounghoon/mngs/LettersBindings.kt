@@ -9,14 +9,14 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 
 @BindingAdapter("bind:items", "bind:prev")
 fun setItems(recyclerView: RecyclerView, items: List<Letter>?, prevItemSize: Int) {
-    with(recyclerView.adapter as BaseAdapter) {
+    with(recyclerView.adapter as BaseRecyclerAdapter) {
         setItems(prevItemSize, items)
     }
 }
 
 @BindingAdapter("bind:isAllLoaded")
 fun setIsAllLoaded(recyclerView: RecyclerView, isAlloaded: Boolean?) {
-    with(recyclerView.adapter as BaseAdapter) {
+    with(recyclerView.adapter as BaseRecyclerAdapter) {
         setIsAllLoaded(isAlloaded ?: false)
     }
 }

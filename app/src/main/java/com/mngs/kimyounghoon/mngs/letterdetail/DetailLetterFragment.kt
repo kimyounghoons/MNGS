@@ -5,45 +5,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.Gson
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.data.Constants
+import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.FragmentDetailLetterBinding
+import java.lang.Exception
 
 class DetailLetterFragment : AbstractFragment() {
+    lateinit var letterId: String
     lateinit var title: String
     lateinit var content: String
     lateinit var binding: FragmentDetailLetterBinding
+    lateinit var date : String
+    lateinit var letter : Letter
 
     companion object {
-        private const val KEY_LETTER_DETAIL_TITLE = "KEY_LETTER_DETAIL_TITLE"
-        private const val KEY_LETTER_DETAIL_CONTENT = "KEY_LETTER_DETAIL_CONTENT"
+        private const val KEY_JSON_LETTER = "KEY_JSON_LETTER"
 
-        fun newInstance(title: String, content: String): DetailLetterFragment {
+        fun newInstance(jsonLetter: String): DetailLetterFragment {
             val letterDetailFragment = DetailLetterFragment()
             val bundle = Bundle()
-            bundle.putString(KEY_LETTER_DETAIL_TITLE, title)
-            bundle.putString(KEY_LETTER_DETAIL_CONTENT, content)
-
+            bundle.putString(KEY_JSON_LETTER,jsonLetter)
             letterDetailFragment.arguments = bundle
-            return DetailLetterFragment()
+            return letterDetailFragment
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = arguments?.getString(KEY_LETTER_DETAIL_TITLE) ?: Constants.EMPTY
-        content = arguments?.getString(KEY_LETTER_DETAIL_CONTENT) ?: Constants.EMPTY
+        val jsonLetter = arguments?.getString(KEY_JSON_LETTER) ?: throw Exception("must be set jsonLetter !!")
+        letter = Gson().fromJson(jsonLetter, Letter::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_letter, container, false)
         binding.apply {
-            viewModel = DetailLetterViewModel()
+            viewModel = DetailLetterViewModel(letter)
         }
-        binding.title.text = title
-        binding.content.text = content
-
         return binding.root
     }
 }
