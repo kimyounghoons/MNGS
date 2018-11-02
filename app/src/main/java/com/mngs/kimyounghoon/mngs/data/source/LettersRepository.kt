@@ -1,11 +1,19 @@
 package com.mngs.kimyounghoon.mngs.data.source
 
+import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
 
-class LettersRepository(val lettersDataSource: LettersDataSource) : LettersDataSource {
+class LettersRepository(private val lettersDataSource: LettersDataSource) : LettersDataSource {
+    override fun getAnswerId(): String {
+        return lettersDataSource.getAnswerId()
+    }
 
-    override fun getId() : String {
-        return lettersDataSource.getId()
+    override fun answerLetter(answer: Answer, callBack: LettersDataSource.SendAnswerCallback) {
+        lettersDataSource.answerLetter(answer, callBack)
+    }
+
+    override fun getLetterId() : String {
+        return lettersDataSource.getLetterId()
     }
     override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {
         lettersDataSource.loadLetters(callback)

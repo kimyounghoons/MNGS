@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.mngs.kimyounghoon.mngs.answerletter.AnswerFragment
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ActivityMainBinding
 import com.mngs.kimyounghoon.mngs.home.HomeFragment
@@ -45,12 +46,17 @@ class MainActivity : AppCompatActivity(), LocateListener {
         supportFragmentManager.beginTransaction().replace(R.id.container, DetailLetterFragment.newInstance(jsonLetter)).addToBackStack(null).commit()
     }
 
+    override fun openAnswer(letter: Letter) {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonLetter = gson.toJson(letter)
+        supportFragmentManager.beginTransaction().replace(R.id.container, AnswerFragment.newInstance(jsonLetter)).addToBackStack(null).commit()
+    }
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }
-
     }
 }

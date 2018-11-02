@@ -12,4 +12,6 @@ interface LocateListener{
     fun openSignup()
 
     fun openLetterDetail(letter:Letter)
+
+    fun openAnswer(letter: Letter)
 }

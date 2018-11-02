@@ -6,21 +6,39 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.mngs.kimyounghoon.mngs.BuildConfig
+import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 object LettersFirebaseDataSource : LettersDataSource {
 
     private val lettersCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters")
-    private lateinit var documentReference: DocumentReference
+    private lateinit var letterDocumentReference: DocumentReference
+
+    private val answerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("answer").collection("answer")
+    private lateinit var answerDocumentReference: DocumentReference
+
     private var loadMoreQuery: Query? = null
 
     private var inboxCollection :Query?=null
     private var loadMoreInboxQuery: Query? = null
 
-    override fun getId(): String {
-        documentReference = lettersCollection.document()
-        return documentReference.id
+    override fun getLetterId(): String {
+        letterDocumentReference = lettersCollection.document()
+        return letterDocumentReference.id
+    }
+
+    override fun getAnswerId(): String {
+        answerDocumentReference = answerCollection.document()
+        return answerDocumentReference.id
+    }
+
+    override fun answerLetter(answer: Answer, callBack: LettersDataSource.SendAnswerCallback) {
+        answerDocumentReference.set(answer).addOnSuccessListener {
+            callBack.onAnswerSended()
+        }.addOnFailureListener {
+            callBack.onFailedToSendAnswer()
+        }
     }
 
     override fun getLetter(letterId: String, callBack: LettersDataSource.GetLetterCallback) {
@@ -28,7 +46,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun sendLetter(letter: Letter, callBack: LettersDataSource.SendLetterCallback) {
-        documentReference.set(letter).addOnSuccessListener {
+        letterDocumentReference.set(letter).addOnSuccessListener {
             callBack.onLetterSended()
         }.addOnFailureListener {
             callBack.onFailedToSendLetter()

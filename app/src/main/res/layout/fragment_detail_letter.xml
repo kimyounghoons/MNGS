@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="com.mngs.kimyounghoon.mngs.letterdetail.DetailLetterViewModel" />
+
+        <variable
+            name="userActionListener"
+            type="com.mngs.kimyounghoon.mngs.LocateListener"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -35,5 +39,12 @@
             android:text="@{TimeHelper.getCurrentTimeLocale(viewModel.time)}"
             app:layout_constraintTop_toBottomOf="@+id/content" />
 
+        <Button
+            android:id="@+id/answer_button"
+            android:text="답장"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/date"
+            android:onClick="@{() -> userActionListener.openAnswer(viewModel.letter) }"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

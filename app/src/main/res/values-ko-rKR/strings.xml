@@ -8,6 +8,9 @@
     <string name="sended_letter">편지가 전송 되었습니다.</string>
     <string name="failed_to_send_letter">편지 전송에 실패 했습니다.</string>
 
+    <string name="sended_answer_letter">답장이 전송 되었습니다.</string>
+    <string name="failed_to_send_answer_letter">답장 전송에 실패 했습니다.</string>
+
     <string name="title">제목</string>
     <string name="content">내용</string>
     <string name="send">보내기</string>

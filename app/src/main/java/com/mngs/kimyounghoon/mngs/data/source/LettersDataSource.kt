@@ -1,5 +1,6 @@
 package com.mngs.kimyounghoon.mngs.data.source
 
+import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 interface LettersDataSource {
@@ -28,6 +29,12 @@ interface LettersDataSource {
         fun onFailedToSendLetter()
     }
 
+    interface SendAnswerCallback {
+        fun onAnswerSended()
+
+        fun onFailedToSendAnswer()
+    }
+
     fun loadLetters(callback: LoadLettersCallback)
 
     fun loadMoreLetters(callback: LoadMoreLettersCallback)
@@ -40,6 +47,10 @@ interface LettersDataSource {
 
     fun sendLetter(letter: Letter, callBack: SendLetterCallback)
 
-    fun getId() : String
+    fun answerLetter(answer : Answer, callBack: SendAnswerCallback)
+
+    fun getLetterId() : String
+
+    fun getAnswerId() : String
 
 }
