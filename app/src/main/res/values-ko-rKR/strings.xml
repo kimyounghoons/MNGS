@@ -14,4 +14,15 @@
     <string name="title">제목</string>
     <string name="content">내용</string>
     <string name="send">보내기</string>
+
+    <string name ="write_letter">편지 쓰기</string>
+    <string name="mail_box">사서함</string>
+    <string name="sent_mail">보낸편지함</string>
+
+    <string name="signup">회원가입</string>
+
+    <string name="login">로그인</string>
+
+    <string name="detail_letter">편지</string>
+    <string name="answer_letter">답장</string>
 </resources>

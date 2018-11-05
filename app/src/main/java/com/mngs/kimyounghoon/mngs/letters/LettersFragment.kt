@@ -14,6 +14,10 @@ import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class LettersFragment : AbstractFragment() {
+    override fun getTitle(): String {
+        return getString(R.string.mail_box)
+    }
+
     lateinit var binding: FragmentLettersBinding
     private lateinit var adapter: LettersAdapter
 

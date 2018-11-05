@@ -6,14 +6,16 @@ import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.Timestamp
-import com.google.firebase.database.ServerValue
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
+import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
 
 
 class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
+    override fun getTitle(): String {
+        return Constants.EMPTY
+    }
 
     companion object {
         fun newInstance(): HomeFragment {

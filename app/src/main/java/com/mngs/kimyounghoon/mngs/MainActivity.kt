@@ -3,7 +3,6 @@ package com.mngs.kimyounghoon.mngs
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mngs.kimyounghoon.mngs.answerletter.AnswerFragment
 import com.mngs.kimyounghoon.mngs.data.Letter
@@ -14,14 +13,25 @@ import com.mngs.kimyounghoon.mngs.login.LoginFragment
 import com.mngs.kimyounghoon.mngs.signup.SignupFragment
 
 
-class MainActivity : AppCompatActivity(), LocateListener {
-
+class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
     private lateinit var activityMainBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         openSplash()
+    }
+
+    override fun hide() {
+        supportActionBar?.hide()
+    }
+
+    override fun show() {
+        supportActionBar?.show()
+    }
+
+    override fun setTitle(title: String) {
+        supportActionBar?.title = title
     }
 
     override fun openLogin() {

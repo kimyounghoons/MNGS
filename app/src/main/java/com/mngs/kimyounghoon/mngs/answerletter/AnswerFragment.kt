@@ -16,6 +16,9 @@ import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class AnswerFragment : AbstractFragment() {
+    override fun getTitle(): String {
+        return getString(R.string.answer_letter)
+    }
 
     lateinit var binding: FragmentAnswerLetterBinding
     lateinit var letter: Letter

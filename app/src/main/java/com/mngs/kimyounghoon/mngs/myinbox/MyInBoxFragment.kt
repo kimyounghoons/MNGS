@@ -14,6 +14,10 @@ import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class MyInBoxFragment : AbstractFragment() {
+    override fun getTitle(): String {
+        return getString(R.string.sent_mail)
+    }
+
     lateinit var binding: FragmentMyInBoxBinding
     private lateinit var adapter: MyInBoxAdapter
 

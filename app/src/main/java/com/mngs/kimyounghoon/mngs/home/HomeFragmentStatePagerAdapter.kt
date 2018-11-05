@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.mngs.kimyounghoon.mngs.MngsApp
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.letters.LettersFragment
 import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxFragment
@@ -39,10 +39,10 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            Type.LETTERS -> "사서함"
-            Type.WRITE -> "편지쓰기"
+            Type.LETTERS -> MngsApp.getAppContext().getString(R.string.mail_box)
+            Type.WRITE -> MngsApp.getAppContext().getString(R.string.write_letter)
             else -> {
-                "보낸 편지함"
+                MngsApp.getAppContext().getString(R.string.sent_mail)
             }
         }
     }

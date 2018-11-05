@@ -14,7 +14,6 @@ import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentSignupBinding
 
 class SignupFragment : AbstractFragment() {
-
     lateinit var fragmentSignupBinding: FragmentSignupBinding
     private lateinit var databaseReference: DatabaseReference
     private var auth: FirebaseAuth? = null
@@ -25,6 +24,10 @@ class SignupFragment : AbstractFragment() {
         }
     }
 
+    override fun getTitle(): String {
+        return getString(R.string.signup)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         databaseReference = FirebaseDatabase.getInstance().reference
@@ -32,13 +35,13 @@ class SignupFragment : AbstractFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentSignupBinding = (DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false) as FragmentSignupBinding).apply{
+        fragmentSignupBinding = (DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false) as FragmentSignupBinding).apply {
             fragment = this@SignupFragment
         }
         return fragmentSignupBinding.root
     }
 
-    fun clickedConfirm(){
+    fun clickedConfirm() {
         if (fragmentSignupBinding.editNickname.textSize > 0) {
             databaseReference.child("users").child(auth?.currentUser!!.uid).setValue(fragmentSignupBinding.editNickname.text.toString()).addOnSuccessListener {
                 locateListener?.openHome()

@@ -1,25 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/sky</item>
+        <item name="colorPrimary">@color/white</item> <!-- actionbar background color -->
+         <item name="colorPrimaryDark">@color/white</item> <!-- statusbar background color -->
+        <!--<item name="colorAccent">@color/sky</item> &lt;!&ndash; 라디오 버튼 , 커서 , 등등 &ndash;&gt;-->
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
+        <item name="android:textColorPrimary">@color/sky</item> <!-- actionbar text color -->
+        <item name="actionMenuTextColor">@color/sky</item>
     </style>
-
-
-    <style name="AppTheme.ActionBar">
-        <item name="android:background">@color/white</item>
-        <item name="android:titleTextStyle">@style/AppTheme.ActionBar.Text</item>
-    </style>
-
-    <style name="AppTheme.ActionBar.Text" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/sky</item>
-    </style>
-
 
 </resources>

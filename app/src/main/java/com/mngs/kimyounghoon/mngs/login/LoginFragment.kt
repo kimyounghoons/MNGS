@@ -26,6 +26,9 @@ import com.mngs.kimyounghoon.mngs.databinding.FragmentLoginBinding
 import java.util.*
 
 class LoginFragment : AbstractFragment(), LoginNavigator {
+    override fun getTitle(): String {
+        return getString(R.string.login)
+    }
 
     companion object {
         fun newInstance(): LoginFragment {

@@ -13,11 +13,12 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.FragmentDetailLetterBinding
 
 class DetailLetterFragment : AbstractFragment() {
-    lateinit var letterId: String
-    lateinit var title: String
-    lateinit var content: String
+
+    override fun getTitle(): String {
+        return getString(R.string.detail_letter)
+    }
+
     lateinit var binding: FragmentDetailLetterBinding
-    lateinit var date: String
     lateinit var letter: Letter
 
     companion object {

@@ -12,6 +12,10 @@ import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
+    override fun getTitle(): String {
+        return getString(R.string.write_letter)
+    }
+
     override fun onLetterSended() {
 
     }
@@ -25,12 +29,10 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_write_letter, container, false)
         binding.apply {
             viewModel = obtainViewModel()
-        }
-        binding.sendButton.setOnClickListener {
-            binding.viewModel?.sendLetter()
         }
 
         obtainViewModel().let {
@@ -48,16 +50,16 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
         }
     }
 
-    fun obtainViewModel(): WriteLetterViewModel = obtainViewModel(WriteLetterViewModel::class.java)
+    private fun obtainViewModel(): WriteLetterViewModel = obtainViewModel(WriteLetterViewModel::class.java)
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_write_letter,menu)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_write_letter, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.apply{
-            if(itemId == R.id.menu_write_letter){
+        item?.apply {
+            if (itemId == R.id.menu_write_letter) {
                 obtainViewModel().sendLetter()
             }
         }
