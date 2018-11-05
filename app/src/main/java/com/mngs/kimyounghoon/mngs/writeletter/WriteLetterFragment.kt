@@ -3,7 +3,6 @@ package com.mngs.kimyounghoon.mngs.writeletter
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,9 @@ import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentWriteLetterBinding
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
-import com.mngs.kimyounghoon.mngs.utils.setupSnackbar
+import com.mngs.kimyounghoon.mngs.utils.setupToast
 
-class WriteLetterFragment : AbstractFragment() , WriteLetterNavigator {
+class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
     override fun onLetterSended() {
 
     }
@@ -36,9 +35,9 @@ class WriteLetterFragment : AbstractFragment() , WriteLetterNavigator {
             binding.viewModel?.sendLetter()
         }
 
-        obtainViewModel().let{
+        obtainViewModel().let {
             it.sendLetterCommand.observe(this, Observer {
-                Toast.makeText(context,"StartToSendLetter",Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "StartToSendLetter", Toast.LENGTH_LONG).show()
             })
         }
         return binding.root
@@ -47,7 +46,7 @@ class WriteLetterFragment : AbstractFragment() , WriteLetterNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
-            view.setupSnackbar(this, it.snackbarMessage, Snackbar.LENGTH_LONG)
+            view.setupToast(this, it.toastMessage, Toast.LENGTH_LONG)
         }
     }
 

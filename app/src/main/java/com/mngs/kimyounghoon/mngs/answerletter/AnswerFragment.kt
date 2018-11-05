@@ -3,7 +3,6 @@ package com.mngs.kimyounghoon.mngs.answerletter
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.FragmentAnswerLetterBinding
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
-import com.mngs.kimyounghoon.mngs.utils.setupSnackbar
+import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class AnswerFragment : AbstractFragment() {
 
@@ -60,10 +59,10 @@ class AnswerFragment : AbstractFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
-            view.setupSnackbar(this, it.snackbarMessage, Snackbar.LENGTH_LONG)
+            view.setupToast(this, it.toastMessage, Toast.LENGTH_LONG)
         }
     }
 
-    fun obtainViewModel(): AnswerViewModel = obtainViewModel(AnswerViewModel::class.java)
+    private fun obtainViewModel(): AnswerViewModel = obtainViewModel(AnswerViewModel::class.java)
 
 }

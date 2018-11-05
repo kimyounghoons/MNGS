@@ -18,14 +18,14 @@ class AnswerViewModel(private val lettersRepository: LettersRepository) : ViewMo
     val content = ObservableField<String>()
     val completed = ObservableBoolean()
     val sendLetterCommand = SingleLiveEvent<Void>()
-    val snackbarMessage = SingleLiveEvent<Int>()
+    val toastMessage = SingleLiveEvent<Int>()
 
     override fun onAnswerSended() {
-        showSnackbarMessage(R.string.sended_answer_letter)
+        showToastMessage(R.string.sended_answer_letter)
     }
 
     override fun onFailedToSendAnswer() {
-        showSnackbarMessage(com.mngs.kimyounghoon.mngs.R.string.failed_to_send_answer_letter)
+        showToastMessage(com.mngs.kimyounghoon.mngs.R.string.failed_to_send_answer_letter)
     }
 
     fun sendAnswer(letter: Letter) {
@@ -33,8 +33,8 @@ class AnswerViewModel(private val lettersRepository: LettersRepository) : ViewMo
         sendLetterCommand.call()
     }
 
-    private fun showSnackbarMessage(message: Int) {
-        snackbarMessage.value = message
+    private fun showToastMessage(message: Int) {
+        toastMessage.value = message
     }
 
 }

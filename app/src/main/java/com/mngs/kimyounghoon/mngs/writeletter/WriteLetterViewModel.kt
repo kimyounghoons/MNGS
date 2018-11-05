@@ -17,14 +17,14 @@ class WriteLetterViewModel(private val lettersRepository: LettersRepository) : V
     val content = ObservableField<String>()
     val completed = ObservableBoolean()
     val sendLetterCommand = SingleLiveEvent<Void>()
-    val snackbarMessage = SingleLiveEvent<Int>()
+    val toastMessage = SingleLiveEvent<Int>()
 
     override fun onLetterSended() {
-        showSnackbarMessage(R.string.sended_letter)
+        showToastMessage(R.string.sended_letter)
     }
 
     override fun onFailedToSendLetter() {
-        showSnackbarMessage(R.string.failed_to_send_letter)
+        showToastMessage(R.string.failed_to_send_letter)
     }
 
     fun sendLetter() {
@@ -32,8 +32,8 @@ class WriteLetterViewModel(private val lettersRepository: LettersRepository) : V
         sendLetterCommand.call()
     }
 
-    private fun showSnackbarMessage(message: Int) {
-        snackbarMessage.value = message
+    private fun showToastMessage(message: Int) {
+        toastMessage.value = message
     }
 
 }

@@ -2,16 +2,16 @@ package com.mngs.kimyounghoon.mngs.letters
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentLettersBinding
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
-import com.mngs.kimyounghoon.mngs.utils.setupSnackbar
+import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class LettersFragment : AbstractFragment() {
     lateinit var binding: FragmentLettersBinding
@@ -50,7 +50,7 @@ class LettersFragment : AbstractFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
-            view.setupSnackbar(this, it.snackbarMessage, Snackbar.LENGTH_LONG)
+            view.setupToast(this, it.toastMessage, Toast.LENGTH_LONG)
         }
     }
 

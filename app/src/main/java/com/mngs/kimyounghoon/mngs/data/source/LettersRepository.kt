@@ -9,7 +9,7 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
     }
 
     override fun answerLetter(answer: Answer, callBack: LettersDataSource.SendAnswerCallback) {
-        lettersDataSource.answerLetter(answer, callBack)
+        lettersDataSource.answerLetter(answer,callBack)
     }
 
     override fun getLetterId() : String {

@@ -47,10 +47,10 @@ interface LettersDataSource {
 
     fun sendLetter(letter: Letter, callBack: SendLetterCallback)
 
-    fun answerLetter(answer : Answer, callBack: SendAnswerCallback)
+    fun answerLetter(answer: Answer, callBack: SendAnswerCallback)
 
-    fun getLetterId() : String
+    fun getLetterId(): String
 
-    fun getAnswerId() : String
+    fun getAnswerId(): String
 
 }

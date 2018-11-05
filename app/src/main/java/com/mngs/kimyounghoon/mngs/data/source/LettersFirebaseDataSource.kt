@@ -8,19 +8,24 @@ import com.google.firebase.firestore.Query
 import com.mngs.kimyounghoon.mngs.BuildConfig
 import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Constants
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.HAS_ANSWER
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTERS
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 object LettersFirebaseDataSource : LettersDataSource {
 
-    private val lettersCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters")
+    private val lettersCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(LETTERS).collection(LETTERS)
     private lateinit var letterDocumentReference: DocumentReference
 
-    private val answerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("answer").collection("answer")
+    private val loadLettersCollection = lettersCollection.whereEqualTo(HAS_ANSWER, false).limit(10)
+
+    private val answerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(ANSWER).collection(ANSWER)
     private lateinit var answerDocumentReference: DocumentReference
 
     private var loadMoreQuery: Query? = null
 
-    private var inboxCollection :Query?=null
+    private var inboxCollection: Query? = null
     private var loadMoreInboxQuery: Query? = null
 
     override fun getLetterId(): String {
@@ -35,6 +40,14 @@ object LettersFirebaseDataSource : LettersDataSource {
 
     override fun answerLetter(answer: Answer, callBack: LettersDataSource.SendAnswerCallback) {
         answerDocumentReference.set(answer).addOnSuccessListener {
+            updateHasAnswer(answer.letterId, callBack)
+        }.addOnFailureListener {
+            callBack.onFailedToSendAnswer()
+        }
+    }
+
+    private fun updateHasAnswer(letterId: String, callBack: LettersDataSource.SendAnswerCallback) {
+        lettersCollection.document(letterId).update(HAS_ANSWER, true).addOnSuccessListener {
             callBack.onAnswerSended()
         }.addOnFailureListener {
             callBack.onFailedToSendAnswer()
@@ -54,7 +67,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {
-        lettersCollection.limit(10)
+        loadLettersCollection
                 .get().addOnSuccessListener {
 
                     val letters: ArrayList<Letter> = ArrayList()
@@ -69,7 +82,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                     }
                     if (letters.size > 0) {
                         val lastVisible: DocumentSnapshot = it.documents[it.size() - 1]
-                        loadMoreQuery = lettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                        loadMoreQuery = loadLettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
                     }
                 }.addOnFailureListener {
                     callback.onFailedToLoadLetters()
@@ -92,7 +105,7 @@ object LettersFirebaseDataSource : LettersDataSource {
 
             if (it.documents.size > 0) {
                 val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
-                loadMoreQuery = lettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                loadMoreQuery = loadLettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
             }
         }?.addOnFailureListener {
             callback.onFailedToLoadMoreLetters()
@@ -100,7 +113,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadInBox(callback: LettersDataSource.LoadLettersCallback) {
-        inboxCollection =  FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters").whereEqualTo("userId",FirebaseAuth.getInstance().uid)
+        inboxCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters").whereEqualTo("userId", FirebaseAuth.getInstance().uid)
         inboxCollection!!.limit(10)
                 .get().addOnSuccessListener {
 

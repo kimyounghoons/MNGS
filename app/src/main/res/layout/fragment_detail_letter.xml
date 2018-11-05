@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="com.mngs.kimyounghoon.mngs.utils.TimeHelper" />
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -11,7 +14,7 @@
 
         <variable
             name="userActionListener"
-            type="com.mngs.kimyounghoon.mngs.LocateListener"/>
+            type="com.mngs.kimyounghoon.mngs.LocateListener" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -41,10 +44,11 @@
 
         <Button
             android:id="@+id/answer_button"
-            android:text="답장"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/date"
-            android:onClick="@{() -> userActionListener.openAnswer(viewModel.letter) }"/>
+            android:onClick="@{() -> userActionListener.openAnswer(viewModel.letter) }"
+            android:text="답장"
+            android:visibility="@{viewModel.isOwnLetter ? View.GONE : View.VISIBLE }"
+            app:layout_constraintTop_toBottomOf="@+id/date" />
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -15,7 +15,7 @@ abstract class RecyclerBaseViewModel : ViewModel() {
     val isAllLoaded = ObservableBoolean(false)
     val isLoading = ObservableBoolean(false)
     val isDataLoadingError = ObservableBoolean(false)
-    internal val snackbarMessage = SingleLiveEvent<Int>()
+    internal val toastMessage = SingleLiveEvent<Int>()
     var items: ObservableField<ArrayList<Letter>> = ObservableField()
     var prevItemSize: ObservableField<Int> = ObservableField(0)
     val empty = ObservableBoolean(false)
