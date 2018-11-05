@@ -20,31 +20,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{(v)-> userActionListener.openLetterDetail(letter)}">
+        <ImageView
+            android:id="@+id/image_letter"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src ="@drawable/letter"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <!--<TextView-->
+            <!--android:id="@+id/title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{letter.title}"-->
+            <!--android:textStyle="bold"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{letter.title}"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!--<TextView-->
+            <!--android:id="@+id/content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{letter.content}"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/title" />-->
 
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{letter.content}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{TimeHelper.getCurrentTimeLocale(letter.time)}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content" />
+        <!--<TextView-->
+            <!--android:id="@+id/time"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@{TimeHelper.getCurrentTimeLocale(letter.time)}"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/content" />-->
 
 
     </android.support.constraint.ConstraintLayout>

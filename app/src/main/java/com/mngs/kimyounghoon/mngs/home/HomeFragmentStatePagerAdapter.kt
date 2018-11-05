@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.letters.LettersFragment
@@ -46,29 +47,24 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
         }
     }
 
-    override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
-        super.setPrimaryItem(container, position, `object`)
-
+    fun getPageTitleImage(position: Int): Int {
+        return when (position) {
+            Type.LETTERS -> R.drawable.mailbox
+            Type.WRITE -> R.drawable.write_letter
+            else -> {
+                R.drawable.letters
+            }
+        }
     }
-
-    //    fun getPageTitleImage(position: Int): Int {
-//        return when (position) {
-//            Type.LETTERS -> R.drawable.myLetters
-//            Type.WRITE -> R.drawable.write_letter
-//            else -> {
-//                R.drawable.write_letter
-//            }
-//        }
-//    }
 
     fun getCustomView(): Int {
         return R.layout.item_main_tab
     }
 
     fun bindCustomView(customView: View, position: Int) {
-        val textView = customView.findViewById<TextView>(R.id.title)
-        textView.text = getPageTitle(position)
-//        val image = customView.findViewById<ImageView>(R.id.image)
-//        image.setImageResource(getPageTitleImage(position))
+//        val textView = customView.findViewById<TextView>(R.id.title)
+//        textView.text = getPageTitle(position)
+        val image = customView.findViewById<ImageView>(R.id.image)
+        image.setImageResource(getPageTitleImage(position))
     }
 }
