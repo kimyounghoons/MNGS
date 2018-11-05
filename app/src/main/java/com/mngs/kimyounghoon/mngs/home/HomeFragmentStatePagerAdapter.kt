@@ -39,10 +39,10 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
 
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
-            Type.LETTERS -> "전체편지"
+            Type.LETTERS -> "사서함"
             Type.WRITE -> "편지쓰기"
             else -> {
-                "나의편지함"
+                "보낸 편지함"
             }
         }
     }
@@ -62,8 +62,8 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
     }
 
     fun bindCustomView(customView: View, position: Int) {
-//        val textView = customView.findViewById<TextView>(R.id.title)
-//        textView.text = getPageTitle(position)
+        val textView = customView.findViewById<TextView>(R.id.title)
+        textView.text = getPageTitle(position)
         val image = customView.findViewById<ImageView>(R.id.image)
         image.setImageResource(getPageTitleImage(position))
     }

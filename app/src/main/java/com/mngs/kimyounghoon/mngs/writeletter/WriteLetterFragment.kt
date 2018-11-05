@@ -3,9 +3,7 @@ package com.mngs.kimyounghoon.mngs.writeletter
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
@@ -52,4 +50,17 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
 
     fun obtainViewModel(): WriteLetterViewModel = obtainViewModel(WriteLetterViewModel::class.java)
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_write_letter,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.apply{
+            if(itemId == R.id.menu_write_letter){
+                obtainViewModel().sendLetter()
+            }
+        }
+        return false
+    }
 }
