@@ -28,4 +28,6 @@
 
     <string name="detail_letter"> Detail Letter</string>
     <string name="answer_letter">Answer Letter</string>
+
+    <string name="answer">Answer</string>
 </resources>

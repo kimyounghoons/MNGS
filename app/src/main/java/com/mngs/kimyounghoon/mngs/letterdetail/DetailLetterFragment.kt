@@ -2,9 +2,7 @@ package com.mngs.kimyounghoon.mngs.letterdetail
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.mngs.kimyounghoon.mngs.AbstractFragment
@@ -41,11 +39,29 @@ class DetailLetterFragment : AbstractFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        if (letter.userId != FirebaseAuth.getInstance().uid)
+            setHasOptionsMenu(true)
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_letter, container, false)
         binding.apply {
             viewModel = DetailLetterViewModel(letter, letter.userId.equals(FirebaseAuth.getInstance().uid))
-            userActionListener = locateListener
         }
         return binding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_detail_letter, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.menu_answer_letter -> {
+            locateListener?.openAnswer(letter)
+            true
+        }
+        else -> {
+            false
+        }
+    }
+
 }

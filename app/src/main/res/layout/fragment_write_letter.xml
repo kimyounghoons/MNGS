@@ -20,6 +20,7 @@
             android:layout_marginTop="30dp"
             android:text="@={viewModel.title}"
             android:hint="@string/title"
+            android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -29,6 +30,7 @@
             android:layout_marginTop="30dp"
             android:hint="@string/content"
             android:text="@={viewModel.content}"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
     </android.support.constraint.ConstraintLayout>

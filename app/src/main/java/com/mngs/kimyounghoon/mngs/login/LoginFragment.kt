@@ -112,7 +112,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
     private fun tryHome() {
         databaseReference.child("users").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(context, "request cancelled", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "request cancelled", Toast.LENGTH_SHORT).show()
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -169,7 +169,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
                         val user = auth?.getCurrentUser()
                         tryHome()
                     } else {
-                        Toast.makeText(context, "실패", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show()
                     }
 
                 }

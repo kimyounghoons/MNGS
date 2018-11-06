@@ -18,10 +18,12 @@ class AnswerViewModel(private val lettersRepository: LettersRepository) : ViewMo
     val content = ObservableField<String>()
     val completed = ObservableBoolean()
     val sendLetterCommand = SingleLiveEvent<Void>()
+    val sentLetterCommand = SingleLiveEvent<Void>()
     val toastMessage = SingleLiveEvent<Int>()
 
     override fun onAnswerSended() {
         showToastMessage(R.string.sended_answer_letter)
+        sentLetterCommand.call()
     }
 
     override fun onFailedToSendAnswer() {

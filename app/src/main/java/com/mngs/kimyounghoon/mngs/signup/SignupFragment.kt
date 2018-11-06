@@ -46,10 +46,10 @@ class SignupFragment : AbstractFragment() {
             databaseReference.child("users").child(auth?.currentUser!!.uid).setValue(fragmentSignupBinding.editNickname.text.toString()).addOnSuccessListener {
                 locateListener?.openHome()
             }.addOnFailureListener {
-                Toast.makeText(context, "다시 시도 해주세요.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "다시 시도 해주세요.", Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(context, getString(R.string.insert_nickname), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.insert_nickname), Toast.LENGTH_SHORT).show()
         }
     }
 

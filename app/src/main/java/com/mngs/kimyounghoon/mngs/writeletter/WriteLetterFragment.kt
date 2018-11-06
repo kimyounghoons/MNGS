@@ -37,7 +37,7 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
 
         obtainViewModel().let {
             it.sendLetterCommand.observe(this, Observer {
-                Toast.makeText(context, "StartToSendLetter", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "StartToSendLetter", Toast.LENGTH_SHORT).show()
             })
         }
         return binding.root
@@ -46,7 +46,7 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
-            view.setupToast(this, it.toastMessage, Toast.LENGTH_LONG)
+            view.setupToast(this, it.toastMessage, Toast.LENGTH_SHORT)
         }
     }
 
@@ -57,12 +57,14 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.apply {
-            if (itemId == R.id.menu_write_letter) {
-                obtainViewModel().sendLetter()
-            }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.menu_write_letter -> {
+            obtainViewModel().sendLetter()
+            true
         }
-        return false
+        else -> {
+            false
+        }
     }
+
 }

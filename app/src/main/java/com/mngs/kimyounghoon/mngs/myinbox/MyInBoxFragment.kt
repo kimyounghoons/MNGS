@@ -54,7 +54,7 @@ class MyInBoxFragment : AbstractFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
-            view.setupToast(this, it.toastMessage, Toast.LENGTH_LONG)
+            view.setupToast(this, it.toastMessage, Toast.LENGTH_SHORT)
         }
     }
 

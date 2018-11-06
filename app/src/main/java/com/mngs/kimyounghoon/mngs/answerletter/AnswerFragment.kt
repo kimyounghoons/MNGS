@@ -1,15 +1,16 @@
 package com.mngs.kimyounghoon.mngs.answerletter
 
+import android.app.FragmentManager
 import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v4.app.FragmentActivity
+import android.view.*
 import android.widget.Toast
 import com.google.gson.Gson
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.HOME
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.FragmentAnswerLetterBinding
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
@@ -43,17 +44,20 @@ class AnswerFragment : AbstractFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_answer_letter, container, false)
         binding.apply {
             viewModel = obtainViewModel()
         }
-        binding.sendButton.setOnClickListener {
-            binding.viewModel?.sendAnswer(letter)
-        }
 
         obtainViewModel().let {
             it.sendLetterCommand.observe(this, Observer {
-                Toast.makeText(context, "StartToSendLetter", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "StartToSendLetter", Toast.LENGTH_SHORT).show()
+            })
+            it.sentLetterCommand.observe(this, Observer {
+                if (context is FragmentActivity) {
+                    (context as FragmentActivity).supportFragmentManager.popBackStackImmediate(HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                }
             })
         }
         return binding.root
@@ -62,10 +66,24 @@ class AnswerFragment : AbstractFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
-            view.setupToast(this, it.toastMessage, Toast.LENGTH_LONG)
+            view.setupToast(this, it.toastMessage, Toast.LENGTH_SHORT)
         }
     }
 
     private fun obtainViewModel(): AnswerViewModel = obtainViewModel(AnswerViewModel::class.java)
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_write_letter, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.menu_write_letter -> {
+            binding.viewModel?.sendAnswer(letter)
+            true
+        }
+        else -> {
+            false
+        }
+    }
 }

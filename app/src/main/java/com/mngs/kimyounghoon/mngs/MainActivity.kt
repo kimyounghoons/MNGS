@@ -3,6 +3,7 @@ package com.mngs.kimyounghoon.mngs
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import com.google.gson.GsonBuilder
 import com.mngs.kimyounghoon.mngs.answerletter.AnswerFragment
 import com.mngs.kimyounghoon.mngs.data.Letter
@@ -69,4 +70,5 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
             super.onBackPressed()
         }
     }
+
 }

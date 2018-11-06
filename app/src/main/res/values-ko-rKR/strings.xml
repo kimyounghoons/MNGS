@@ -25,4 +25,6 @@
 
     <string name="detail_letter">편지</string>
     <string name="answer_letter">답장</string>
+
+    <string name="answer">답장</string>
 </resources>

@@ -9,7 +9,7 @@
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:textColorPrimary">@color/sky</item> <!-- actionbar text color -->
-        <item name="actionMenuTextColor">@color/sky</item>
+        <!--<item name="actionMenuTextColor">@color/sky</item>-->
     </style>
 
 </resources>
