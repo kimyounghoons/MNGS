@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,25 +20,58 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.title}"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.content}"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-        <TextView
             android:id="@+id/date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
             android:text="@{TimeHelper.getCurrentTimeLocale(viewModel.time)}"
-            app:layout_constraintTop_toBottomOf="@+id/content" />
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2018-10-10" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginEnd="22dp"
+                    android:text="@{@string/title+` : `+viewModel.title}"
+                    android:textSize="17sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="ㅁㄴ이럼닝러ㅣㅁㄴㅇ러ㅣㅁ넝리ㅓㅁㄴ이럼닝러ㅣㅁㄴ어림넝림넝리ㅓㅁ닝\ㅜ\ㅜ\ㅜ\ㅜ\n\n\n러민어림넝림넝리ㅓㅁ닝러민어림ㄴ어림넝리ㅓㅁ\n\n\n\n\n\n\n\n\n닝러ㅣㅁㄴ어림넝리ㅓㅁㄴㅇ러민ㅇ럼ㄴ\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n아럼닝러ㅣㅁㄴ어리ㅓㅁㄴ이런ㅁㅇ러ㅣㄴㅁ얼ㄴ멍런ㅁㅇ리ㅓㄴㅁ이러" />
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginEnd="22dp"
+                    android:text="@{viewModel.content}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    tools:text="ㅁㄴ이럼닝러ㅣㅁㄴㅇ러ㅣㅁ넝리ㅓㅁㄴ이럼닝러ㅣㅁㄴ어림넝림넝리ㅓㅁ닝\ㅜ\ㅜ\ㅜ\ㅜ\n\n\n러민어림넝림넝리ㅓㅁ닝러민어림ㄴ어림\n\n\n\n\n\n\n\n\n넝리ㅓㅁ닝러ㅣㅁㄴ어림넝리ㅓㅁㄴㅇ러민ㅇ럼\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nㄴ아럼닝러ㅣㅁㄴ어리ㅓㅁㄴ이런ㅁㅇ러ㅣㄴㅁ얼ㄴ멍런ㅁㅇ리ㅓㄴㅁ이러" />
+
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
 
     </android.support.constraint.ConstraintLayout>
 </layout>
