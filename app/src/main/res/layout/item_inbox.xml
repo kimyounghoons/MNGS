@@ -3,8 +3,6 @@
 
     <data>
 
-        <import type="com.mngs.kimyounghoon.mngs.utils.TimeHelper" />
-
         <variable
             name="letter"
             type="com.mngs.kimyounghoon.mngs.data.Letter" />
@@ -14,33 +12,29 @@
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/image_cardview"
+        android:elevation="5dp">
+
+        <ImageView
+            android:id="@+id/image_letter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/letter"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{letter.title}"
+            android:maxLines="3"
+            android:text="@{letter.title.equals(``) ? letter.content: letter.title}"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{letter.content}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{TimeHelper.getCurrentTimeLocale(letter.time)}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content" />
-
+            app:layout_constraintTop_toBottomOf="@+id/image_letter" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -58,8 +58,12 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         tab?.apply {
-            fragmentHomeBinding.tabLayout.getTabAt(tab.position)!!.select()
+            fragmentHomeBinding.tabLayout.getTabAt(tab.position)?.select()
             fragmentHomeBinding.viewPager.currentItem = tab.position
         }
+    }
+
+    fun selectTab(position: Int) {
+        fragmentHomeBinding.tabLayout.getTabAt(position)?.select()
     }
 }

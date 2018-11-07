@@ -8,5 +8,8 @@ class Constants {
         const val HAS_ANSWER = "hasAnswer"
         const val LETTERS = "letters"
         const val ANSWER = "answer"
+        const val EMPTY_ITEM = 0
+        const val ITEM = 1
+        const val LOAD_MORE = 2
     }
 }

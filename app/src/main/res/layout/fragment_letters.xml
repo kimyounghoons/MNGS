@@ -27,10 +27,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:onScroll="@{viewModel}"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                bind:layoutManagerWithDecoration="@{3}"
                 bind:items="@{viewModel.items.get()}"
                 bind:prev="@{viewModel.prevItemSize.get()}"
-                bind:isAllLoaded="@{viewModel.isAllLoaded().get()}"/>
+                bind:isAllLoaded="@{viewModel.isAllLoaded().get()}"
+                />
         </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -30,7 +30,8 @@
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 bind:items="@{viewModel.items.get()}"
                 bind:prev="@{viewModel.prevItemSize.get()}"
-                bind:isAllLoaded="@{viewModel.isAllLoaded().get()}"/>
+                bind:isAllLoaded="@{viewModel.isAllLoaded().get()}"
+                bind:layoutManagerWithDecoration="@{2}"/>
         </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

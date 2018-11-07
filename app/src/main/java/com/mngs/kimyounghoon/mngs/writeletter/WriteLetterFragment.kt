@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentWriteLetterBinding
+import com.mngs.kimyounghoon.mngs.home.HomeFragment
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
@@ -38,6 +39,11 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
         obtainViewModel().let {
             it.sendLetterCommand.observe(this, Observer {
                 Toast.makeText(context, "StartToSendLetter", Toast.LENGTH_SHORT).show()
+            })
+            it.completed.observe(this, Observer {
+                if(parentFragment is HomeFragment){
+                    (parentFragment as HomeFragment).selectTab(0)
+                }
             })
         }
         return binding.root

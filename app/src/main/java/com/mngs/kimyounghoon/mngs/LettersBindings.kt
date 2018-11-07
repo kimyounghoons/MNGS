@@ -2,9 +2,12 @@ package com.mngs.kimyounghoon.mngs
 
 import android.databinding.BindingAdapter
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.mngs.kimyounghoon.mngs.RecyclerBaseViewModel.Companion.LOAD_MORE_VISIBLE_THRESHOLD
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.EMPTY_ITEM
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LOAD_MORE
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 @BindingAdapter("bind:items", "bind:prev")
@@ -48,4 +51,21 @@ fun RecyclerView.addOnScrollListener(viewModel: RecyclerBaseViewModel) {
             }
         }
     })
+}
+
+
+@BindingAdapter("bind:layoutManagerWithDecoration")
+fun RecyclerView.setLayoutManagerWithDecoration(gridSize: Int) {
+    val gridLayoutManager = GridLayoutManager(context, gridSize)
+    gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            return when (adapter.getItemViewType(position)) {
+                EMPTY_ITEM -> gridSize
+                LOAD_MORE -> gridSize
+                else -> 1
+            }
+        }
+    }
+    layoutManager = gridLayoutManager
+    addItemDecoration(GridItemDecoration(1, gridSize))
 }

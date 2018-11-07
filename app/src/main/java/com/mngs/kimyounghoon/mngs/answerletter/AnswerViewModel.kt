@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Answer
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.EMPTY
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
@@ -31,7 +32,7 @@ class AnswerViewModel(private val lettersRepository: LettersRepository) : ViewMo
     }
 
     fun sendAnswer(letter: Letter) {
-        lettersRepository.answerLetter(Answer(lettersRepository.getAnswerId(), letter.letterId, letter.userId, FirebaseAuth.getInstance().currentUser!!.uid, title.get()!!, content.get()!!, TimeHelper.getCurrentTime()), this)
+        lettersRepository.answerLetter(Answer(lettersRepository.getAnswerId(), letter.letterId, letter.userId, FirebaseAuth.getInstance().currentUser!!.uid, title.get()?:EMPTY, content.get()?:EMPTY, TimeHelper.getCurrentTime()), this)
         sendLetterCommand.call()
     }
 
