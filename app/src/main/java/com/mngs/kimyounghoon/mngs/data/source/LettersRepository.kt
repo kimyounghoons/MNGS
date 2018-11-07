@@ -9,12 +9,13 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
     }
 
     override fun answerLetter(answer: Answer, callBack: LettersDataSource.SendAnswerCallback) {
-        lettersDataSource.answerLetter(answer,callBack)
+        lettersDataSource.answerLetter(answer, callBack)
     }
 
-    override fun getLetterId() : String {
+    override fun getLetterId(): String {
         return lettersDataSource.getLetterId()
     }
+
     override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {
         lettersDataSource.loadLetters(callback)
     }
@@ -29,6 +30,14 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
 
     override fun loadMoreInBox(callback: LettersDataSource.LoadMoreLettersCallback) {
         lettersDataSource.loadMoreInBox(callback)
+    }
+
+    override fun loadAnswers(callback: LettersDataSource.LoadLettersCallback) {
+        lettersDataSource.loadAnswers(callback)
+    }
+
+    override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreLettersCallback) {
+        lettersDataSource.loadMoreAnswers(callback)
     }
 
     override fun getLetter(letterId: String, callBack: LettersDataSource.GetLetterCallback) {

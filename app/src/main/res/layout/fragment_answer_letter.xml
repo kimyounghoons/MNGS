@@ -14,44 +14,25 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="30dp"
-            android:text="@={viewModel.title}"
-            android:hint="@string/title"
-            android:textColor="#434343"
-            android:maxLength="100"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:background="@drawable/edit_text_underline"
-            android:textSize="15sp"
-            android:layout_marginRight="22dp"
-            android:layout_marginLeft="22dp"
-            android:textCursorDrawable="@drawable/gray_cursor_edit"
-            android:gravity="start" />
-
-        <EditText
             android:id="@+id/content"
             android:layout_width="0dp"
-            android:layout_height="210dp"
-            android:layout_marginTop="12dp"
-            android:hint="@string/content"
-            android:text="@={viewModel.content}"
-            android:textColor="#434343"
+            android:layout_height="265dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="22dp"
             android:background="@android:color/transparent"
             android:backgroundTint="@color/white"
             android:gravity="start"
-            android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
+            android:hint="@string/content"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:textCursorDrawable="@drawable/gray_cursor_edit" />
+            android:text="@={viewModel.content}"
+            android:textColor="#434343"
+            android:textCursorDrawable="@drawable/gray_cursor_edit"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

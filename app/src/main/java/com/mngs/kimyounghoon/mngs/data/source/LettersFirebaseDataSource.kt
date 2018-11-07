@@ -159,4 +159,12 @@ object LettersFirebaseDataSource : LettersDataSource {
         }
     }
 
+    override fun loadAnswers(callback: LettersDataSource.LoadLettersCallback) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreLettersCallback) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

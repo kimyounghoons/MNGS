@@ -43,6 +43,10 @@ interface LettersDataSource {
 
     fun loadMoreInBox(callback: LoadMoreLettersCallback)
 
+    fun loadAnswers(callback: LettersDataSource.LoadLettersCallback)
+
+    fun loadMoreAnswers(callback: LettersDataSource.LoadMoreLettersCallback)
+
     fun getLetter(letterId: String, callBack: GetLetterCallback)
 
     fun sendLetter(letter: Letter, callBack: SendLetterCallback)
