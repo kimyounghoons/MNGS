@@ -12,6 +12,7 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.HAS_ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTERS
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTER_ID
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LIMIT_PAGE
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 object LettersFirebaseDataSource : LettersDataSource {
@@ -19,7 +20,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     private val lettersCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(LETTERS).collection(LETTERS)
     private lateinit var letterDocumentReference: DocumentReference
 
-    private val loadLettersCollection = lettersCollection.whereEqualTo(HAS_ANSWER, false).limit(10)
+    private val loadLettersCollection = lettersCollection.whereEqualTo(HAS_ANSWER, false).limit(LIMIT_PAGE)
 
     private val answerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(ANSWER).collection(ANSWER)
     private lateinit var answerDocumentReference: DocumentReference
@@ -86,7 +87,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                     }
                     if (letters.size > 0) {
                         val lastVisible: DocumentSnapshot = it.documents[it.size() - 1]
-                        loadMoreQuery = loadLettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                        loadMoreQuery = loadLettersCollection.startAfter(lastVisible).limit(LIMIT_PAGE)
                     }
                 }.addOnFailureListener {
                     callback.onFailedToLoadLetters()
@@ -109,7 +110,7 @@ object LettersFirebaseDataSource : LettersDataSource {
 
             if (it.documents.size > 0) {
                 val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
-                loadMoreQuery = loadLettersCollection.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                loadMoreQuery = loadLettersCollection.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
             callback.onFailedToLoadMoreLetters()
@@ -133,7 +134,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                     }
                     if (letters.size > 0) {
                         val lastVisible: DocumentSnapshot = it.documents[it.size() - 1]
-                        loadMoreInboxQuery = inboxCollection!!.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                        loadMoreInboxQuery = inboxCollection!!.startAfter(lastVisible).limit(LIMIT_PAGE)
                     }
                 }.addOnFailureListener {
                     callback.onFailedToLoadLetters()
@@ -156,7 +157,7 @@ object LettersFirebaseDataSource : LettersDataSource {
 
             if (it.documents.size > 0) {
                 val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
-                loadMoreInboxQuery = inboxCollection!!.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                loadMoreInboxQuery = inboxCollection!!.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
             callback.onFailedToLoadMoreLetters()
@@ -180,7 +181,7 @@ object LettersFirebaseDataSource : LettersDataSource {
 
             if (it.documents.size > 0) {
                 val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
-                answersLoadMoreQuery = loadAnswersQuery.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                answersLoadMoreQuery = loadAnswersQuery.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }.addOnFailureListener {
             callback.onFailedToLoadAnswers()
@@ -203,7 +204,7 @@ object LettersFirebaseDataSource : LettersDataSource {
 
             if (it.documents.size > 0) {
                 val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
-                answersLoadMoreQuery = answersLoadMoreQuery!!.startAfter(lastVisible).limit(Constants.LIMIT_PAGE)
+                answersLoadMoreQuery = answersLoadMoreQuery!!.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
             callback.onFailedToLoadMoreAnswers()
