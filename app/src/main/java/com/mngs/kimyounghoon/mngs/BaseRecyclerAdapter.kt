@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 abstract class BaseRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-    abstract fun setItems(prevItemSize: Int, letters: List<Letter>?)
+    abstract fun setItems(prevItemSize: Int, letters: List<Any>?)
 
     abstract fun setIsAllLoaded(isAllLoaded: Boolean)
 }

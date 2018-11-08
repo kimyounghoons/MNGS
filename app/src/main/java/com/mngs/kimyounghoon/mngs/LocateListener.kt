@@ -1,5 +1,6 @@
 package com.mngs.kimyounghoon.mngs
 
+import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 interface LocateListener{
@@ -14,4 +15,8 @@ interface LocateListener{
     fun openLetterDetail(letter:Letter)
 
     fun openAnswer(letter: Letter)
+
+    fun openAnswers(letter: Letter)
+
+    fun openReAnswers(answer: Answer)
 }

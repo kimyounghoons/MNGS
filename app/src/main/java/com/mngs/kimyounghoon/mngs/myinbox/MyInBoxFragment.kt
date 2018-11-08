@@ -36,7 +36,7 @@ class MyInBoxFragment : AbstractFragment() {
     private fun setUpAdapter() {
         val viewModel = binding.viewModel
         if (viewModel != null) {
-            adapter = MyInBoxAdapter()
+            adapter = MyInBoxAdapter(locateListener)
             binding.recyclerview.adapter = adapter
         } else {
             Log.w("", "ViewModel not initialized when attempting to set up adapter.")

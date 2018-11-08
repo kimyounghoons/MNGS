@@ -4,13 +4,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mngs.kimyounghoon.mngs.BaseRecyclerAdapter
+import com.mngs.kimyounghoon.mngs.LocateListener
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ItemEmptyMyInboxBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemInboxBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
+import com.mngs.kimyounghoon.mngs.letterdetail.LetterDetailUserActionListener
 import com.mngs.kimyounghoon.mngs.letters.LoadMoreViewHolder
 
-class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
+class MyInBoxAdapter(var userActionListener: LocateListener?,var myLetters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
 
     interface ViewType {
         companion object {
@@ -64,12 +66,12 @@ class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded:
         if (holder is MyInBoxViewHolder) {
             val letter: Letter? = myLetters[position]
             letter?.apply {
-                holder.bind(this)
+                holder.bind(this,userActionListener)
             }
         }
     }
 
-    override fun setItems(prevItemSize: Int, letters: List<Letter>?) {
+    override fun setItems(prevItemSize: Int, letters: List<Any>?) {
         if (letters == null || letters.isEmpty()) {
             this.myLetters = ArrayList()
             notifyDataSetChanged()
@@ -77,7 +79,7 @@ class MyInBoxAdapter(var myLetters: List<Letter> = ArrayList(), var isAllLoaded:
         }
 
         letters.let {
-            this.myLetters = letters
+            this.myLetters = letters as List<Letter>
             notifyItemRangeInserted(prevItemSize + if (isAllLoaded) {
                 0
             } else {

@@ -5,28 +5,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mngs.kimyounghoon.mngs.BaseRecyclerAdapter
 import com.mngs.kimyounghoon.mngs.LocateListener
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.EMPTY_ITEM
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ITEM
+
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LOAD_MORE
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ItemEmptyBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLetterBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
 
-class LettersAdapter(val userActionListener: LocateListener, var letters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
-
-    interface ViewType {
-        companion object {
-            const val EMPTY = 0
-            const val ITEM = 1
-            const val LOAD_MORE = 2
-        }
-    }
+class LettersAdapter(private val userActionListener: LocateListener, var letters: List<Letter> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ViewType.EMPTY -> {
+            EMPTY_ITEM -> {
                 val binding = ItemEmptyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 LettersEmptyViewHolder(binding)
             }
-            ViewType.LOAD_MORE
+            LOAD_MORE
             -> {
                 val binding = ItemLoadMoreBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 LoadMoreViewHolder(binding)
@@ -40,9 +36,9 @@ class LettersAdapter(val userActionListener: LocateListener, var letters: List<L
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            isEmpty() -> ViewType.EMPTY
-            position > letters.size - 1 -> ViewType.LOAD_MORE
-            else -> ViewType.ITEM
+            isEmpty() -> EMPTY_ITEM
+            position > letters.size - 1 -> LOAD_MORE
+            else -> ITEM
         }
     }
 
@@ -69,7 +65,7 @@ class LettersAdapter(val userActionListener: LocateListener, var letters: List<L
         }
     }
 
-    override fun setItems(prevItemSize: Int, letters: List<Letter>?) {
+    override fun setItems(prevItemSize: Int, letters: List<Any>?) {
         if (letters == null || letters.isEmpty()) {
             this.letters = ArrayList()
             notifyDataSetChanged()
@@ -77,7 +73,7 @@ class LettersAdapter(val userActionListener: LocateListener, var letters: List<L
         }
 
         letters.let {
-            this.letters = letters
+            this.letters = letters as List<Letter>
             notifyItemRangeInserted(prevItemSize + if (isAllLoaded) {
                 0
             } else {

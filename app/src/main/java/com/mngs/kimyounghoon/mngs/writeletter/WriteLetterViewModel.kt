@@ -18,7 +18,6 @@ class WriteLetterViewModel(private val lettersRepository: LettersRepository) : V
     val title = ObservableField<String>()
     val content = ObservableField<String>()
     val completed = SingleLiveEvent<Boolean>()
-    val sendLetterCommand = SingleLiveEvent<Void>()
     val toastMessage = SingleLiveEvent<Int>()
 
     override fun onLetterSended() {
@@ -34,7 +33,7 @@ class WriteLetterViewModel(private val lettersRepository: LettersRepository) : V
 
     fun sendLetter() {
         lettersRepository.sendLetter(Letter(lettersRepository.getLetterId(), FirebaseAuth.getInstance().currentUser!!.uid, false, title.get()?:EMPTY, content.get()?: EMPTY, TimeHelper.getCurrentTime()), this)
-        sendLetterCommand.call()
+        showToastMessage(R.string.sending_letter)
     }
 
     private fun showToastMessage(message: Int) {

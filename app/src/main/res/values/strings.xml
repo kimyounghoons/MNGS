@@ -10,6 +10,7 @@
     <string name="exists_already_nickname">already exists nickname</string>
 
     <string name="sended_letter">success to send a letter</string>
+    <string name="sending_letter">sending a letter</string>
     <string name="failed_to_send_letter">failed to send a letter</string>
 
     <string name="sended_answer_letter">success to send a answer letter</string>

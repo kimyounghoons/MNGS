@@ -14,7 +14,7 @@ import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
 
 class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
     override fun getTitle(): String {
-        return Constants.EMPTY
+        return getString(R.string.app_name)
     }
 
     companion object {
@@ -33,6 +33,7 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        actionBarListener?.setTitle(getTitle())
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         setUpTabLayout()
         fragmentHomeBinding.viewPager.adapter = homeFragmentStatePagerAdapter

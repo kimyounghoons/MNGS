@@ -32,11 +32,11 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
         lettersDataSource.loadMoreInBox(callback)
     }
 
-    override fun loadAnswers(callback: LettersDataSource.LoadLettersCallback) {
-        lettersDataSource.loadAnswers(callback)
+    override fun loadAnswers(letterId: String,callback: LettersDataSource.LoadAnswersCallback) {
+        lettersDataSource.loadAnswers(letterId,callback)
     }
 
-    override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreLettersCallback) {
+    override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
         lettersDataSource.loadMoreAnswers(callback)
     }
 

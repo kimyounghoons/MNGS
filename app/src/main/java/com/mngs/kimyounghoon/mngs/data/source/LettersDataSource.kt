@@ -17,6 +17,19 @@ interface LettersDataSource {
         fun onFailedToLoadMoreLetters()
     }
 
+    interface LoadAnswersCallback {
+        fun onAnswersLoaded(answers: List<Answer>)
+
+        fun onFailedToLoadAnswers()
+    }
+
+    interface LoadMoreAnswersCallback {
+        fun onAnswersMoreLoaded(answers: List<Answer>)
+
+        fun onFailedToLoadMoreAnswers()
+    }
+
+
     interface GetLetterCallback {
         fun onLetterLoaded(letter: Letter)
 
@@ -43,9 +56,9 @@ interface LettersDataSource {
 
     fun loadMoreInBox(callback: LoadMoreLettersCallback)
 
-    fun loadAnswers(callback: LettersDataSource.LoadLettersCallback)
+    fun loadAnswers(letterId: String,callback: LettersDataSource.LoadAnswersCallback)
 
-    fun loadMoreAnswers(callback: LettersDataSource.LoadMoreLettersCallback)
+    fun loadMoreAnswers(callback: LettersDataSource.LoadMoreAnswersCallback)
 
     fun getLetter(letterId: String, callBack: GetLetterCallback)
 

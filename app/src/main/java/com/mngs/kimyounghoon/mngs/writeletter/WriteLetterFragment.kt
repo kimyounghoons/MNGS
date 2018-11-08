@@ -13,12 +13,15 @@ import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
+
     override fun getTitle(): String {
         return getString(R.string.write_letter)
     }
 
     override fun onLetterSended() {
-
+        if (parentFragment is HomeFragment) {
+            (parentFragment as HomeFragment).selectTab(0)
+        }
     }
 
     lateinit var binding: FragmentWriteLetterBinding
@@ -35,17 +38,6 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
         binding.apply {
             viewModel = obtainViewModel()
         }
-
-        obtainViewModel().let {
-            it.sendLetterCommand.observe(this, Observer {
-                Toast.makeText(context, "StartToSendLetter", Toast.LENGTH_SHORT).show()
-            })
-            it.completed.observe(this, Observer {
-                if(parentFragment is HomeFragment){
-                    (parentFragment as HomeFragment).selectTab(0)
-                }
-            })
-        }
         return binding.root
     }
 
@@ -53,6 +45,9 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
             view.setupToast(this, it.toastMessage, Toast.LENGTH_SHORT)
+            it.completed.observe(this, Observer {
+                onLetterSended()
+            })
         }
     }
 
