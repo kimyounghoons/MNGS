@@ -7,12 +7,13 @@ import com.mngs.kimyounghoon.mngs.BaseRecyclerAdapter
 import com.mngs.kimyounghoon.mngs.LocateListener
 import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Constants
+import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ItemAnswersBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemEmptyAnswersBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
 import com.mngs.kimyounghoon.mngs.letters.LoadMoreViewHolder
 
-class AnswersAdapter(private val userActionListener: LocateListener, var answers: List<Answer> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
+class AnswersAdapter(private val letter : Letter, private val userActionListener: LocateListener, var answers: List<Answer> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -58,7 +59,7 @@ class AnswersAdapter(private val userActionListener: LocateListener, var answers
         if (holder is AnswersViewHolder) {
             val answer: Answer? = answers[position]
             answer?.apply {
-                holder.bind(this, userActionListener)
+                holder.bind(letter,this, userActionListener)
             }
         }
     }

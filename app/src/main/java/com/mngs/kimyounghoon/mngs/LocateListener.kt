@@ -18,5 +18,7 @@ interface LocateListener{
 
     fun openAnswers(letter: Letter)
 
-    fun openReAnswers(answer: Answer)
+    fun openReAnswer(answer : Answer)
+
+    fun openReAnswers(letter : Letter , answer: Answer)
 }

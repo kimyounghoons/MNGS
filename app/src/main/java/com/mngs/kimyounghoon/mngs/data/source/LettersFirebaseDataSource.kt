@@ -13,7 +13,9 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.HAS_ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTERS
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTER_ID
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LIMIT_PAGE
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.REANSWER
 import com.mngs.kimyounghoon.mngs.data.Letter
+import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 object LettersFirebaseDataSource : LettersDataSource {
 
@@ -24,6 +26,9 @@ object LettersFirebaseDataSource : LettersDataSource {
 
     private val answerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(ANSWER).collection(ANSWER)
     private lateinit var answerDocumentReference: DocumentReference
+
+    private val reAnswerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(REANSWER).collection(REANSWER)
+    private lateinit var reAnswerDocumentReference: DocumentReference
 
     private lateinit var loadAnswersQuery : Query
     private var answersLoadMoreQuery: Query? = null
@@ -69,6 +74,19 @@ object LettersFirebaseDataSource : LettersDataSource {
         }.addOnFailureListener {
             callBack.onFailedToSendLetter()
         }
+    }
+
+    override fun sendReAnswer(reAnswer: ReAnswer, callback: LettersDataSource.SendLetterCallback) {
+        reAnswerDocumentReference.set(reAnswer).addOnSuccessListener {
+            callback.onLetterSended()
+        }.addOnFailureListener {
+            callback.onFailedToSendLetter()
+        }
+    }
+
+    override fun getReAnswerId(): String {
+        reAnswerDocumentReference = reAnswerCollection.document()
+        return reAnswerDocumentReference.id
     }
 
     override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {

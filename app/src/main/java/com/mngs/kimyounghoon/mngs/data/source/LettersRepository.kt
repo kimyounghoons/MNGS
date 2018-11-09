@@ -2,8 +2,17 @@ package com.mngs.kimyounghoon.mngs.data.source
 
 import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
+import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 class LettersRepository(private val lettersDataSource: LettersDataSource) : LettersDataSource {
+    override fun sendReAnswer(reAnswer: ReAnswer, callback: LettersDataSource.SendLetterCallback) {
+        lettersDataSource.sendReAnswer(reAnswer,callback)
+    }
+
+    override fun getReAnswerId(): String {
+        return lettersDataSource.getReAnswerId()
+    }
+
     override fun getAnswerId(): String {
         return lettersDataSource.getAnswerId()
     }

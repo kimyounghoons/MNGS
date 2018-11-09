@@ -29,4 +29,6 @@
 
     <string name="answer">답장</string>
     <string name="answers">답장들</string>
+
+    <string name="reanswer">재답장</string>
 </resources>

@@ -11,6 +11,7 @@ import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
 import com.mngs.kimyounghoon.mngs.letters.LettersViewModel
 import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxViewModel
+import com.mngs.kimyounghoon.mngs.reanswer.ReAnswerViewModel
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterViewModel
 
 class ViewModelFactory private constructor(
@@ -30,6 +31,8 @@ class ViewModelFactory private constructor(
                         AnswerViewModel(lettersRepository)
                     isAssignableFrom(AnswersViewModel::class.java) ->
                         AnswersViewModel(lettersRepository)
+                    isAssignableFrom(ReAnswerViewModel::class.java) ->
+                        ReAnswerViewModel(lettersRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

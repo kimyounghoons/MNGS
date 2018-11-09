@@ -52,7 +52,7 @@ class AnswersFragment : AbstractFragment() {
     private fun setUpAdapter() {
         val viewModel = binding.viewModel
         if (viewModel != null) {
-            adapter = AnswersAdapter(locateListener!!)
+            adapter = AnswersAdapter(letter,locateListener!!)
             binding.recyclerview.adapter = adapter
         } else {
             Log.w("", "ViewModel not initialized when attempting to set up adapter.")

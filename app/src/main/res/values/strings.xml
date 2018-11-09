@@ -33,4 +33,6 @@
     <string name="answer">Answer</string>
 
     <string name="answers">Answers</string>
+
+    <string name="reanswer">ReAnswer</string>
 </resources>

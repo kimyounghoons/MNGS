@@ -2,6 +2,7 @@ package com.mngs.kimyounghoon.mngs.data.source
 
 import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
+import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 interface LettersDataSource {
 
@@ -66,8 +67,12 @@ interface LettersDataSource {
 
     fun answerLetter(answer: Answer, callBack: SendAnswerCallback)
 
+    fun sendReAnswer(reAnswer: ReAnswer, callback: SendLetterCallback)
+
     fun getLetterId(): String
 
     fun getAnswerId(): String
+
+    fun getReAnswerId(): String
 
 }

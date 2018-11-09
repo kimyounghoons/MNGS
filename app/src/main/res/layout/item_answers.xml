@@ -6,6 +6,10 @@
         <import type="com.mngs.kimyounghoon.mngs.utils.TimeHelper" />
 
         <variable
+            name="letter"
+            type="com.mngs.kimyounghoon.mngs.data.Letter"/>
+
+        <variable
             name="answer"
             type="com.mngs.kimyounghoon.mngs.data.Answer" />
 
@@ -21,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/image_cardview"
-        android:onClick="@{(v)-> userActionListener.openReAnswers(answer)}"
+        android:onClick="@{(v)-> userActionListener.openReAnswers(letter,answer)}"
         android:elevation="5dp"
         >
         <ImageView

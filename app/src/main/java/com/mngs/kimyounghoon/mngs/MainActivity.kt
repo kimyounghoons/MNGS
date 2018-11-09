@@ -3,7 +3,6 @@ package com.mngs.kimyounghoon.mngs
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import com.google.gson.GsonBuilder
 import com.mngs.kimyounghoon.mngs.answerletter.AnswerFragment
 import com.mngs.kimyounghoon.mngs.answers.AnswersFragment
@@ -13,6 +12,7 @@ import com.mngs.kimyounghoon.mngs.databinding.ActivityMainBinding
 import com.mngs.kimyounghoon.mngs.home.HomeFragment
 import com.mngs.kimyounghoon.mngs.letterdetail.DetailLetterFragment
 import com.mngs.kimyounghoon.mngs.login.LoginFragment
+import com.mngs.kimyounghoon.mngs.reanswer.ReAnswerFragment
 import com.mngs.kimyounghoon.mngs.reanswers.ReAnswersFragment
 import com.mngs.kimyounghoon.mngs.signup.SignupFragment
 
@@ -74,10 +74,17 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
 
     }
 
-    override fun openReAnswers(answer: Answer) {
+    override fun openReAnswer(answer : Answer) {
         val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonAnswer = gson.toJson(answer)
+        supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswerFragment.newInstance(jsonAnswer)).addToBackStack(null).commit()
+    }
+
+    override fun openReAnswers(letter : Letter,answer: Answer) {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonLetter = gson.toJson(letter)
         val jsonAnswer= gson.toJson(answer)
-        supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonAnswer)).addToBackStack(null).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonLetter,jsonAnswer)).addToBackStack(null).commit()
     }
 
     override fun onBackPressed() {
