@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/letter_id"
+    <data>
+
+        <variable
+            name="linearLayoutManager"
+            type="android.support.v7.widget.LinearLayoutManager"/>
+
+        <variable
+            name="viewModel"
+            type="com.mngs.kimyounghoon.mngs.reanswers.ReAnswersViewModel" />
+
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/letter_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/letter_id"/>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onRefreshReAnswers="@{viewModel}"
+            app:refreshingReAnswers="@{viewModel.refreshing.get()}">
 
-    <TextView
-        android:id="@+id/answer_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/letter_content"/>
-
-    <TextView
-        android:id="@+id/answer_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/answer_id"/>
-
-</android.support.constraint.ConstraintLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onScrollReAnswers="@{viewModel}"
+                app:layoutManager="@{linearLayoutManager}"
+                bind:reAnswers="@{viewModel.items.get()}"
+                bind:prevReAnswers="@{viewModel.prevItemSize.get()}"
+                bind:isAllLoadedReAnswers="@{viewModel.isAllLoaded().get()}"
+                />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

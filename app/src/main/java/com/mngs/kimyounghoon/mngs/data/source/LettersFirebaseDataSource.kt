@@ -14,6 +14,7 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTERS
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTER_ID
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LIMIT_PAGE
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.REANSWER
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.TIME
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
@@ -22,13 +23,16 @@ object LettersFirebaseDataSource : LettersDataSource {
     private val lettersCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(LETTERS).collection(LETTERS)
     private lateinit var letterDocumentReference: DocumentReference
 
-    private val loadLettersCollection = lettersCollection.whereEqualTo(HAS_ANSWER, false).limit(LIMIT_PAGE)
+    private val loadLettersCollection = lettersCollection.whereEqualTo(HAS_ANSWER, false).orderBy(TIME,Query.Direction.DESCENDING).limit(LIMIT_PAGE)
 
     private val answerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(ANSWER).collection(ANSWER)
     private lateinit var answerDocumentReference: DocumentReference
 
     private val reAnswerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(REANSWER).collection(REANSWER)
     private lateinit var reAnswerDocumentReference: DocumentReference
+
+    private lateinit var loadReAnswersQuery : Query
+    private var reAnswersLoadMoreQuery: Query? = null
 
     private lateinit var loadAnswersQuery : Query
     private var answersLoadMoreQuery: Query? = null
@@ -90,8 +94,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {
-        loadLettersCollection
-                .get().addOnSuccessListener {
+        loadLettersCollection.get().addOnSuccessListener {
 
                     val letters: ArrayList<Letter> = ArrayList()
                     for (doc in it.documents) {
@@ -113,7 +116,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreLetters(callback: LettersDataSource.LoadMoreLettersCallback) {
-        loadMoreQuery?.get()?.addOnSuccessListener {
+        loadMoreQuery?.orderBy(TIME,Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
 
             val letters: ArrayList<Letter> = ArrayList()
             for (doc in it.documents) {
@@ -137,7 +140,7 @@ object LettersFirebaseDataSource : LettersDataSource {
 
     override fun loadInBox(callback: LettersDataSource.LoadLettersCallback) {
         inboxCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters").whereEqualTo("userId", FirebaseAuth.getInstance().uid)
-        inboxCollection!!.limit(10)
+        inboxCollection!!.orderBy(TIME,Query.Direction.DESCENDING).limit(10)
                 .get().addOnSuccessListener {
 
                     val letters: ArrayList<Letter> = ArrayList()
@@ -160,7 +163,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreInBox(callback: LettersDataSource.LoadMoreLettersCallback) {
-        loadMoreInboxQuery?.get()?.addOnSuccessListener {
+        loadMoreInboxQuery?.orderBy(TIME,Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
 
             val letters: ArrayList<Letter> = ArrayList()
             for (doc in it.documents) {
@@ -183,8 +186,8 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadAnswers(letterId: String, callback: LettersDataSource.LoadAnswersCallback) {
-        loadAnswersQuery = answerCollection.whereEqualTo(LETTER_ID, letterId).limit(10)
-        loadAnswersQuery.get().addOnSuccessListener {
+        loadAnswersQuery = answerCollection.whereEqualTo(LETTER_ID, letterId).limit(Constants.LIMIT_PAGE)
+        loadAnswersQuery.orderBy(TIME,Query.Direction.DESCENDING).get().addOnSuccessListener {
 
             val answers: ArrayList<Answer> = ArrayList()
             for (doc in it.documents) {
@@ -207,7 +210,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
-        answersLoadMoreQuery?.get()?.addOnSuccessListener {
+        answersLoadMoreQuery?.orderBy(TIME,Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
 
             val answers: ArrayList<Answer> = ArrayList()
             for (doc in it.documents) {
@@ -229,4 +232,51 @@ object LettersFirebaseDataSource : LettersDataSource {
         }
     }
 
+
+    override fun loadReAnswers(letterId: String, callback: LettersDataSource.LoadReAnswersCallback) {
+        loadReAnswersQuery = reAnswerCollection.whereEqualTo(LETTER_ID, letterId).orderBy(TIME,Query.Direction.DESCENDING).limit(Constants.LIMIT_PAGE)
+        loadReAnswersQuery.get().addOnSuccessListener {
+
+            val reAnswers: ArrayList<ReAnswer> = ArrayList()
+            for (doc in it.documents) {
+                val reAnswer= doc.toObject(ReAnswer::class.java)
+                reAnswer?.apply {
+                    reAnswers.add(this)
+                }
+            }
+            if (reAnswers.size >= 0) {
+                callback.onReAnswersLoaded(reAnswers)
+            }
+
+            if (it.documents.size > 0) {
+                val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
+                reAnswersLoadMoreQuery = loadReAnswersQuery.startAfter(lastVisible).limit(LIMIT_PAGE)
+            }
+        }.addOnFailureListener {
+            callback.onFailedToLoadReAnswers()
+        }
+    }
+
+    override fun loadMoreReAnswers(callback: LettersDataSource.LoadMoreReAnswersCallback) {
+        reAnswersLoadMoreQuery?.orderBy(TIME,Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
+
+            val reAnswers: ArrayList<ReAnswer> = ArrayList()
+            for (doc in it.documents) {
+                val reAnswer = doc.toObject(ReAnswer::class.java)
+                reAnswer?.apply {
+                    reAnswers.add(this)
+                }
+            }
+            if (reAnswers.size >= 0) {
+                callback.onReAnswersMoreLoaded(reAnswers)
+            }
+
+            if (it.documents.size > 0) {
+                val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
+                reAnswersLoadMoreQuery = reAnswersLoadMoreQuery!!.startAfter(lastVisible).limit(LIMIT_PAGE)
+            }
+        }?.addOnFailureListener {
+            callback.onFailedToLoadMoreReAnswers()
+        }
+    }
 }

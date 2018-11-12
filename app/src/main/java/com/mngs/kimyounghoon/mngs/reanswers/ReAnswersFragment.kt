@@ -2,6 +2,8 @@ package com.mngs.kimyounghoon.mngs.reanswers
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.*
 import com.google.gson.Gson
 import com.mngs.kimyounghoon.mngs.AbstractFragment
@@ -9,12 +11,13 @@ import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.FragmentReanswersBinding
-import kotlinx.android.synthetic.main.fragment_reanswers.*
+import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 
 class ReAnswersFragment : AbstractFragment() {
     lateinit var letter: Letter
     lateinit var answer: Answer
     lateinit var binding: FragmentReanswersBinding
+    lateinit var adapter: ReAnswersAdapter
 
     override fun getTitle(): String = getString(R.string.answers)
 
@@ -44,19 +47,36 @@ class ReAnswersFragment : AbstractFragment() {
         val jsonAnswer = arguments?.getString(ReAnswersFragment.KEY_JSON_ANSWER)
                 ?: throw Exception("must be set jsonAnswer !!")
         answer = Gson().fromJson(jsonAnswer, Answer::class.java)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reanswers, container, false)
         binding.apply {
-            letterId.text = letter.letterId
-            letterContent.text = letter.content
-            answerId.text = answer.answerId
-            answerContent.text = answer.content
+            viewModel = obtainViewModel()
         }
         return binding.root
     }
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setUpAdapter()
+        binding.viewModel?.start(letter.letterId)
+    }
+
+    private fun setUpAdapter() {
+        val viewModel = binding.viewModel
+        if (viewModel != null) {
+            adapter = ReAnswersAdapter(letter,answer)
+            binding.recyclerview.adapter = adapter
+            binding.linearLayoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        } else {
+            Log.w("", "ViewModel not initialized when attempting to set up adapter.")
+        }
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_reanswer, menu)
@@ -72,4 +92,6 @@ class ReAnswersFragment : AbstractFragment() {
             false
         }
     }
+
+    fun obtainViewModel(): ReAnswersViewModel = obtainViewModel(ReAnswersViewModel::class.java)
 }

@@ -1,15 +1,15 @@
-package com.mngs.kimyounghoon.mngs.answers
+package com.mngs.kimyounghoon.mngs.reanswers
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
-import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Constants
+import com.mngs.kimyounghoon.mngs.data.ReAnswer
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
 
-class AnswersViewModel(private val lettersRepository: LettersRepository) : ViewModel() {
+class ReAnswersViewModel (private val lettersRepository : LettersRepository) : ViewModel() {
     companion object {
         const val LOAD_MORE_VISIBLE_THRESHOLD = 4
     }
@@ -18,7 +18,7 @@ class AnswersViewModel(private val lettersRepository: LettersRepository) : ViewM
     val isLoading = ObservableBoolean(false)
     val isDataLoadingError = ObservableBoolean(false)
     internal val toastMessage = SingleLiveEvent<Int>()
-    var items: ObservableField<ArrayList<Answer>> = ObservableField()
+    var items: ObservableField<ArrayList<ReAnswer>> = ObservableField()
     var prevItemSize: ObservableField<Int> = ObservableField(0)
     val empty = ObservableBoolean(false)
     val refreshing = ObservableField<Boolean>(false)
@@ -26,14 +26,14 @@ class AnswersViewModel(private val lettersRepository: LettersRepository) : ViewM
 
     fun start(letterId : String) {
         this.letterId = letterId
-        loadAnswers(true)
+        loadReAnswer(true)
     }
 
-    fun loadAnswers(forceUpdate: Boolean) {
-        loadAnswers(forceUpdate, true)
+    fun loadReAnswer(forceUpdate: Boolean) {
+        loadReAnswer(forceUpdate, true)
     }
 
-    private fun loadAnswers(forceUpdate: Boolean, showLoadingUI: Boolean) {
+    private fun loadReAnswer(forceUpdate: Boolean, showLoadingUI: Boolean) {
         if (showLoadingUI) {
             if (refreshing.get() == false) {
                 refreshing.notifyChange()
@@ -48,43 +48,40 @@ class AnswersViewModel(private val lettersRepository: LettersRepository) : ViewM
             isAllLoaded.set(false)
         }
 
-        lettersRepository.loadAnswers(letterId,object : LettersDataSource.LoadAnswersCallback {
-
-            override fun onAnswersLoaded(answers: List<Answer>) {
-                val lettersToShow: List<Answer> = answers
+        lettersRepository.loadReAnswers(letterId,object : LettersDataSource.LoadReAnswersCallback {
+            override fun onReAnswersLoaded(reAnswers: List<ReAnswer>) {
+                val lettersToShow: List<ReAnswer> = reAnswers
 
                 if (showLoadingUI) {
                     isLoading.set(false)
                 }
                 isDataLoadingError.set(false)
 
-                items.set(lettersToShow as ArrayList<Answer>?)
+                items.set(lettersToShow as ArrayList<ReAnswer>?)
 
                 items.get()?.apply {
                     empty.set(isEmpty())
                 }
 
-                if (answers.size < Constants.LIMIT_PAGE) {
+                if (reAnswers.size < Constants.LIMIT_PAGE) {
                     isAllLoaded.set(true)
                 }
-
             }
 
-            override fun onFailedToLoadAnswers() {
-
+            override fun onFailedToLoadReAnswers() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
-
 
         })
     }
 
-    fun loadMoreAnswers() {
+    fun loadMoreReAnswers() {
 
         isLoading.set(true)
 
-        lettersRepository.loadMoreAnswers(object : LettersDataSource.LoadMoreAnswersCallback{
-            override fun onAnswersMoreLoaded(answers: List<Answer>) {
-                val lettersToShow: List<Answer> = answers
+        lettersRepository.loadMoreReAnswers(object : LettersDataSource.LoadMoreReAnswersCallback{
+            override fun onReAnswersMoreLoaded(reAnswers: List<ReAnswer>) {
+                val lettersToShow: List<ReAnswer> = reAnswers
 
                 isLoading.set(false)
                 isDataLoadingError.set(false)
@@ -96,13 +93,13 @@ class AnswersViewModel(private val lettersRepository: LettersRepository) : ViewM
                     items.notifyChange()
                 }
 
-                if (answers.size < Constants.LIMIT_PAGE) {
+                if (reAnswers.size < Constants.LIMIT_PAGE) {
                     isAllLoaded.set(true)
                 }
-
             }
 
-            override fun onFailedToLoadMoreAnswers() {
+            override fun onFailedToLoadMoreReAnswers() {
+
             }
 
         })

@@ -13,7 +13,7 @@ import com.mngs.kimyounghoon.mngs.databinding.ItemEmptyAnswersBinding
 import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
 import com.mngs.kimyounghoon.mngs.letters.LoadMoreViewHolder
 
-class AnswersAdapter(private val letter : Letter, private val userActionListener: LocateListener, var answers: List<Answer> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
+class AnswersAdapter(private val letter: Letter, private val userActionListener: LocateListener, var answers: List<Answer> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -59,7 +59,7 @@ class AnswersAdapter(private val letter : Letter, private val userActionListener
         if (holder is AnswersViewHolder) {
             val answer: Answer? = answers[position]
             answer?.apply {
-                holder.bind(letter,this, userActionListener)
+                holder.bind(letter, this, userActionListener)
             }
         }
     }

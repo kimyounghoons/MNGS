@@ -30,6 +30,18 @@ interface LettersDataSource {
         fun onFailedToLoadMoreAnswers()
     }
 
+    interface LoadReAnswersCallback {
+        fun onReAnswersLoaded(reAnswers: List<ReAnswer>)
+
+        fun onFailedToLoadReAnswers()
+    }
+
+    interface LoadMoreReAnswersCallback {
+        fun onReAnswersMoreLoaded(reAnswers: List<ReAnswer>)
+
+        fun onFailedToLoadMoreReAnswers()
+    }
+
 
     interface GetLetterCallback {
         fun onLetterLoaded(letter: Letter)
@@ -74,5 +86,9 @@ interface LettersDataSource {
     fun getAnswerId(): String
 
     fun getReAnswerId(): String
+
+    fun loadReAnswers(letterId: String, callback: LoadReAnswersCallback)
+
+    fun loadMoreReAnswers(callback: LoadMoreReAnswersCallback)
 
 }

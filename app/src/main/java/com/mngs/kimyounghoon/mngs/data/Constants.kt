@@ -10,8 +10,11 @@ class Constants {
         const val ANSWER = "answer"
         const val REANSWER = "reAnswer"
         const val LETTER_ID = "letterId"
+        const val TIME = "time"
         const val EMPTY_ITEM = 0
         const val ITEM = 1
         const val LOAD_MORE = 2
+        const val FIRST_ITEM = 111
+        const val SECOND_ITEM = 222
     }
 }

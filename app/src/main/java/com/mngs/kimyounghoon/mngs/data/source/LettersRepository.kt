@@ -5,8 +5,9 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 class LettersRepository(private val lettersDataSource: LettersDataSource) : LettersDataSource {
+
     override fun sendReAnswer(reAnswer: ReAnswer, callback: LettersDataSource.SendLetterCallback) {
-        lettersDataSource.sendReAnswer(reAnswer,callback)
+        lettersDataSource.sendReAnswer(reAnswer, callback)
     }
 
     override fun getReAnswerId(): String {
@@ -41,8 +42,8 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
         lettersDataSource.loadMoreInBox(callback)
     }
 
-    override fun loadAnswers(letterId: String,callback: LettersDataSource.LoadAnswersCallback) {
-        lettersDataSource.loadAnswers(letterId,callback)
+    override fun loadAnswers(letterId: String, callback: LettersDataSource.LoadAnswersCallback) {
+        lettersDataSource.loadAnswers(letterId, callback)
     }
 
     override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
@@ -55,6 +56,14 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
 
     override fun sendLetter(letter: Letter, callback: LettersDataSource.SendLetterCallback) {
         lettersDataSource.sendLetter(letter, callback)
+    }
+
+    override fun loadReAnswers(letterId: String, callback: LettersDataSource.LoadReAnswersCallback) {
+        lettersDataSource.loadReAnswers(letterId, callback)
+    }
+
+    override fun loadMoreReAnswers(callback: LettersDataSource.LoadMoreReAnswersCallback) {
+        lettersDataSource.loadMoreReAnswers(callback)
     }
 
     companion object {
