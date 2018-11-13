@@ -1,6 +1,5 @@
 package com.mngs.kimyounghoon.mngs.reanswers
 
-import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
