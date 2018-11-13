@@ -2,9 +2,7 @@ package com.mngs.kimyounghoon.mngs
 
 import android.databinding.BindingAdapter
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.*
 import com.mngs.kimyounghoon.mngs.RecyclerBaseViewModel.Companion.LOAD_MORE_VISIBLE_THRESHOLD
 import com.mngs.kimyounghoon.mngs.answers.AnswersViewModel
 import com.mngs.kimyounghoon.mngs.data.Answer
@@ -76,11 +74,7 @@ fun RecyclerView.setLayoutManagerWithDecoration(gridSize: Int) {
 }
 
 
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 @BindingAdapter("bind:answers", "bind:prevAnswers")
@@ -143,18 +137,6 @@ fun setIsAllLoadedReAnswers(recyclerView: RecyclerView, isAlloaded: Boolean?) {
     }
 }
 
-@BindingAdapter("android:onRefreshReAnswers")
-fun SwipeRefreshLayout.OnRefreshListener(viewModel: ReAnswersViewModel) {
-    setOnRefreshListener {
-        viewModel.loadReAnswer(true)
-    }
-}
-
-@BindingAdapter("app:refreshingReAnswers")
-fun setSwipeRefreshLayoutReAnswers(swipeRefreshLayout: SwipeRefreshLayout, isRefreshing: Boolean?) {
-    swipeRefreshLayout.isRefreshing = isRefreshing ?: false
-}
-
 @BindingAdapter("android:onScrollReAnswers")
 fun RecyclerView.addOnScrollListenerReAnswers(viewModel: ReAnswersViewModel) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -168,6 +150,14 @@ fun RecyclerView.addOnScrollListenerReAnswers(viewModel: ReAnswersViewModel) {
                 if (adapter != null && !viewModel.isAllLoaded.get() && !viewModel.isLoading.get())
                     viewModel.loadMoreReAnswers()
             }
+
+            val currentPosition = (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+            if (currentPosition > -1) {
+                viewModel.itemPosition.set(currentPosition)
+                viewModel.needNext.set(currentPosition < (viewModel.items.get()?.size ?: 0) + 1)
+            }
         }
     })
+    val snapHelper = PagerSnapHelper()
+    snapHelper.attachToRecyclerView(this)
 }

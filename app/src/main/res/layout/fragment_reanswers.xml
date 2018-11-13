@@ -5,13 +5,20 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="com.mngs.kimyounghoon.mngs.reanswers.ReAnswersFragment" />
+
         <variable
             name="linearLayoutManager"
-            type="android.support.v7.widget.LinearLayoutManager"/>
+            type="android.support.v7.widget.LinearLayoutManager" />
 
         <variable
             name="viewModel"
             type="com.mngs.kimyounghoon.mngs.reanswers.ReAnswersViewModel" />
+
 
     </data>
 
@@ -20,23 +27,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onRefreshReAnswers="@{viewModel}"
-            app:refreshingReAnswers="@{viewModel.refreshing.get()}">
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:onScrollReAnswers="@{viewModel}"
                 app:layoutManager="@{linearLayoutManager}"
-                bind:reAnswers="@{viewModel.items.get()}"
-                bind:prevReAnswers="@{viewModel.prevItemSize.get()}"
                 bind:isAllLoadedReAnswers="@{viewModel.isAllLoaded().get()}"
-                />
-        </android.support.v4.widget.SwipeRefreshLayout>
+                bind:prevReAnswers="@{viewModel.prevItemSize.get()}"
+                bind:reAnswers="@{viewModel.items.get()}" />
+
+        <ImageView
+            android:id="@+id/left_allow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:onClick="@{(v) -> fragment.scrollToPosition(viewModel.itemPosition.get()-1)}"
+            android:src="@drawable/arrow_left"
+            android:visibility="@{viewModel.itemPosition != 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="5dp"/>
+
+        <ImageView
+            android:id="@+id/right_allow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{(v) -> fragment.scrollToPosition(viewModel.itemPosition.get()+1)}"
+            android:src="@drawable/arrow_right"
+            android:visibility="@{viewModel.needNext ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="5dp"/>
+
     </android.support.constraint.ConstraintLayout>
 </layout>

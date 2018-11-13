@@ -10,13 +10,10 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.FIRST_ITEM
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.SECOND_ITEM
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
-import com.mngs.kimyounghoon.mngs.databinding.ItemFirstLetterBinding
-import com.mngs.kimyounghoon.mngs.databinding.ItemLoadMoreBinding
-import com.mngs.kimyounghoon.mngs.databinding.ItemReAnswerBinding
-import com.mngs.kimyounghoon.mngs.databinding.ItemSecondAnswerBinding
+import com.mngs.kimyounghoon.mngs.databinding.*
 import com.mngs.kimyounghoon.mngs.letters.LoadMoreViewHolder
 
-class ReAnswersAdapter(private val letter: Letter, private val answer: Answer, var reanswers: List<ReAnswer> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
+class ReAnswersAdapter(private val letter: Letter, private val answer: Answer,private val binding: FragmentReanswersBinding, var reanswers: List<ReAnswer> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
 
 
     override fun setItems(prevItemSize: Int, reanswers: List<Any>?) {

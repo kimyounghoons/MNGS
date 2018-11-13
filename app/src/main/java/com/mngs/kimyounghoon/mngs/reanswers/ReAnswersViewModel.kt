@@ -3,6 +3,7 @@ package com.mngs.kimyounghoon.mngs.reanswers
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
+import android.databinding.ObservableInt
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
@@ -19,9 +20,10 @@ class ReAnswersViewModel (private val lettersRepository : LettersRepository) : V
     val isDataLoadingError = ObservableBoolean(false)
     internal val toastMessage = SingleLiveEvent<Int>()
     var items: ObservableField<ArrayList<ReAnswer>> = ObservableField()
+    var itemPosition = ObservableInt()
+    var needNext = ObservableBoolean()
     var prevItemSize: ObservableField<Int> = ObservableField(0)
     val empty = ObservableBoolean(false)
-    val refreshing = ObservableField<Boolean>(false)
     lateinit var letterId: String
 
     fun start(letterId : String) {
@@ -35,11 +37,6 @@ class ReAnswersViewModel (private val lettersRepository : LettersRepository) : V
 
     private fun loadReAnswer(forceUpdate: Boolean, showLoadingUI: Boolean) {
         if (showLoadingUI) {
-            if (refreshing.get() == false) {
-                refreshing.notifyChange()
-            } else {
-                refreshing.set(false)
-            }
             isLoading.set(true)
         }
         if (forceUpdate) {

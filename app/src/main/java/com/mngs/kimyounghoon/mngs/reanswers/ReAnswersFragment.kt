@@ -1,5 +1,6 @@
 package com.mngs.kimyounghoon.mngs.reanswers
 
+import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -55,10 +56,10 @@ class ReAnswersFragment : AbstractFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reanswers, container, false)
         binding.apply {
             viewModel = obtainViewModel()
+            fragment = this@ReAnswersFragment
         }
         return binding.root
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -69,9 +70,9 @@ class ReAnswersFragment : AbstractFragment() {
     private fun setUpAdapter() {
         val viewModel = binding.viewModel
         if (viewModel != null) {
-            adapter = ReAnswersAdapter(letter,answer)
+            adapter = ReAnswersAdapter(letter, answer, binding)
             binding.recyclerview.adapter = adapter
-            binding.linearLayoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+            binding.linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         } else {
             Log.w("", "ViewModel not initialized when attempting to set up adapter.")
         }
@@ -94,4 +95,10 @@ class ReAnswersFragment : AbstractFragment() {
     }
 
     fun obtainViewModel(): ReAnswersViewModel = obtainViewModel(ReAnswersViewModel::class.java)
+
+    fun scrollToPosition(position: Int) {
+        if (position >= 0)
+            binding.recyclerview.smoothScrollToPosition(position)
+    }
+
 }
