@@ -234,7 +234,7 @@ object LettersFirebaseDataSource : LettersDataSource {
 
 
     override fun loadReAnswers(letterId: String, callback: LettersDataSource.LoadReAnswersCallback) {
-        loadReAnswersQuery = reAnswerCollection.whereEqualTo(LETTER_ID, letterId).orderBy(TIME,Query.Direction.DESCENDING).limit(Constants.LIMIT_PAGE)
+        loadReAnswersQuery = reAnswerCollection.whereEqualTo(LETTER_ID, letterId).orderBy(TIME,Query.Direction.ASCENDING).limit(Constants.LIMIT_PAGE)
         loadReAnswersQuery.get().addOnSuccessListener {
 
             val reAnswers: ArrayList<ReAnswer> = ArrayList()
@@ -258,7 +258,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreReAnswers(callback: LettersDataSource.LoadMoreReAnswersCallback) {
-        reAnswersLoadMoreQuery?.orderBy(TIME,Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
+        reAnswersLoadMoreQuery?.orderBy(TIME,Query.Direction.ASCENDING)?.get()?.addOnSuccessListener {
 
             val reAnswers: ArrayList<ReAnswer> = ArrayList()
             for (doc in it.documents) {
