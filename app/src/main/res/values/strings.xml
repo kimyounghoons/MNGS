@@ -24,6 +24,7 @@
     <string name ="write_letter">Write Letter</string>
     <string name="mail_box">MailBox</string>
     <string name="sent_mail">SentMail</string>
+    <string name="sent_answers">SentAnswers</string>
 
     <string name="signup">SignUp</string>
     <string name="login">Login</string>

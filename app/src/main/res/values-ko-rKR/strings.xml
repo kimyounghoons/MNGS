@@ -19,6 +19,7 @@
     <string name ="write_letter">편지 쓰기</string>
     <string name="mail_box">사서함</string>
     <string name="sent_mail">보낸편지함</string>
+    <string name="sent_answers">보낸답장함</string>
 
     <string name="signup">회원가입</string>
 
