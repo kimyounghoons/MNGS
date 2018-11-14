@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">NoWorries</string>
     <string name="facebook_app_id" translatable="false">2190898267854451</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb2190898267854451</string>
+    <string name="com.crashlytics.useFirebaseAppId">true</string>
 
 
     <string name="full_app_name">Miracles of the Namiya General Store</string>

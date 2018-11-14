@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.fabric'
+
 android {
     signingConfigs {
         release {
@@ -92,6 +94,10 @@ dependencies {
 
     //version should be same gradle version
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.6@aar') {
+        transitive = true;
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
