@@ -66,6 +66,14 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
         lettersDataSource.loadMoreReAnswers(callback)
     }
 
+    override fun loadSentAnswers(callback: LettersDataSource.LoadAnswersCallback) {
+        lettersDataSource.loadSentAnswers(callback)
+    }
+
+    override fun loadMoreSentAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
+        lettersDataSource.loadMoreSentAnswers(callback)
+    }
+
     companion object {
 
         private var INSTANCE: LettersRepository? = null
