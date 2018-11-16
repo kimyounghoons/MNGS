@@ -89,7 +89,9 @@ class ReAnswersFragment : AbstractFragment() {
         if (viewModel != null) {
             adapter = ReAnswersAdapter(letter, answer, binding)
             binding.recyclerview.adapter = adapter
-            binding.linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            val layoutManager =  LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager.reverseLayout = true
+            binding.linearLayoutManager = layoutManager
         } else {
             Log.w("", "ViewModel not initialized when attempting to set up adapter.")
         }

@@ -15,6 +15,7 @@ import com.mngs.kimyounghoon.mngs.login.LoginFragment
 import com.mngs.kimyounghoon.mngs.reanswer.ReAnswerFragment
 import com.mngs.kimyounghoon.mngs.reanswers.ReAnswersFragment
 import com.mngs.kimyounghoon.mngs.signup.SignupFragment
+import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterFragment
 
 
 class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
@@ -53,6 +54,10 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
 
     override fun openSplash() {
         supportFragmentManager.beginTransaction().replace(R.id.container, SplashFragment.newInstance()).commit()
+    }
+
+    override fun openWriteLetter() {
+        supportFragmentManager.beginTransaction().replace(R.id.container, WriteLetterFragment.newInstance()).addToBackStack(null).commit()
     }
 
     override fun openLetterDetail(letter: Letter) {

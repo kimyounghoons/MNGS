@@ -39,6 +39,10 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
         fragmentHomeBinding.viewPager.adapter = homeFragmentStatePagerAdapter
         fragmentHomeBinding.viewPager.offscreenPageLimit = 2
         fragmentHomeBinding.tabLayout.addOnTabSelectedListener(this)
+
+        fragmentHomeBinding.fabWriteLetter.setOnClickListener {
+            locateListener?.openWriteLetter()
+        }
         return fragmentHomeBinding.root
     }
 

@@ -19,9 +19,7 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
     }
 
     override fun onLetterSended() {
-        if (parentFragment is HomeFragment) {
-            (parentFragment as HomeFragment).selectTab(0)
-        }
+        activity?.supportFragmentManager?.popBackStack()
     }
 
     lateinit var binding: FragmentWriteLetterBinding

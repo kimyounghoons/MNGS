@@ -7,13 +7,14 @@ import com.mngs.kimyounghoon.mngs.BaseRecyclerAdapter
 import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.FIRST_ITEM
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LOAD_MORE
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.SECOND_ITEM
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 import com.mngs.kimyounghoon.mngs.databinding.*
 import com.mngs.kimyounghoon.mngs.letters.LoadMoreViewHolder
 
-class ReAnswersAdapter(private val letter: Letter, private val answer: Answer,private val binding: FragmentReanswersBinding, var reanswers: List<ReAnswer> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
+class ReAnswersAdapter(private val letter: Letter, private val answer: Answer, private val binding: FragmentReanswersBinding, var reanswers: List<ReAnswer> = ArrayList(), var isAllLoaded: Boolean = false) : BaseRecyclerAdapter() {
 
 
     override fun setItems(prevItemSize: Int, reanswers: List<Any>?) {
@@ -25,11 +26,11 @@ class ReAnswersAdapter(private val letter: Letter, private val answer: Answer,pr
 
         reanswers.let {
             this.reanswers = reanswers as List<ReAnswer>
-            notifyItemRangeInserted(2 + prevItemSize + if (isAllLoaded) {
+            notifyItemRangeInserted(prevItemSize + if (isAllLoaded) {
                 0
             } else {
                 1
-            }, reanswers.size + 2 - prevItemSize)
+            }, reanswers.size - prevItemSize)
         }
     }
 
@@ -66,8 +67,8 @@ class ReAnswersAdapter(private val letter: Letter, private val answer: Answer,pr
     }
 
     override fun getItemCount(): Int {
-        return 2 + reanswers.size + if (isAllLoaded) {
-            0
+        return reanswers.size + if (isAllLoaded) {
+            2
         } else {
             1
         }
@@ -75,7 +76,7 @@ class ReAnswersAdapter(private val letter: Letter, private val answer: Answer,pr
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ReAnswerViewHolder) {
-            val reAnswer: ReAnswer? = reanswers[position - 2]
+            val reAnswer: ReAnswer? = reanswers[position]
             reAnswer?.apply {
                 holder.bind(reAnswer)
             }
@@ -83,10 +84,19 @@ class ReAnswersAdapter(private val letter: Letter, private val answer: Answer,pr
     }
 
     override fun getItemViewType(position: Int): Int = when {
-        position == 0 -> FIRST_ITEM
-        position == 1 -> SECOND_ITEM
-        position > 2 + reanswers.size - 1 -> Constants.LOAD_MORE
-        else -> Constants.ITEM
+        position < reanswers.size -> Constants.ITEM
+        position == reanswers.size && !isAllLoaded -> {
+            LOAD_MORE
+        }
+        position == reanswers.size && isAllLoaded -> {
+            SECOND_ITEM
+        }
+        position == reanswers.size + 1 && isAllLoaded -> {
+            FIRST_ITEM
+        }
+        else -> {
+            Constants.ITEM
+        }
     }
 
 
