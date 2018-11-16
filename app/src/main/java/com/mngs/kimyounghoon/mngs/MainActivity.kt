@@ -87,6 +87,14 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
         supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonLetter,jsonAnswer)).addToBackStack(null).commit()
     }
 
+    override fun openReAnswers(answer: Answer) {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonAnswer= gson.toJson(answer)
+
+        supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonAnswer)).addToBackStack(null).commit()
+
+    }
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()

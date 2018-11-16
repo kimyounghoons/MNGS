@@ -22,10 +22,8 @@ class SentAnswersViewModel(private val lettersRepository: LettersRepository) : V
     var prevItemSize: ObservableField<Int> = ObservableField(0)
     val empty = ObservableBoolean(false)
     val refreshing = ObservableField<Boolean>(false)
-    lateinit var letterId: String
 
     fun start() {
-        this.letterId = letterId
         loadSentAnswers(true)
     }
 
@@ -48,7 +46,7 @@ class SentAnswersViewModel(private val lettersRepository: LettersRepository) : V
             isAllLoaded.set(false)
         }
 
-        lettersRepository.loadAnswers(letterId,object : LettersDataSource.LoadAnswersCallback {
+        lettersRepository.loadSentAnswers(object : LettersDataSource.LoadAnswersCallback {
 
             override fun onAnswersLoaded(answers: List<Answer>) {
                 val lettersToShow: List<Answer> = answers
@@ -78,11 +76,11 @@ class SentAnswersViewModel(private val lettersRepository: LettersRepository) : V
         })
     }
 
-    fun loadMoreAnswers() {
+    fun loadMoreSentAnswers() {
 
         isLoading.set(true)
 
-        lettersRepository.loadMoreAnswers(object : LettersDataSource.LoadMoreAnswersCallback{
+        lettersRepository.loadMoreSentAnswers(object : LettersDataSource.LoadMoreAnswersCallback{
             override fun onAnswersMoreLoaded(answers: List<Answer>) {
                 val lettersToShow: List<Answer> = answers
 

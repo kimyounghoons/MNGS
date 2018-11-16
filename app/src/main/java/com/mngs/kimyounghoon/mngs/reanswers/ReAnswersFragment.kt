@@ -1,5 +1,6 @@
 package com.mngs.kimyounghoon.mngs.reanswers
 
+import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -14,7 +15,7 @@ import com.mngs.kimyounghoon.mngs.databinding.FragmentReanswersBinding
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 
 class ReAnswersFragment : AbstractFragment() {
-    lateinit var letter: Letter
+    var letter: Letter? = null
     lateinit var answer: Answer
     lateinit var binding: FragmentReanswersBinding
     lateinit var adapter: ReAnswersAdapter
@@ -34,6 +35,14 @@ class ReAnswersFragment : AbstractFragment() {
             reAnswersFragment.arguments = bundle
             return reAnswersFragment
         }
+
+        fun newInstance(jsonAnswer: String): ReAnswersFragment {
+            val reAnswersFragment = ReAnswersFragment()
+            val bundle = Bundle()
+            bundle.putString(KEY_JSON_ANSWER, jsonAnswer)
+            reAnswersFragment.arguments = bundle
+            return reAnswersFragment
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,12 +50,16 @@ class ReAnswersFragment : AbstractFragment() {
         actionBarListener?.setTitle(getTitle())
 
         val jsonLetter = arguments?.getString(ReAnswersFragment.KEY_JSON_LETTER)
-                ?: throw Exception("must be set jsonLetter !!")
-        letter = Gson().fromJson(jsonLetter, Letter::class.java)
 
         val jsonAnswer = arguments?.getString(ReAnswersFragment.KEY_JSON_ANSWER)
                 ?: throw Exception("must be set jsonAnswer !!")
         answer = Gson().fromJson(jsonAnswer, Answer::class.java)
+
+        if (jsonLetter == null) {
+            obtainViewModel().getLetter(answer.letterId)
+        } else {
+            letter = Gson().fromJson(jsonLetter, Letter::class.java)
+        }
 
     }
 
@@ -57,16 +70,21 @@ class ReAnswersFragment : AbstractFragment() {
             viewModel = obtainViewModel()
             fragment = this@ReAnswersFragment
         }
+        obtainViewModel().hasLetter.observe(this, Observer {
+            if (it != null) {
+                setUpAdapter(it)
+                binding.viewModel?.start(it.letterId)
+            }
+        })
+
+        if(letter!=null){
+            obtainViewModel().hasLetter.value = letter
+        }
+
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setUpAdapter()
-        binding.viewModel?.start(letter.letterId)
-    }
-
-    private fun setUpAdapter() {
+    private fun setUpAdapter(letter : Letter) {
         val viewModel = binding.viewModel
         if (viewModel != null) {
             adapter = ReAnswersAdapter(letter, answer, binding)

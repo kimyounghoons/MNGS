@@ -6,6 +6,7 @@ import android.databinding.ObservableField
 import android.databinding.ObservableInt
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Constants
+import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
@@ -19,6 +20,7 @@ class ReAnswersViewModel (private val lettersRepository : LettersRepository) : V
     val isLoading = ObservableBoolean(false)
     val isDataLoadingError = ObservableBoolean(false)
     internal val toastMessage = SingleLiveEvent<Int>()
+    internal val hasLetter = SingleLiveEvent<Letter>()
     var items: ObservableField<ArrayList<ReAnswer>> = ObservableField()
     var itemPosition = ObservableInt()
     var needNext = ObservableBoolean()
@@ -99,6 +101,18 @@ class ReAnswersViewModel (private val lettersRepository : LettersRepository) : V
 
             }
 
+        })
+    }
+
+    fun getLetter(letterId: String){
+        lettersRepository.getLetter(letterId, object : LettersDataSource.GetLetterCallback{
+            override fun onLetterLoaded(letter: Letter) {
+               hasLetter.value = letter
+            }
+
+            override fun onFailedToLoadLetters() {
+
+            }
         })
     }
 

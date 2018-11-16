@@ -20,18 +20,18 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onRefreshAnswers="@{viewModel}"
-            app:refreshingAnswers="@{viewModel.refreshing.get()}">
+            android:onRefreshSentAnswers="@{viewModel}"
+            app:refreshingSentAnswers="@{viewModel.refreshing.get()}">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onScrollAnswers="@{viewModel}"
-                bind:answers="@{viewModel.items.get()}"
-                bind:isAllLoadedAnswers="@{viewModel.isAllLoaded().get()}"
+                android:onScrollSentAnswers="@{viewModel}"
+                bind:sentAnswers="@{viewModel.items.get()}"
+                bind:isAllLoadedSentAnswers="@{viewModel.isAllLoaded().get()}"
                 bind:layoutManagerWithDecoration="@{2}"
-                bind:prevAnswers="@{viewModel.prevItemSize.get()}" />
+                bind:prevSentAnswers="@{viewModel.prevItemSize.get()}" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

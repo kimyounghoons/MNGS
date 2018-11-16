@@ -91,4 +91,8 @@ interface LettersDataSource {
 
     fun loadMoreReAnswers(callback: LoadMoreReAnswersCallback)
 
+    fun loadSentAnswers(callback: LettersDataSource.LoadAnswersCallback)
+
+    fun loadMoreSentAnswers(callback: LoadMoreAnswersCallback)
+
 }

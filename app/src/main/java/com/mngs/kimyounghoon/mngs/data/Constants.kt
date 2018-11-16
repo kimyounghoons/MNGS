@@ -10,6 +10,7 @@ class Constants {
         const val ANSWER = "answer"
         const val REANSWER = "reAnswer"
         const val LETTER_ID = "letterId"
+        const val ANSWER_USER_ID ="answerUserId"
         const val TIME = "time"
         const val EMPTY_ITEM = 0
         const val ITEM = 1

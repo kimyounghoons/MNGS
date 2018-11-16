@@ -51,7 +51,7 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
     }
 
     override fun getLetter(letterId: String, callBack: LettersDataSource.GetLetterCallback) {
-
+        lettersDataSource.getLetter(letterId,callBack)
     }
 
     override fun sendLetter(letter: Letter, callback: LettersDataSource.SendLetterCallback) {

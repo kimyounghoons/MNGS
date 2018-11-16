@@ -10,7 +10,6 @@ import android.widget.Toast
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentSentAnswerBinding
-import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxAdapter
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
@@ -18,8 +17,6 @@ class SentAnswersFragment : AbstractFragment() {
     override fun getTitle(): String {
         return getString(R.string.sent_answers)
     }
-
-    //todo
 
     lateinit var binding: FragmentSentAnswerBinding
     private lateinit var adapter: SentAnswersAdapter
