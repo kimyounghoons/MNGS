@@ -5,9 +5,9 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.iid.FirebaseInstanceId
 import com.mngs.kimyounghoon.mngs.BuildConfig
-import com.mngs.kimyounghoon.mngs.data.Answer
-import com.mngs.kimyounghoon.mngs.data.Constants
+import com.mngs.kimyounghoon.mngs.data.*
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER_USER_ID
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.HAS_ANSWER
@@ -16,8 +16,8 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTER_ID
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LIMIT_PAGE
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.REANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.TIME
-import com.mngs.kimyounghoon.mngs.data.Letter
-import com.mngs.kimyounghoon.mngs.data.ReAnswer
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.USERS
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.USER_ID
 
 object LettersFirebaseDataSource : LettersDataSource {
 
@@ -45,6 +45,32 @@ object LettersFirebaseDataSource : LettersDataSource {
 
     private var inboxCollection: Query? = null
     private var loadMoreInboxQuery: Query? = null
+
+    override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
+        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).whereEqualTo(USER_ID, userId).get().addOnSuccessListener {
+            if(it.documents.size ==0){
+                callback.onFail()
+            }else {
+                for (doc in it.documents) {
+                    val user = doc.toObject(User::class.java)
+                    user?.apply {
+                        callback.onSuccess(user)
+                    }
+                }
+            }
+        }.addOnFailureListener {
+            callback.onFail()
+        }
+    }
+
+    override fun signup(signupCallBack : LettersDataSource.SignupCallback) {
+        val signupReference = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).document()
+        signupReference.set(User(signupReference.id,FirebaseInstanceId.getInstance().token!!)).addOnSuccessListener {
+            signupCallBack.onSuccess()
+        }.addOnFailureListener {
+            signupCallBack.onFail()
+        }
+    }
 
     override fun getLetterId(): String {
         letterDocumentReference = lettersCollection.document()

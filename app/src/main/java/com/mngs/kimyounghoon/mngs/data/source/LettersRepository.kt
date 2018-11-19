@@ -5,6 +5,13 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 class LettersRepository(private val lettersDataSource: LettersDataSource) : LettersDataSource {
+    override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
+
+    }
+
+    override fun signup(callback: LettersDataSource.SignupCallback) {
+
+    }
 
     override fun sendReAnswer(reAnswer: ReAnswer, callback: LettersDataSource.SendLetterCallback) {
         lettersDataSource.sendReAnswer(reAnswer, callback)

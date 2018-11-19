@@ -13,12 +13,16 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.mngs.kimyounghoon.mngs.data.User
+import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
+import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.databinding.FragmentSplashBinding
 
 class SplashFragment : Fragment() {
     private var locateListener: LocateListener? = null
     private lateinit var fragmentSplashBinding: FragmentSplashBinding
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
+    private lateinit var reference : LettersDataSource
     private lateinit var databaseReference: DatabaseReference
     private var isLogin: Boolean = false
     private var auth: FirebaseAuth? = null
@@ -55,25 +59,23 @@ class SplashFragment : Fragment() {
         super.onCreate(savedInstanceState)
         hideActionBar()
         auth = FirebaseAuth.getInstance()
-        databaseReference = FirebaseDatabase.getInstance().reference
+        reference = LettersFirebaseDataSource
         mAuthListener = FirebaseAuth.AuthStateListener {
             isLogin = true
         }
     }
 
+
     private fun tryHome() {
-        databaseReference.child("users").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(context, "request cancelled", Toast.LENGTH_SHORT).show()
+        reference.getUser(auth?.uid!!, object : LettersDataSource.UserCallback {
+            override fun onSuccess(user: User) {
+                locateListener?.openHome()
             }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.child(auth!!.currentUser!!.uid).exists()) {
-                    locateListener?.openHome()
-                } else {
-                    locateListener?.openSignup()
-                }
+            override fun onFail() {
+              locateListener?.openLogin()
             }
+
         })
     }
 

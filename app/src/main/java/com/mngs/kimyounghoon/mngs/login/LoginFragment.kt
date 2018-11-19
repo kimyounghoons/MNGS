@@ -19,9 +19,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.*
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
+import com.mngs.kimyounghoon.mngs.data.User
+import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
+import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.databinding.FragmentLoginBinding
 import java.util.*
 
@@ -50,17 +53,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
     private lateinit var callbackManager: CallbackManager
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
     private lateinit var fragmentLoginBinding: FragmentLoginBinding
-    private lateinit var databaseReference: DatabaseReference
-
-    override fun onStart() {
-        super.onStart()
-        auth?.addAuthStateListener(mAuthListener)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        auth?.removeAuthStateListener { mAuthListener }
-    }
+    private lateinit var reference: LettersDataSource
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_login, container, false)
@@ -74,7 +67,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
         super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
-        databaseReference = FirebaseDatabase.getInstance().reference
+        reference = LettersFirebaseDataSource
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -99,29 +92,29 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
             }
         })
 
-        mAuthListener = FirebaseAuth.AuthStateListener {
-            val user: FirebaseUser? = it.currentUser
-            if (user != null) {
-                tryHome()
-            } else {
-            }
-        }
-
     }
 
     private fun tryHome() {
-        databaseReference.child("users").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(context, "request cancelled", Toast.LENGTH_SHORT).show()
+        reference.getUser(auth?.uid!!, object : LettersDataSource.UserCallback {
+            override fun onSuccess(user: User) {
+                locateListener?.openHome()
             }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.child(auth!!.currentUser!!.uid).exists()) {
-                    locateListener?.openHome()
-                } else {
-                    locateListener?.openSignup()
-                }
+            override fun onFail() {
+                val lettersDataSource: LettersDataSource = LettersFirebaseDataSource
+                lettersDataSource.signup(object : LettersDataSource.SignupCallback {
+                    override fun onSuccess() {
+                        //가입 성공
+                        locateListener?.openHome()
+                    }
+
+                    override fun onFail() {
+                        //가입 실패
+                    }
+
+                })
             }
+
         })
     }
 

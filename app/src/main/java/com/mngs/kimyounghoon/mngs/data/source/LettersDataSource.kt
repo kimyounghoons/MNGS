@@ -3,8 +3,21 @@ package com.mngs.kimyounghoon.mngs.data.source
 import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
+import com.mngs.kimyounghoon.mngs.data.User
 
 interface LettersDataSource {
+
+    interface UserCallback{
+        fun onSuccess(user: User)
+
+        fun onFail()
+    }
+
+    interface SignupCallback{
+        fun onSuccess()
+
+        fun onFail()
+    }
 
     interface LoadLettersCallback {
         fun onLettersLoaded(letters: List<Letter>)
@@ -94,5 +107,9 @@ interface LettersDataSource {
     fun loadSentAnswers(callback: LettersDataSource.LoadAnswersCallback)
 
     fun loadMoreSentAnswers(callback: LoadMoreAnswersCallback)
+
+    fun signup(callback : SignupCallback)
+
+    fun getUser(userId : String, callback: UserCallback)
 
 }

@@ -6,10 +6,12 @@ class Constants {
         const val HOME = 0
         const val LIMIT_PAGE = 20L
         const val HAS_ANSWER = "hasAnswer"
+        const val USERS = "users"
         const val LETTERS = "letters"
         const val ANSWER = "answer"
         const val REANSWER = "reAnswer"
         const val LETTER_ID = "letterId"
+        const val USER_ID = "userId"
         const val ANSWER_USER_ID ="answerUserId"
         const val TIME = "time"
         const val EMPTY_ITEM = 0
