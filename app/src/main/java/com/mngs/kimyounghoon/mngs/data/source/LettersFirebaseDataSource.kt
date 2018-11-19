@@ -48,9 +48,9 @@ object LettersFirebaseDataSource : LettersDataSource {
 
     override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
         FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).whereEqualTo(USER_ID, userId).get().addOnSuccessListener {
-            if(it.documents.size ==0){
+            if (it.documents.size == 0) {
                 callback.onFail()
-            }else {
+            } else {
                 for (doc in it.documents) {
                     val user = doc.toObject(User::class.java)
                     user?.apply {
@@ -63,9 +63,9 @@ object LettersFirebaseDataSource : LettersDataSource {
         }
     }
 
-    override fun signup(signupCallBack : LettersDataSource.SignupCallback) {
-        val signupReference = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).document()
-        signupReference.set(User(signupReference.id,FirebaseInstanceId.getInstance().token!!)).addOnSuccessListener {
+    override fun signup(signupCallBack: LettersDataSource.SignupCallback) {
+        val uid = FirebaseAuth.getInstance().uid!!
+        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).document(uid).set(User(uid, FirebaseInstanceId.getInstance().token!!)).addOnSuccessListener {
             signupCallBack.onSuccess()
         }.addOnFailureListener {
             signupCallBack.onFail()
