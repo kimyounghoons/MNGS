@@ -7,9 +7,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.iid.FirebaseInstanceId
 import com.mngs.kimyounghoon.mngs.BuildConfig
+import com.mngs.kimyounghoon.mngs.MngsApp.Companion.context
 import com.mngs.kimyounghoon.mngs.data.*
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER_USER_ID
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.FIREBASE_TOKEN
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.HAS_ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTERS
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTER_ID
@@ -18,6 +20,8 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.REANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.TIME
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.USERS
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.USER_ID
+import com.mngs.kimyounghoon.mngs.firebases.FirebasePushDAO
+import com.mngs.kimyounghoon.mngs.models.FirebasePushData
 
 object LettersFirebaseDataSource : LettersDataSource {
 
@@ -45,6 +49,10 @@ object LettersFirebaseDataSource : LettersDataSource {
 
     private var inboxCollection: Query? = null
     private var loadMoreInboxQuery: Query? = null
+
+    override fun sendRefreshToken(token: String) {
+        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).document(FirebaseAuth.getInstance().uid!!).update(FIREBASE_TOKEN, token)
+    }
 
     override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
         FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).whereEqualTo(USER_ID, userId).get().addOnSuccessListener {
@@ -85,9 +93,41 @@ object LettersFirebaseDataSource : LettersDataSource {
     override fun answerLetter(answer: Answer, callBack: LettersDataSource.SendAnswerCallback) {
         answerDocumentReference.set(answer).addOnSuccessListener {
             updateHasAnswer(answer.letterId, callBack)
+            getUser(answer.originUserId, object : LettersDataSource.UserCallback {
+                override fun onSuccess(user: User) {
+                    postFirebasePush(user.firebaseToken, answer)
+                }
+
+                override fun onFail() {
+
+                }
+
+            })
         }.addOnFailureListener {
             callBack.onFailedToSendAnswer()
         }
+    }
+
+    private fun postFirebasePush(firebaseToken: String, answer: Answer) {
+        val notification = HashMap<String, String>()
+        notification.put("title", "답장이 도착했습니다.")
+        notification.put("body", answer.content)
+
+        val data = HashMap<String, String>()
+        data.put("letterId", answer.letterId)
+
+        FirebasePushDAO(context).postPushAnswer(FirebasePushData(firebaseToken, notification, data))
+    }
+
+    private fun postFirebasePush(firebaseToken: String, reAnswer: ReAnswer) {
+        val notification = HashMap<String, String>()
+        notification.put("title", "답장이 도착했습니다.")
+        notification.put("body", reAnswer.content)
+
+        val data = HashMap<String, String>()
+        data.put("letterId", reAnswer.letterId)
+
+        FirebasePushDAO(context).postPushAnswer(FirebasePushData(firebaseToken, notification, data))
     }
 
     private fun updateHasAnswer(letterId: String, callBack: LettersDataSource.SendAnswerCallback) {
@@ -124,6 +164,21 @@ object LettersFirebaseDataSource : LettersDataSource {
     override fun sendReAnswer(reAnswer: ReAnswer, callback: LettersDataSource.SendLetterCallback) {
         reAnswerDocumentReference.set(reAnswer).addOnSuccessListener {
             callback.onLetterSended()
+            val userId: String = if (reAnswer.originUserId == FirebaseAuth.getInstance().uid) {
+                reAnswer.answerUserId
+            } else {
+                reAnswer.originUserId
+            }
+            getUser(userId, object : LettersDataSource.UserCallback {
+                override fun onSuccess(user: User) {
+                    postFirebasePush(user.firebaseToken, reAnswer)
+                }
+
+                override fun onFail() {
+
+                }
+
+            })
         }.addOnFailureListener {
             callback.onFailedToSendLetter()
         }

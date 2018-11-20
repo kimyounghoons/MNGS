@@ -23,7 +23,6 @@ class SplashFragment : Fragment() {
     private lateinit var fragmentSplashBinding: FragmentSplashBinding
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
     private lateinit var reference : LettersDataSource
-    private lateinit var databaseReference: DatabaseReference
     private var isLogin: Boolean = false
     private var auth: FirebaseAuth? = null
 

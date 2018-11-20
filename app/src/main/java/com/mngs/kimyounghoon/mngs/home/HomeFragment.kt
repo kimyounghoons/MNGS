@@ -6,10 +6,12 @@ import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.iid.FirebaseInstanceId
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
-import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
+import com.mngs.kimyounghoon.mngs.firebases.FirebasePushDAO
+import com.mngs.kimyounghoon.mngs.models.FirebasePushData
 
 
 class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
@@ -59,6 +61,7 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
+
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {

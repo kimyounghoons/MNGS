@@ -31,7 +31,7 @@ class ReAnswerViewModel(private val lettersRepository: LettersRepository) : View
     }
 
     fun sendReAnswer(answer : Answer) {
-        lettersRepository.sendReAnswer(ReAnswer(lettersRepository.getReAnswerId(), answer.answerId, answer.letterId,answer.originUserId, FirebaseAuth.getInstance().currentUser!!.uid, content.get()?: Constants.EMPTY, TimeHelper.getCurrentTime()), this)
+        lettersRepository.sendReAnswer(ReAnswer(lettersRepository.getReAnswerId(), answer.answerId, answer.letterId,answer.originUserId, answer.answerUserId, content.get()?: Constants.EMPTY, TimeHelper.getCurrentTime()), this)
         sendLetterCommand.call()
     }
 

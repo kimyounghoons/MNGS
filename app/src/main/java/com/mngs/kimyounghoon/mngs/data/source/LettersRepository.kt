@@ -5,6 +5,10 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 class LettersRepository(private val lettersDataSource: LettersDataSource) : LettersDataSource {
+    override fun sendRefreshToken(token: String) {
+
+    }
+
     override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
 
     }

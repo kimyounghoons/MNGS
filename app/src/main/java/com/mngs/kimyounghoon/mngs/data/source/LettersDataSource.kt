@@ -112,4 +112,6 @@ interface LettersDataSource {
 
     fun getUser(userId : String, callback: UserCallback)
 
+    fun sendRefreshToken(token : String)
+
 }
