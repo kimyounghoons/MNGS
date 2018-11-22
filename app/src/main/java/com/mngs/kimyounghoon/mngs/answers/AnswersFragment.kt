@@ -22,7 +22,6 @@ class AnswersFragment : AbstractFragment() {
 
     override fun getTitle(): String = getString(R.string.answers)
 
-
     companion object {
         private const val KEY_JSON_LETTER = "KEY_JSON_LETTER"
 
@@ -46,7 +45,7 @@ class AnswersFragment : AbstractFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpAdapter()
-        binding.viewModel?.start(letter.letterId)
+        binding.viewModel?.start(letter.id)
     }
 
     private fun setUpAdapter() {

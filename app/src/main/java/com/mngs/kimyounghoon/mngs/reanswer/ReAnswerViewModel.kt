@@ -3,7 +3,6 @@ package com.mngs.kimyounghoon.mngs.reanswer
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
-import com.google.firebase.auth.FirebaseAuth
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Answer
@@ -31,7 +30,7 @@ class ReAnswerViewModel(private val lettersRepository: LettersRepository) : View
     }
 
     fun sendReAnswer(answer : Answer) {
-        lettersRepository.sendReAnswer(ReAnswer(lettersRepository.getReAnswerId(), answer.answerId, answer.letterId,answer.originUserId, answer.answerUserId, content.get()?: Constants.EMPTY, TimeHelper.getCurrentTime()), this)
+        lettersRepository.sendReAnswer(ReAnswer(lettersRepository.getReAnswerId(), answer.id, answer.letterId,answer.originUserId, answer.answerUserId, content.get()?: Constants.EMPTY, TimeHelper.getCurrentTime()), this)
         sendLetterCommand.call()
     }
 

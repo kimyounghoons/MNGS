@@ -73,7 +73,7 @@ class ReAnswersFragment : AbstractFragment() {
         obtainViewModel().hasLetter.observe(this, Observer {
             if (it != null) {
                 setUpAdapter(it)
-                binding.viewModel?.start(it.letterId)
+                binding.viewModel?.start(it.id)
             }
         })
 

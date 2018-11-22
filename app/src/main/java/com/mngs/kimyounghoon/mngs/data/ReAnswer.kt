@@ -1,5 +1,6 @@
 package com.mngs.kimyounghoon.mngs.data
 
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.EMPTY
 import com.mngs.kimyounghoon.mngs.utils.TimeHelper
 
-data class ReAnswer(val reAnswerId: String = "", val answerId: String = "", val letterId: String = "", val originUserId: String = "", val answerUserId: String = "", val content: String = "", val time: Long = TimeHelper.getCurrentTime())
+class ReAnswer(id: String, val answerId: String = EMPTY, val letterId: String = EMPTY, val originUserId: String = EMPTY, val answerUserId: String = EMPTY, val content: String = EMPTY, val time: Long = TimeHelper.getCurrentTime()) : AbstractId(id)

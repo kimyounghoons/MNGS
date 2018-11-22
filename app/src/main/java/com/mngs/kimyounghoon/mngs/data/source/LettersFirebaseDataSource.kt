@@ -6,8 +6,10 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.gson.GsonBuilder
 import com.mngs.kimyounghoon.mngs.BuildConfig
 import com.mngs.kimyounghoon.mngs.MngsApp.Companion.context
+import com.mngs.kimyounghoon.mngs.ModelManager
 import com.mngs.kimyounghoon.mngs.data.*
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER_USER_ID
@@ -114,7 +116,12 @@ object LettersFirebaseDataSource : LettersDataSource {
         notification.put("body", answer.content)
 
         val data = HashMap<String, String>()
-        data.put("letterId", answer.letterId)
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonLetter = gson.toJson(ModelManager.letters[answer.letterId])
+        val jsonAnswer= gson.toJson(answer)
+
+        data["jsonLetter"] = jsonLetter
+        data["jsonAnswer"] = jsonAnswer
 
         FirebasePushDAO(context).postPushAnswer(FirebasePushData(firebaseToken, notification, data))
     }
@@ -125,7 +132,13 @@ object LettersFirebaseDataSource : LettersDataSource {
         notification.put("body", reAnswer.content)
 
         val data = HashMap<String, String>()
-        data.put("letterId", reAnswer.letterId)
+
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonLetter = gson.toJson(ModelManager.letters[reAnswer.letterId])
+        val jsonAnswer= gson.toJson(ModelManager.answers[reAnswer.answerId])
+
+        data["jsonLetter"] = jsonLetter
+        data["jsonAnswer"] = jsonAnswer
 
         FirebasePushDAO(context).postPushAnswer(FirebasePushData(firebaseToken, notification, data))
     }
@@ -197,8 +210,10 @@ object LettersFirebaseDataSource : LettersDataSource {
             for (doc in it.documents) {
                 val letter = doc.toObject(Letter::class.java)
                 letter?.apply {
-                    if (letter.userId != currentUid)
+                    if (letter.userId != currentUid) {
                         letters.add(this)
+                        ModelManager.letters[letter.id] = this
+                    }
                 }
             }
             if (letters.size >= 0) {
@@ -221,6 +236,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 val letter = doc.toObject(Letter::class.java)
                 letter?.apply {
                     letters.add(this)
+                    ModelManager.letters[letter.id] = this
                 }
             }
             if (letters.size >= 0) {
@@ -246,6 +262,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                         val letter = doc.toObject(Letter::class.java)
                         letter?.apply {
                             letters.add(this)
+                            ModelManager.letters[letter.id] = this
                         }
                     }
                     if (letters.size >= 0) {
@@ -268,6 +285,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 val letter = doc.toObject(Letter::class.java)
                 letter?.apply {
                     letters.add(this)
+                    ModelManager.letters[letter.id] = this
                 }
             }
             if (letters.size >= 0) {
@@ -292,6 +310,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 val answer = doc.toObject(Answer::class.java)
                 answer?.apply {
                     answers.add(this)
+                    ModelManager.answers[answer.id] = this
                 }
             }
             if (answers.size >= 0) {
@@ -315,6 +334,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 val answer = doc.toObject(Answer::class.java)
                 answer?.apply {
                     answers.add(this)
+                    ModelManager.answers[answer.id] = this
                 }
             }
             if (answers.size >= 0) {
@@ -340,6 +360,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 val reAnswer = doc.toObject(ReAnswer::class.java)
                 reAnswer?.apply {
                     reAnswers.add(this)
+                    ModelManager.reAnswers[reAnswer.id] = this
                 }
             }
             if (reAnswers.size >= 0) {
@@ -363,6 +384,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 val reAnswer = doc.toObject(ReAnswer::class.java)
                 reAnswer?.apply {
                     reAnswers.add(this)
+                    ModelManager.reAnswers[reAnswer.id] = this
                 }
             }
             if (reAnswers.size >= 0) {
@@ -387,6 +409,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 val answer = doc.toObject(Answer::class.java)
                 answer?.apply {
                     answers.add(this)
+                    ModelManager.answers[answer.id] = this
                 }
             }
             if (answers.size >= 0) {
@@ -410,6 +433,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 val answer = doc.toObject(Answer::class.java)
                 answer?.apply {
                     answers.add(this)
+                    ModelManager.answers[answer.id] = this
                 }
             }
             if (answers.size >= 0) {
