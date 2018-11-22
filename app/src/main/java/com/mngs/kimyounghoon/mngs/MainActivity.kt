@@ -1,12 +1,17 @@
 package com.mngs.kimyounghoon.mngs
 
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mngs.kimyounghoon.mngs.answerletter.AnswerFragment
 import com.mngs.kimyounghoon.mngs.answers.AnswersFragment
 import com.mngs.kimyounghoon.mngs.data.Answer
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.EMPTY
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_ANSWER
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_LETTER
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.databinding.ActivityMainBinding
 import com.mngs.kimyounghoon.mngs.home.HomeFragment
@@ -25,7 +30,23 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        if (intent.extras.getString(JSON_ANSWER)!=null) {
+            val jsonLetter = intent.extras.getString(JSON_LETTER)
+            val jsonAnswer = intent.extras.getString(JSON_ANSWER,EMPTY)
+            if(jsonLetter==null){
+               val answer =  Gson().fromJson(jsonAnswer, Answer::class.java)
+                openReAnswers(answer)
+            }else{
+                openReAnswers(jsonLetter, jsonAnswer)
+            }
+
+            return
+        }
         openSplash()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun hide() {
@@ -74,27 +95,31 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
 
     override fun openAnswers(letter: Letter) {
         val gson = GsonBuilder().setPrettyPrinting().create()
-        val jsonLetter= gson.toJson(letter)
+        val jsonLetter = gson.toJson(letter)
         supportFragmentManager.beginTransaction().replace(R.id.container, AnswersFragment.newInstance(jsonLetter)).addToBackStack(null).commit()
 
     }
 
-    override fun openReAnswer(answer : Answer) {
+    override fun openReAnswer(answer: Answer) {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val jsonAnswer = gson.toJson(answer)
         supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswerFragment.newInstance(jsonAnswer)).addToBackStack(null).commit()
     }
 
-    override fun openReAnswers(letter : Letter,answer: Answer) {
+    override fun openReAnswers(letter: Letter, answer: Answer) {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val jsonLetter = gson.toJson(letter)
-        val jsonAnswer= gson.toJson(answer)
-        supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonLetter,jsonAnswer)).addToBackStack(null).commit()
+        val jsonAnswer = gson.toJson(answer)
+        supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonLetter, jsonAnswer)).addToBackStack(null).commit()
+    }
+
+    fun openReAnswers(jsonLetter: String, jsonAnswer: String) {
+        supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonLetter, jsonAnswer)).addToBackStack(null).commit()
     }
 
     override fun openReAnswers(answer: Answer) {
         val gson = GsonBuilder().setPrettyPrinting().create()
-        val jsonAnswer= gson.toJson(answer)
+        val jsonAnswer = gson.toJson(answer)
 
         supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonAnswer)).addToBackStack(null).commit()
 
@@ -108,4 +133,7 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+    }
 }

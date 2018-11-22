@@ -22,5 +22,7 @@ class Constants {
         const val LOAD_MORE = 2
         const val FIRST_ITEM = 111
         const val SECOND_ITEM = 222
+        const val JSON_LETTER = "jsonLetter"
+        const val JSON_ANSWER = "jsonAnswer"
     }
 }
