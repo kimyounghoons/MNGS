@@ -3,6 +3,7 @@ package com.mngs.kimyounghoon.mngs
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -30,17 +31,29 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        if (intent.extras.getString(JSON_ANSWER)!=null) {
+        if (intent.extras.getString(JSON_ANSWER) != null) {
             val jsonLetter = intent.extras.getString(JSON_LETTER)
-            val jsonAnswer = intent.extras.getString(JSON_ANSWER,EMPTY)
-            if(jsonLetter==null){
-               val answer =  Gson().fromJson(jsonAnswer, Answer::class.java)
-                openReAnswers(answer)
-            }else{
-                openReAnswers(jsonLetter, jsonAnswer)
+            val jsonAnswer = intent.extras.getString(JSON_ANSWER, EMPTY)
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                if (jsonLetter == null) {
+                    val answer = Gson().fromJson(jsonAnswer, Answer::class.java)
+                    openReAnswers(answer)
+                } else {
+                    openReAnswers(jsonLetter, jsonAnswer)
+                }
+                return
+            } else {
+                openHome()
+//                Handler().postDelayed({
+                    if (jsonLetter == null) {
+                        val answer = Gson().fromJson(jsonAnswer, Answer::class.java)
+                        openReAnswers(answer)
+                    } else {
+                        openReAnswers(jsonLetter, jsonAnswer)
+                    }
+//                }, 1000)
+                return
             }
-
-            return
         }
         openSplash()
     }

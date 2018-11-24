@@ -2,16 +2,18 @@ package com.mngs.kimyounghoon.mngs.home
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.iid.FirebaseInstanceId
 import com.mngs.kimyounghoon.mngs.AbstractFragment
+import com.mngs.kimyounghoon.mngs.AccountManager
 import com.mngs.kimyounghoon.mngs.R
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.NEED_REFRESH_TOKEN
+import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
-import com.mngs.kimyounghoon.mngs.firebases.FirebasePushDAO
-import com.mngs.kimyounghoon.mngs.models.FirebasePushData
 
 
 class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
@@ -30,7 +32,7 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        AccountManager.getInstance().refreshFirebaseToken(context)
         homeFragmentStatePagerAdapter = HomeFragmentStatePagerAdapter(childFragmentManager)
     }
 

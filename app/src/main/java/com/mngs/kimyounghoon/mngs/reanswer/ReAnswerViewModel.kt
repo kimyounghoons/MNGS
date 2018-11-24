@@ -1,7 +1,6 @@
 package com.mngs.kimyounghoon.mngs.reanswer
 
 import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
@@ -15,8 +14,6 @@ import com.mngs.kimyounghoon.mngs.utils.TimeHelper
 class ReAnswerViewModel(private val lettersRepository: LettersRepository) : ViewModel(), LettersDataSource.SendLetterCallback {
 
     val content = ObservableField<String>()
-    val completed = ObservableBoolean()
-    val sendLetterCommand = SingleLiveEvent<Void>()
     val sentLetterCommand = SingleLiveEvent<Void>()
     val toastMessage = SingleLiveEvent<Int>()
 
@@ -31,7 +28,7 @@ class ReAnswerViewModel(private val lettersRepository: LettersRepository) : View
 
     fun sendReAnswer(answer : Answer) {
         lettersRepository.sendReAnswer(ReAnswer(lettersRepository.getReAnswerId(), answer.id, answer.letterId,answer.originUserId, answer.answerUserId, content.get()?: Constants.EMPTY, TimeHelper.getCurrentTime()), this)
-        sendLetterCommand.call()
+        showToastMessage(R.string.sending_answer)
     }
 
     private fun showToastMessage(message: Int) {

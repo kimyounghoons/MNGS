@@ -51,9 +51,6 @@ class AnswerFragment : AbstractFragment() {
         }
 
         obtainViewModel().let {
-            it.sendLetterCommand.observe(this, Observer {
-                Toast.makeText(context, "StartToSendLetter", Toast.LENGTH_SHORT).show()
-            })
             it.sentLetterCommand.observe(this, Observer {
                 if (context is FragmentActivity) {
                     (context as FragmentActivity).supportFragmentManager.popBackStackImmediate(HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE)

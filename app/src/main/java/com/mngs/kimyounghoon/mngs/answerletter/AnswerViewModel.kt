@@ -16,8 +16,6 @@ import com.mngs.kimyounghoon.mngs.utils.TimeHelper
 class AnswerViewModel(private val lettersRepository: LettersRepository) : ViewModel(), LettersDataSource.SendAnswerCallback {
 
     val content = ObservableField<String>()
-    val completed = ObservableBoolean()
-    val sendLetterCommand = SingleLiveEvent<Void>()
     val sentLetterCommand = SingleLiveEvent<Void>()
     val toastMessage = SingleLiveEvent<Int>()
 
@@ -32,7 +30,7 @@ class AnswerViewModel(private val lettersRepository: LettersRepository) : ViewMo
 
     fun sendAnswer(letter: Letter) {
         lettersRepository.answerLetter(Answer(lettersRepository.getAnswerId(), letter.id, letter.userId, FirebaseAuth.getInstance().currentUser!!.uid, content.get()?:EMPTY, TimeHelper.getCurrentTime()), this)
-        sendLetterCommand.call()
+        showToastMessage(R.string.sending_answer)
     }
 
     private fun showToastMessage(message: Int) {

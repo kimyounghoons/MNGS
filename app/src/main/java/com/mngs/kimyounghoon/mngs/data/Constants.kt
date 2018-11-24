@@ -12,6 +12,7 @@ class Constants {
         const val LETTERS = "letters"
         const val ANSWER = "answer"
         const val REANSWER = "reAnswer"
+        const val ID = "id"
         const val LETTER_ID = "letterId"
         const val USER_ID = "userId"
         const val ANSWER_USER_ID ="answerUserId"
@@ -24,5 +25,9 @@ class Constants {
         const val SECOND_ITEM = 222
         const val JSON_LETTER = "jsonLetter"
         const val JSON_ANSWER = "jsonAnswer"
+        const val HIGH = "high"
+        const val PRIORITY = "priority"
+        const val CONTENT_AVAILABLE = "content_available"
+        const val NEED_REFRESH_TOKEN = "needRefreshToken"
     }
 }

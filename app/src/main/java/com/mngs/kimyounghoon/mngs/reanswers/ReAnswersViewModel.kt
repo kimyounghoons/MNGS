@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
+import android.util.Log
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.data.Letter
@@ -111,7 +112,6 @@ class ReAnswersViewModel (private val lettersRepository : LettersRepository) : V
             }
 
             override fun onFailedToLoadLetters() {
-
             }
         })
     }

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:name=".MngsApp"
@@ -55,7 +56,7 @@
         </service>
 
         <service
-            android:name="firebases.MyFirebaseInstanceIDService">
+            android:name=".firebases.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
@@ -70,7 +71,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="I'm younghoon"/>
+            android:value="@string/app_name"/>
 
         <!--android:value="@string/default_notification_channel_id"-->
 

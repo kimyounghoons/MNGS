@@ -10,9 +10,6 @@ import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
 
 class SentAnswersViewModel(private val lettersRepository: LettersRepository) : ViewModel() {
-    companion object {
-        const val LOAD_MORE_VISIBLE_THRESHOLD = 4
-    }
 
     val isAllLoaded = ObservableBoolean(false)
     val isLoading = ObservableBoolean(false)

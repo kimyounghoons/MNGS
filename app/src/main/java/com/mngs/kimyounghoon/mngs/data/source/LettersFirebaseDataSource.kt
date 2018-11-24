@@ -13,11 +13,17 @@ import com.mngs.kimyounghoon.mngs.ModelManager
 import com.mngs.kimyounghoon.mngs.data.*
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ANSWER_USER_ID
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.CONTENT_AVAILABLE
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.FIREBASE_TOKEN
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.HAS_ANSWER
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.HIGH
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ID
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_ANSWER
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_LETTER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTERS
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTER_ID
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LIMIT_PAGE
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.PRIORITY
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.REANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.TIME
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.USERS
@@ -57,7 +63,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
-        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).whereEqualTo(USER_ID, userId).get().addOnSuccessListener {
+        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).whereEqualTo(ID, userId).get().addOnSuccessListener {
             if (it.documents.size == 0) {
                 callback.onFail()
             } else {
@@ -115,13 +121,15 @@ object LettersFirebaseDataSource : LettersDataSource {
         notification.put("title", "답장이 도착했습니다.")
         notification.put("body", answer.content)
 
-        val data = HashMap<String, String>()
+        val data = HashMap<String, Any>()
         val gson = GsonBuilder().setPrettyPrinting().create()
         val jsonLetter = gson.toJson(ModelManager.letters[answer.letterId])
         val jsonAnswer= gson.toJson(answer)
 
-        data["jsonLetter"] = jsonLetter
-        data["jsonAnswer"] = jsonAnswer
+        data[JSON_LETTER] = jsonLetter
+        data[JSON_ANSWER] = jsonAnswer
+        data[CONTENT_AVAILABLE] = true
+        data[PRIORITY] = HIGH
 
         FirebasePushDAO(context).postPushAnswer(FirebasePushData(firebaseToken, notification, data))
     }
@@ -131,14 +139,14 @@ object LettersFirebaseDataSource : LettersDataSource {
         notification.put("title", "답장이 도착했습니다.")
         notification.put("body", reAnswer.content)
 
-        val data = HashMap<String, String>()
+        val data = HashMap<String, Any>()
 
         val gson = GsonBuilder().setPrettyPrinting().create()
-        val jsonLetter = gson.toJson(ModelManager.letters[reAnswer.letterId])
         val jsonAnswer= gson.toJson(ModelManager.answers[reAnswer.answerId])
 
-        data["jsonLetter"] = jsonLetter
-        data["jsonAnswer"] = jsonAnswer
+        data[JSON_ANSWER] = jsonAnswer
+        data[CONTENT_AVAILABLE] = true
+        data[PRIORITY] = HIGH
 
         FirebasePushDAO(context).postPushAnswer(FirebasePushData(firebaseToken, notification, data))
     }
@@ -152,7 +160,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun getLetter(letterId: String, callBack: LettersDataSource.GetLetterCallback) {
-        lettersCollection.whereEqualTo(LETTER_ID, letterId).get().addOnSuccessListener {
+        lettersCollection.whereEqualTo(ID, letterId).get().addOnSuccessListener {
 
             val currentUid = FirebaseAuth.getInstance().currentUser!!.uid
             for (doc in it.documents) {

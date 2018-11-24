@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">NoWorries</string>
+    <string name="app_name" translatable="false">TellMe</string>
     <string name="facebook_app_id" translatable="false">2190898267854451</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb2190898267854451</string>
     <string name="com.crashlytics.useFirebaseAppId">true</string>
@@ -14,6 +14,7 @@
     <string name="sending_letter">sending a letter</string>
     <string name="failed_to_send_letter">failed to send a letter</string>
 
+    <string name="sending_answer">sending a answer</string>
     <string name="sended_answer_letter">success to send a answer letter</string>
     <string name="failed_to_send_answer_letter">failed to send a answer letter</string>
 
@@ -37,4 +38,9 @@
     <string name="answers">Answers</string>
 
     <string name="reanswer">ReAnswer</string>
+
+    <string name="priority_max" translatable="false">(PRIORITY_MAX)</string>
+    <string name="priority_high" translatable="false">(PRIORITY_HIGH)</string>
+    <string name="priority_nor" translatable="false">(PRIORITY_NOR)</string>
+    <string name="priority_low" translatable="false">(PRIORITY_LOW)</string>
 </resources>
