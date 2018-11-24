@@ -27,12 +27,12 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.PRIORITY
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.REANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.TIME
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.USERS
-import com.mngs.kimyounghoon.mngs.data.Constants.Companion.USER_ID
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.VERSION
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.VERSION_NAME
 import com.mngs.kimyounghoon.mngs.firebases.FirebasePushDAO
 import com.mngs.kimyounghoon.mngs.models.FirebasePushData
 
 object LettersFirebaseDataSource : LettersDataSource {
-
     private val lettersCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(LETTERS).collection(LETTERS)
     private lateinit var letterDocumentReference: DocumentReference
 
@@ -60,6 +60,17 @@ object LettersFirebaseDataSource : LettersDataSource {
 
     override fun sendRefreshToken(token: String) {
         FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).document(FirebaseAuth.getInstance().uid!!).update(FIREBASE_TOKEN, token)
+    }
+
+    override fun checkVersion(callback: LettersDataSource.VersionCallback) {
+        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(VERSION).collection(VERSION).document(VERSION_NAME).get().addOnSuccessListener {
+            val version = it.toObject(Version::class.java)
+            version?.apply {
+                callback.onSuccess(version)
+            }
+        }.addOnFailureListener {
+            callback.onFailedToGetVersion()
+        }
     }
 
     override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
@@ -124,7 +135,7 @@ object LettersFirebaseDataSource : LettersDataSource {
         val data = HashMap<String, Any>()
         val gson = GsonBuilder().setPrettyPrinting().create()
         val jsonLetter = gson.toJson(ModelManager.letters[answer.letterId])
-        val jsonAnswer= gson.toJson(answer)
+        val jsonAnswer = gson.toJson(answer)
 
         data[JSON_LETTER] = jsonLetter
         data[JSON_ANSWER] = jsonAnswer
@@ -142,7 +153,7 @@ object LettersFirebaseDataSource : LettersDataSource {
         val data = HashMap<String, Any>()
 
         val gson = GsonBuilder().setPrettyPrinting().create()
-        val jsonAnswer= gson.toJson(ModelManager.answers[reAnswer.answerId])
+        val jsonAnswer = gson.toJson(ModelManager.answers[reAnswer.answerId])
 
         data[JSON_ANSWER] = jsonAnswer
         data[CONTENT_AVAILABLE] = true
