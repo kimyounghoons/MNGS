@@ -101,7 +101,7 @@ interface LettersDataSource {
 
     fun getAnswerId(): String
 
-    fun getReAnswerId(): String
+    fun getReAnswerId(answerId : String): String
 
     fun loadReAnswers(letterId: String, callback: LoadReAnswersCallback)
 

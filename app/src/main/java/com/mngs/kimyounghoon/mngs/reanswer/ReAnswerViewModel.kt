@@ -27,7 +27,7 @@ class ReAnswerViewModel(private val lettersRepository: LettersRepository) : View
     }
 
     fun sendReAnswer(answer : Answer) {
-        lettersRepository.sendReAnswer(ReAnswer(lettersRepository.getReAnswerId(), answer.id, answer.letterId,answer.originUserId, answer.answerUserId, content.get()?: Constants.EMPTY, TimeHelper.getCurrentTime()), this)
+        lettersRepository.sendReAnswer(ReAnswer(lettersRepository.getReAnswerId(answer.id), answer.id, answer.letterId,answer.originUserId, answer.answerUserId, content.get()?: Constants.EMPTY, TimeHelper.getCurrentTime()), this)
         showToastMessage(R.string.sending_answer)
     }
 

@@ -43,6 +43,8 @@ object LettersFirebaseDataSource : LettersDataSource {
     private lateinit var answerDocumentReference: DocumentReference
 
     private val reAnswerCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(REANSWER).collection(REANSWER)
+    private val reAnswerCollectionTest = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(ANSWER).collection(ANSWER)
+    private lateinit var reAnswerDocumentReferenceTest: DocumentReference
     private lateinit var reAnswerDocumentReference: DocumentReference
 
     private lateinit var loadReAnswersQuery: Query
@@ -199,7 +201,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun sendReAnswer(reAnswer: ReAnswer, callback: LettersDataSource.SendLetterCallback) {
-        reAnswerDocumentReference.set(reAnswer).addOnSuccessListener {
+        reAnswerDocumentReferenceTest.set(reAnswer).addOnSuccessListener {
             callback.onLetterSended()
             val userId: String = if (reAnswer.originUserId == FirebaseAuth.getInstance().uid) {
                 reAnswer.answerUserId
@@ -221,9 +223,10 @@ object LettersFirebaseDataSource : LettersDataSource {
         }
     }
 
-    override fun getReAnswerId(): String {
-        reAnswerDocumentReference = reAnswerCollection.document()
-        return reAnswerDocumentReference.id
+    override fun getReAnswerId(answerId : String): String {
+        reAnswerDocumentReferenceTest = reAnswerCollectionTest.document(answerId).collection(REANSWER).document()
+//        reAnswerDocumentReference = reAnswerCollection.document()
+        return reAnswerDocumentReferenceTest.id
     }
 
     override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {

@@ -5,6 +5,10 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 class LettersRepository(private val lettersDataSource: LettersDataSource) : LettersDataSource {
+    override fun checkVersion(callback: LettersDataSource.VersionCallback) {
+
+    }
+
     override fun sendRefreshToken(token: String) {
 
     }
@@ -21,8 +25,8 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
         lettersDataSource.sendReAnswer(reAnswer, callback)
     }
 
-    override fun getReAnswerId(): String {
-        return lettersDataSource.getReAnswerId()
+    override fun getReAnswerId(answerId : String): String {
+        return lettersDataSource.getReAnswerId(answerId)
     }
 
     override fun getAnswerId(): String {
