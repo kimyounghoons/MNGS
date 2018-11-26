@@ -18,7 +18,6 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_LETTER
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
-    @SuppressLint("WrongConstant")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 

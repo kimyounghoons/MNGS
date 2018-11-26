@@ -44,14 +44,12 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
                 return
             } else {
                 openHome()
-//                Handler().postDelayed({
                     if (jsonLetter == null) {
                         val answer = Gson().fromJson(jsonAnswer, Answer::class.java)
                         openReAnswers(answer)
                     } else {
                         openReAnswers(jsonLetter, jsonAnswer)
                     }
-//                }, 1000)
                 return
             }
         }
@@ -142,4 +140,31 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.apply {
+            if (intent.extras.getString(JSON_ANSWER) != null) {
+                val jsonLetter = intent.extras.getString(JSON_LETTER)
+                val jsonAnswer = intent.extras.getString(JSON_ANSWER, EMPTY)
+                if (supportFragmentManager.backStackEntryCount > 0) {
+                    if (jsonLetter == null) {
+                        val answer = Gson().fromJson(jsonAnswer, Answer::class.java)
+                        openReAnswers(answer)
+                    } else {
+                        openReAnswers(jsonLetter, jsonAnswer)
+                    }
+                    return
+                } else {
+                    openHome()
+                    if (jsonLetter == null) {
+                        val answer = Gson().fromJson(jsonAnswer, Answer::class.java)
+                        openReAnswers(answer)
+                    } else {
+                        openReAnswers(jsonLetter, jsonAnswer)
+                    }
+                    return
+                }
+            }
+        }
+    }
 }
