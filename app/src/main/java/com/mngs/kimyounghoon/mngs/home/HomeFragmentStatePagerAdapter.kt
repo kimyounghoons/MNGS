@@ -10,6 +10,7 @@ import com.mngs.kimyounghoon.mngs.MngsApp
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.letters.LettersFragment
 import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxFragment
+import com.mngs.kimyounghoon.mngs.sentanswers.ReceiveAnswersFragment
 import com.mngs.kimyounghoon.mngs.sentanswers.SentAnswersFragment
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterFragment
 
@@ -19,13 +20,15 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
     interface Type {
         companion object {
             const val LETTERS: Int = 0
-            const val SENT_ANSWER: Int = 1
-            const val MYINBOX: Int = 2
+            const val RECEIVE_ANSWER : Int = 1
+            const val SENT_ANSWER: Int = 2
+            const val MYINBOX: Int = 3
         }
     }
 
     init {
         fragments.add(LettersFragment.newInstance())
+        fragments.add(ReceiveAnswersFragment.newInstance())
         fragments.add(SentAnswersFragment.newInstance())
         fragments.add(MyInBoxFragment.newInstance())
     }
@@ -41,6 +44,7 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
             Type.LETTERS -> MngsApp.getAppContext().getString(R.string.mail_box)
+            Type.RECEIVE_ANSWER ->  MngsApp.getAppContext().getString(R.string.receive_answers)
             Type.SENT_ANSWER -> MngsApp.getAppContext().getString(R.string.sent_answers)
             else -> {
                 MngsApp.getAppContext().getString(R.string.sent_mail)
@@ -51,6 +55,7 @@ class HomeFragmentStatePagerAdapter(fm: FragmentManager?) : FragmentStatePagerAd
     fun getPageTitleImage(position: Int): Int {
         return when (position) {
             Type.LETTERS -> R.drawable.mailbox
+            Type.RECEIVE_ANSWER -> R.drawable.sent_answer
             Type.SENT_ANSWER -> R.drawable.sent_answer
             else -> {
                 R.drawable.letters

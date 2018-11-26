@@ -24,6 +24,7 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_LETTER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTERS
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LETTER_ID
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LIMIT_PAGE
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.ORIGIN_USER_ID
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.PRIORITY
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.REANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.TIME
@@ -55,6 +56,9 @@ object LettersFirebaseDataSource : LettersDataSource {
 
     private lateinit var loadSentAnswersQuery: Query
     private var loadMoreSentAnswersQuery: Query? = null
+
+    private lateinit var loadReceiveAnswersQuery: Query
+    private var loadMoreReceiveAnswersQuery: Query? = null
 
     private var loadMoreQuery: Query? = null
 
@@ -470,6 +474,55 @@ object LettersFirebaseDataSource : LettersDataSource {
             if (it.documents.size > 0) {
                 val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
                 loadMoreSentAnswersQuery = loadMoreSentAnswersQuery!!.startAfter(lastVisible).limit(LIMIT_PAGE)
+            }
+        }?.addOnFailureListener {
+            callback.onFailedToLoadMoreAnswers()
+        }
+    }
+
+    override fun loadReceiveAnswers(callback: LettersDataSource.LoadAnswersCallback) {
+        loadReceiveAnswersQuery = answerCollection.whereEqualTo(ORIGIN_USER_ID, FirebaseAuth.getInstance().currentUser!!.uid).limit(Constants.LIMIT_PAGE)
+        loadReceiveAnswersQuery.orderBy(TIME, Query.Direction.DESCENDING).get().addOnSuccessListener {
+
+            val answers: ArrayList<Answer> = ArrayList()
+            for (doc in it.documents) {
+                val answer = doc.toObject(Answer::class.java)
+                answer?.apply {
+                    answers.add(this)
+                    ModelManager.answers[answer.id] = this
+                }
+            }
+            if (answers.size >= 0) {
+                callback.onAnswersLoaded(answers)
+            }
+
+            if (it.documents.size > 0) {
+                val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
+                loadMoreSentAnswersQuery = loadSentAnswersQuery.startAfter(lastVisible).limit(LIMIT_PAGE)
+            }
+        }.addOnFailureListener {
+            callback.onFailedToLoadAnswers()
+        }
+    }
+
+    override fun loadMoreReceiveAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
+        loadMoreReceiveAnswersQuery?.get()?.addOnSuccessListener {
+
+            val answers: ArrayList<Answer> = ArrayList()
+            for (doc in it.documents) {
+                val answer = doc.toObject(Answer::class.java)
+                answer?.apply {
+                    answers.add(this)
+                    ModelManager.answers[answer.id] = this
+                }
+            }
+            if (answers.size >= 0) {
+                callback.onAnswersMoreLoaded(answers)
+            }
+
+            if (it.documents.size > 0) {
+                val lastVisible: DocumentSnapshot = it.documents.get(it.size() - 1)
+                loadMoreReceiveAnswersQuery = loadMoreReceiveAnswersQuery!!.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
             callback.onFailedToLoadMoreAnswers()

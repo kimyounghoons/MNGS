@@ -111,6 +111,10 @@ interface LettersDataSource {
 
     fun loadMoreSentAnswers(callback: LoadMoreAnswersCallback)
 
+    fun loadReceiveAnswers(callback: LettersDataSource.LoadAnswersCallback)
+
+    fun loadMoreReceiveAnswers(callback: LoadMoreAnswersCallback)
+
     fun signup(callback : SignupCallback)
 
     fun getUser(userId : String, callback: UserCallback)

@@ -5,6 +5,7 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 class LettersRepository(private val lettersDataSource: LettersDataSource) : LettersDataSource {
+
     override fun checkVersion(callback: LettersDataSource.VersionCallback) {
 
     }
@@ -87,6 +88,14 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
 
     override fun loadMoreSentAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
         lettersDataSource.loadMoreSentAnswers(callback)
+    }
+
+    override fun loadReceiveAnswers(callback: LettersDataSource.LoadAnswersCallback) {
+        lettersDataSource.loadReceiveAnswers(callback)
+    }
+
+    override fun loadMoreReceiveAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
+        lettersDataSource.loadMoreReceiveAnswers(callback)
     }
 
     companion object {

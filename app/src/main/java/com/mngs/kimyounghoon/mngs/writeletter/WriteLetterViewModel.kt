@@ -32,7 +32,7 @@ class WriteLetterViewModel(private val lettersRepository: LettersRepository) : V
     }
 
     fun sendLetter() {
-        lettersRepository.sendLetter(Letter(lettersRepository.getLetterId(), FirebaseAuth.getInstance().currentUser!!.uid, false, title.get()?:EMPTY, content.get()?: EMPTY, TimeHelper.getCurrentTime()), this)
+        lettersRepository.sendLetter(Letter(lettersRepository.getLetterId(), FirebaseAuth.getInstance().currentUser!!.uid, false, false,title.get()?:EMPTY, content.get()?: EMPTY, TimeHelper.getCurrentTime()), this)
         showToastMessage(R.string.sending_letter)
     }
 

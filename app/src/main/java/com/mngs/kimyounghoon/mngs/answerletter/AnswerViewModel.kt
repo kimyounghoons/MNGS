@@ -29,7 +29,7 @@ class AnswerViewModel(private val lettersRepository: LettersRepository) : ViewMo
     }
 
     fun sendAnswer(letter: Letter) {
-        lettersRepository.answerLetter(Answer(lettersRepository.getAnswerId(), letter.id, letter.userId, FirebaseAuth.getInstance().currentUser!!.uid, content.get()?:EMPTY, TimeHelper.getCurrentTime()), this)
+        lettersRepository.answerLetter(Answer(lettersRepository.getAnswerId(), letter.id, letter.userId, FirebaseAuth.getInstance().currentUser!!.uid, false,content.get()?:EMPTY, TimeHelper.getCurrentTime()), this)
         showToastMessage(R.string.sending_answer)
     }
 

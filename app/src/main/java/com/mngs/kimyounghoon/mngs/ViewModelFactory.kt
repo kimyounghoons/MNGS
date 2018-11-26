@@ -13,6 +13,7 @@ import com.mngs.kimyounghoon.mngs.letters.LettersViewModel
 import com.mngs.kimyounghoon.mngs.myinbox.MyInBoxViewModel
 import com.mngs.kimyounghoon.mngs.reanswer.ReAnswerViewModel
 import com.mngs.kimyounghoon.mngs.reanswers.ReAnswersViewModel
+import com.mngs.kimyounghoon.mngs.receiveanswers.ReceiveAnswersViewModel
 import com.mngs.kimyounghoon.mngs.sentanswers.SentAnswersViewModel
 import com.mngs.kimyounghoon.mngs.splash.SplashViewModel
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterViewModel
@@ -42,6 +43,8 @@ class ViewModelFactory private constructor(
                         SentAnswersViewModel(lettersRepository)
                     isAssignableFrom(SplashViewModel::class.java) ->
                         SplashViewModel(lettersRepository)
+                    isAssignableFrom(ReceiveAnswersViewModel::class.java) ->
+                        ReceiveAnswersViewModel(lettersRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

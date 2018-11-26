@@ -14,6 +14,7 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.LOAD_MORE
 import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.ReAnswer
 import com.mngs.kimyounghoon.mngs.reanswers.ReAnswersViewModel
+import com.mngs.kimyounghoon.mngs.receiveanswers.ReceiveAnswersViewModel
 import com.mngs.kimyounghoon.mngs.sentanswers.SentAnswersViewModel
 
 @BindingAdapter("bind:items", "bind:prev")
@@ -210,6 +211,53 @@ fun RecyclerView.addOnScrollListenerSentAnswers(viewModel: SentAnswersViewModel)
             if (totalItemCount - visibleItemCount <= firstVisibleItem + LOAD_MORE_VISIBLE_THRESHOLD) {
                 if (adapter != null && !viewModel.isAllLoaded.get() && !viewModel.isLoading.get())
                     viewModel.loadMoreSentAnswers()
+            }
+        }
+    })
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+@BindingAdapter("bind:receiveAnswers", "bind:prevReceiveAnswers")
+fun setReceiveAnswers(recyclerView: RecyclerView, items: List<Answer>?, prevItemSize: Int) {
+    with(recyclerView.adapter as BaseRecyclerAdapter) {
+        setItems(prevItemSize, items)
+    }
+}
+
+@BindingAdapter("bind:isAllLoadedReceiveAnswers")
+fun setIsAllLoadedReceiveAnswers(recyclerView: RecyclerView, isAlloaded: Boolean?) {
+    with(recyclerView.adapter as BaseRecyclerAdapter) {
+        setIsAllLoaded(isAlloaded ?: false)
+    }
+}
+
+@BindingAdapter("android:onRefreshReceiveAnswers")
+fun SwipeRefreshLayout.OnRefreshListener(viewModel: ReceiveAnswersViewModel) {
+    setOnRefreshListener {
+        viewModel.loadReceiveAnswers(true)
+    }
+}
+
+@BindingAdapter("app:refreshingReceiveAnswers")
+fun setSwipeRefreshLayoutReceiveAnswers(swipeRefreshLayout: SwipeRefreshLayout, isRefreshing: Boolean?) {
+    swipeRefreshLayout.isRefreshing = isRefreshing ?: false
+}
+
+@BindingAdapter("android:onScrollReceiveAnswers")
+fun RecyclerView.addOnScrollListenerReceiveAnswers(viewModel: ReceiveAnswersViewModel) {
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val visibleItemCount = recyclerView!!.childCount
+            val totalItemCount = layoutManager.itemCount
+            val firstVisibleItem = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+
+            if (totalItemCount - visibleItemCount <= firstVisibleItem + LOAD_MORE_VISIBLE_THRESHOLD) {
+                if (adapter != null && !viewModel.isAllLoaded.get() && !viewModel.isLoading.get())
+                    viewModel.loadMoreReceiveAnswers()
             }
         }
     })

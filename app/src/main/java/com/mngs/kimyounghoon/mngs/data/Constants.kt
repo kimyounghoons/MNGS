@@ -16,6 +16,7 @@ class Constants {
         const val LETTER_ID = "letterId"
         const val USER_ID = "userId"
         const val ANSWER_USER_ID ="answerUserId"
+        const val ORIGIN_USER_ID ="originUserId"
         const val TIME = "time"
         const val FIREBASE_TOKEN = "firebaseToken"
         const val EMPTY_ITEM = 0
