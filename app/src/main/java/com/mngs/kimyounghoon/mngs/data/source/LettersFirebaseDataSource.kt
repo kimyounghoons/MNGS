@@ -1,5 +1,6 @@
 package com.mngs.kimyounghoon.mngs.data.source
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -59,7 +60,11 @@ object LettersFirebaseDataSource : LettersDataSource {
     private var loadMoreInboxQuery: Query? = null
 
     override fun sendRefreshToken(token: String) {
-        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).document(FirebaseAuth.getInstance().uid!!).update(FIREBASE_TOKEN, token)
+        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).document(FirebaseAuth.getInstance().uid!!).update(FIREBASE_TOKEN, token).addOnSuccessListener {
+            Log.d("kyh!!!", token)
+        }.addOnFailureListener {
+            Log.d("kyh!!!", "fail")
+        }
     }
 
     override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
@@ -237,7 +242,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreLetters(callback: LettersDataSource.LoadMoreLettersCallback) {
-        loadMoreQuery?.orderBy(TIME, Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
+        loadMoreQuery?.get()?.addOnSuccessListener {
 
             val letters: ArrayList<Letter> = ArrayList()
             for (doc in it.documents) {
@@ -286,7 +291,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreInBox(callback: LettersDataSource.LoadMoreLettersCallback) {
-        loadMoreInboxQuery?.orderBy(TIME, Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
+        loadMoreInboxQuery?.get()?.addOnSuccessListener {
 
             val letters: ArrayList<Letter> = ArrayList()
             for (doc in it.documents) {
@@ -335,7 +340,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
-        answersLoadMoreQuery?.orderBy(TIME, Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
+        answersLoadMoreQuery?.get()?.addOnSuccessListener {
 
             val answers: ArrayList<Answer> = ArrayList()
             for (doc in it.documents) {
@@ -385,7 +390,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreReAnswers(callback: LettersDataSource.LoadMoreReAnswersCallback) {
-        reAnswersLoadMoreQuery?.orderBy(TIME, Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
+        reAnswersLoadMoreQuery?.get()?.addOnSuccessListener {
 
             val reAnswers: ArrayList<ReAnswer> = ArrayList()
             for (doc in it.documents) {
@@ -434,7 +439,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun loadMoreSentAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
-        loadMoreSentAnswersQuery?.orderBy(TIME, Query.Direction.DESCENDING)?.get()?.addOnSuccessListener {
+        loadMoreSentAnswersQuery?.get()?.addOnSuccessListener {
 
             val answers: ArrayList<Answer> = ArrayList()
             for (doc in it.documents) {

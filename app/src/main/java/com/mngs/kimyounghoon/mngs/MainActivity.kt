@@ -58,10 +58,6 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
         openSplash()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun hide() {
         supportActionBar?.hide()
     }
@@ -146,7 +142,4 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-    }
 }

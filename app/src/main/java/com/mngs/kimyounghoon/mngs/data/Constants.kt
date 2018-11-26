@@ -6,7 +6,7 @@ class Constants {
         const val SERVER_KEY = "AAAAIwH5_cw:APA91bGQEJUjtXS6avmxpjFtXmpvECBsaUWAbolS3TIPk0wJdCh7Gmfzn90IcCPL9aGsV_dYFnOckqp_abOZjmzA4ornVA9MLkHJrM2ZghNCc-3yfuYUyJf3eUzxJh-bpAHT6TinpTQG"
         const val EMPTY = ""
         const val HOME = 0
-        const val LIMIT_PAGE = 20L
+        const val LIMIT_PAGE = 10L
         const val HAS_ANSWER = "hasAnswer"
         const val USERS = "users"
         const val LETTERS = "letters"

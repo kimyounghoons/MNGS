@@ -22,18 +22,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        // Check if message contains a notification payload.
         remoteMessage.notification?.apply {
             val intent = Intent(applicationContext, MainActivity::class.java)
             remoteMessage.data?.apply {
                 intent.putExtra(JSON_LETTER, get(JSON_LETTER))
                 intent.putExtra(JSON_ANSWER, get(JSON_ANSWER))
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
 
             val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(getString(R.string.app_name) + getString(R.string.priority_high), getString(R.string.app_name) + getString(R.string.priority_high), NotificationManager.IMPORTANCE_MAX)
+                val channel = NotificationChannel(getString(R.string.app_name) + getString(R.string.priority_high), getString(R.string.app_name) + getString(R.string.priority_high), NotificationManager.IMPORTANCE_HIGH)
                 channel.description = getString(R.string.app_name) + getString(R.string.priority_high)
                 channel.enableLights(true)
                 channel.lightColor = Color.BLUE
@@ -49,13 +50,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 //NotificationManager.IMPORTANCE_LOW : 소리 및 시각적 알림 없음
             }
 
-            val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-            val builder = NotificationCompat.Builder(applicationContext, getString(R.string.app_name))
+            val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val builder = NotificationCompat.Builder(applicationContext, getString(R.string.app_name) + getString(R.string.priority_high))
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(title)
                     .setContentText(body)
                     .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)  // 잠금 화면 시 알림

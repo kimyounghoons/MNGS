@@ -23,11 +23,16 @@ android {
     }
     defaultConfig {
         applicationId "com.mngs.kimyounghoon.mngs"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
