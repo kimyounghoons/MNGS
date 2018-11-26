@@ -1,11 +1,14 @@
 package com.mngs.kimyounghoon.mngs.data.source
 
-import com.mngs.kimyounghoon.mngs.data.Answer
-import com.mngs.kimyounghoon.mngs.data.Letter
-import com.mngs.kimyounghoon.mngs.data.ReAnswer
-import com.mngs.kimyounghoon.mngs.data.User
+import com.mngs.kimyounghoon.mngs.data.*
 
 interface LettersDataSource {
+
+    interface VersionCallback{
+        fun onSuccess(version: Version)
+
+        fun onFailedToGetVersion()
+    }
 
     interface UserCallback{
         fun onSuccess(user: User)
@@ -113,5 +116,7 @@ interface LettersDataSource {
     fun getUser(userId : String, callback: UserCallback)
 
     fun sendRefreshToken(token : String)
+
+    fun checkVersion(callback: LettersDataSource.VersionCallback)
 
 }

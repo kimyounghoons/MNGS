@@ -29,5 +29,7 @@ class Constants {
         const val PRIORITY = "priority"
         const val CONTENT_AVAILABLE = "content_available"
         const val NEED_REFRESH_TOKEN = "needRefreshToken"
+        const val VERSION = "version"
+        const val VERSION_NAME = "versionName"
     }
 }
