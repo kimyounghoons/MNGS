@@ -1,6 +1,5 @@
 package com.mngs.kimyounghoon.mngs.firebases
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -18,6 +17,7 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_ANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.JSON_LETTER
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
@@ -43,10 +43,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 notificationManager.createNotificationChannel(channel)
 
                 //IMPORTANCE
-                //NotificationManager.IMPORTANCE_MAX : 소리 및 팝업 (헤드업 알림)
-                //NotificationManager.IMPORTANCE_HIGH : 소리로 알림
-                //NotificationManager.IMPORTANCE_DEFAULT : 소리 없음
-                //NotificationManager.IMPORTANCE_LOW : 소리 및 시각적 알림 없음
+                //NotificationManager.IMPORTANCE_HIGH :소리 및 팝업 (헤드업 알림)
+                //NotificationManager.IMPORTANCE_DEFAULT : 소리
+                //NotificationManager.IMPORTANCE_LOW : 소리 없음
+                //NotificationManager.IMPORTANCE_MIN : 소리 및 시각적 알림 없음
             }
 
             val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -55,7 +55,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     .setContentTitle(title)
                     .setContentText(body)
                     .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)  // 잠금 화면 시 알림
