@@ -29,6 +29,7 @@ import com.mngs.kimyounghoon.mngs.databinding.FragmentLoginBinding
 import java.util.*
 
 class LoginFragment : AbstractFragment(), LoginNavigator {
+
     override fun getTitle(): String {
         return getString(R.string.login)
     }
@@ -37,14 +38,6 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
         fun newInstance(): LoginFragment {
             return LoginFragment()
         }
-    }
-
-    override fun onFacebookLogin() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"))
-    }
-
-    override fun onGoogleLogin() {
-        signIn()
     }
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
@@ -65,7 +58,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        showActionBar()
         auth = FirebaseAuth.getInstance()
         reference = LettersFirebaseDataSource
 
@@ -166,6 +159,14 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
                     }
 
                 }
+    }
+
+    override fun onFacebookLogin() {
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"))
+    }
+
+    override fun onGoogleLogin() {
+        signIn()
     }
 
 }

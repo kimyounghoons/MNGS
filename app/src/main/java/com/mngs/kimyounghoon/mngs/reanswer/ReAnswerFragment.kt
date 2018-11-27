@@ -14,6 +14,7 @@ import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Constants
 import com.mngs.kimyounghoon.mngs.databinding.FragmentReanswerBinding
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
+import com.mngs.kimyounghoon.mngs.utils.setupProgressDialog
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class ReAnswerFragment : AbstractFragment() {
@@ -65,6 +66,7 @@ class ReAnswerFragment : AbstractFragment() {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
             view.setupToast(this, it.toastMessage, Toast.LENGTH_SHORT)
+            view.setupProgressDialog(this,it.needProgress)
         }
     }
 

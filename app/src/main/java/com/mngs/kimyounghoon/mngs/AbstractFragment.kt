@@ -2,6 +2,7 @@ package com.mngs.kimyounghoon.mngs
 
 import android.content.Context
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 
 abstract class AbstractFragment : Fragment() {
     protected var locateListener: LocateListener? = null
@@ -25,5 +26,17 @@ abstract class AbstractFragment : Fragment() {
     }
 
     abstract fun getTitle(): String
+
+    fun hideActionBar() {
+        if (context is AppCompatActivity) {
+            (context as AppCompatActivity).supportActionBar?.hide()
+        }
+    }
+
+    fun showActionBar() {
+        if (context is AppCompatActivity) {
+            (context as AppCompatActivity).supportActionBar?.show()
+        }
+    }
 
 }

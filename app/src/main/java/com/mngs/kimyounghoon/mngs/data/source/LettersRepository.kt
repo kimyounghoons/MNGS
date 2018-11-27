@@ -6,19 +6,19 @@ import com.mngs.kimyounghoon.mngs.data.ReAnswer
 
 class LettersRepository(private val lettersDataSource: LettersDataSource) : LettersDataSource {
     override fun checkVersion(callback: LettersDataSource.VersionCallback) {
-
+        lettersDataSource.checkVersion(callback)
     }
 
     override fun sendRefreshToken(token: String) {
-
+        lettersDataSource.sendRefreshToken(token)
     }
 
     override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
-
+        lettersDataSource.getUser(userId, callback)
     }
 
     override fun signup(callback: LettersDataSource.SignupCallback) {
-
+        lettersDataSource.signup(callback)
     }
 
     override fun sendReAnswer(reAnswer: ReAnswer, callback: LettersDataSource.SendLetterCallback) {
@@ -66,7 +66,7 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
     }
 
     override fun getLetter(letterId: String, callBack: LettersDataSource.GetLetterCallback) {
-        lettersDataSource.getLetter(letterId,callBack)
+        lettersDataSource.getLetter(letterId, callBack)
     }
 
     override fun sendLetter(letter: Letter, callback: LettersDataSource.SendLetterCallback) {

@@ -4,6 +4,7 @@ import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
 
 interface LocateListener{
+
     fun openLogin()
 
     fun openSplash()

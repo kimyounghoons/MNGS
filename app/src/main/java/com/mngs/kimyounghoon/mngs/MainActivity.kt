@@ -44,12 +44,12 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
                 return
             } else {
                 openHome()
-                    if (jsonLetter == null) {
-                        val answer = Gson().fromJson(jsonAnswer, Answer::class.java)
-                        openReAnswers(answer)
-                    } else {
-                        openReAnswers(jsonLetter, jsonAnswer)
-                    }
+                if (jsonLetter == null) {
+                    val answer = Gson().fromJson(jsonAnswer, Answer::class.java)
+                    openReAnswers(answer)
+                } else {
+                    openReAnswers(jsonLetter, jsonAnswer)
+                }
                 return
             }
         }
@@ -167,4 +167,5 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
             }
         }
     }
+
 }

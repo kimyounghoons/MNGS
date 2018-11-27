@@ -10,6 +10,7 @@ import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.databinding.FragmentWriteLetterBinding
 import com.mngs.kimyounghoon.mngs.home.HomeFragment
 import com.mngs.kimyounghoon.mngs.utils.obtainViewModel
+import com.mngs.kimyounghoon.mngs.utils.setupProgressDialog
 import com.mngs.kimyounghoon.mngs.utils.setupToast
 
 class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
@@ -43,6 +44,7 @@ class WriteLetterFragment : AbstractFragment(), WriteLetterNavigator {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
             view.setupToast(this, it.toastMessage, Toast.LENGTH_SHORT)
+            view.setupProgressDialog(this,it.needProgress)
             it.completed.observe(this, Observer {
                 onLetterSended()
             })

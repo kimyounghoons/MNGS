@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.annotation.IntDef
 import android.support.design.widget.TabLayout
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showActionBar()
         AccountManager.getInstance().refreshFirebaseToken(context)
         homeFragmentStatePagerAdapter = HomeFragmentStatePagerAdapter(childFragmentManager)
     }

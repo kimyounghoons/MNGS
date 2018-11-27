@@ -19,21 +19,24 @@ class WriteLetterViewModel(private val lettersRepository: LettersRepository) : V
     val content = ObservableField<String>()
     val completed = SingleLiveEvent<Boolean>()
     val toastMessage = SingleLiveEvent<Int>()
+    val needProgress = SingleLiveEvent<Boolean>()
 
     override fun onLetterSended() {
         showToastMessage(R.string.sended_letter)
         title.set(EMPTY)
         content.set(EMPTY)
+        needProgress.value = false
         completed.call()
     }
 
     override fun onFailedToSendLetter() {
         showToastMessage(R.string.failed_to_send_letter)
+        needProgress.value = false
     }
 
     fun sendLetter() {
+        needProgress.value = true
         lettersRepository.sendLetter(Letter(lettersRepository.getLetterId(), FirebaseAuth.getInstance().currentUser!!.uid, false, title.get()?:EMPTY, content.get()?: EMPTY, TimeHelper.getCurrentTime()), this)
-        showToastMessage(R.string.sending_letter)
     }
 
     private fun showToastMessage(message: Int) {
