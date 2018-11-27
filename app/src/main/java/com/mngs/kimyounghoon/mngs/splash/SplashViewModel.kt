@@ -12,7 +12,7 @@ class SplashViewModel(private val lettersRepository: LettersRepository) : ViewMo
     val toastMessage = SingleLiveEvent<Int>()
     val popupMessage = SingleLiveEvent<Int>()
     val needProgress = SingleLiveEvent<Boolean>()
-    val tryLoginCommand = SingleLiveEvent<Void>()
+    val tryLoginCommand = SingleLiveEvent<Boolean>()
 
     fun checkVersion() {
         needProgress.value = true
@@ -21,10 +21,10 @@ class SplashViewModel(private val lettersRepository: LettersRepository) : ViewMo
 
     override fun onSuccess(version: Version) {
         if (version.minVersion != BuildConfig.VERSION_NAME) {
-
+            tryLoginCommand.value = false
         } else {
             needProgress.value = false
-            tryLoginCommand.call()
+            tryLoginCommand.value = true
         }
     }
 

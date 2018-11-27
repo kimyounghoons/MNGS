@@ -2,11 +2,11 @@ package com.mngs.kimyounghoon.mngs.splash
 
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +28,7 @@ class SplashFragment : AbstractFragment() {
     }
 
     private lateinit var fragmentSplashBinding: FragmentSplashBinding
+
     companion object {
         fun newInstance(): SplashFragment {
             return SplashFragment()
@@ -57,12 +58,18 @@ class SplashFragment : AbstractFragment() {
 
         })
         obtainViewModel().tryLoginCommand.observe(this, Observer {
-            showActionBar()
-            val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-            if (user != null) {
-                locateListener?.openHome()
-            } else {
-                locateListener?.openLogin()
+            it?.apply {
+                if (it) {
+                    showActionBar()
+                    val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+                    if (user != null) {
+                        locateListener?.openHome()
+                    } else {
+                        locateListener?.openLogin()
+                    }
+                } else {
+                    openMarket()
+                }
             }
         })
         return fragmentSplashBinding.root
@@ -81,5 +88,16 @@ class SplashFragment : AbstractFragment() {
     override fun onDetach() {
         super.onDetach()
         locateListener = null
+    }
+
+    private fun openMarket() {
+        context?.apply {
+            val appPackageName = packageName
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+            } catch (anfe: android.content.ActivityNotFoundException) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+            }
+        }
     }
 }
