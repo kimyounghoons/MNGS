@@ -2,21 +2,20 @@ package com.mngs.kimyounghoon.mngs.home
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.preference.PreferenceManager
+import android.os.Handler
+import android.support.annotation.IntDef
 import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.iid.FirebaseInstanceId
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.AccountManager
 import com.mngs.kimyounghoon.mngs.R
-import com.mngs.kimyounghoon.mngs.data.Constants.Companion.NEED_REFRESH_TOKEN
-import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
 
 
 class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
+
     override fun getTitle(): String {
         return getString(R.string.app_name)
     }
@@ -43,6 +42,7 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
         fragmentHomeBinding.viewPager.adapter = homeFragmentStatePagerAdapter
         fragmentHomeBinding.viewPager.offscreenPageLimit = 2
         fragmentHomeBinding.tabLayout.addOnTabSelectedListener(this)
+        selectTab(0)
 
         fragmentHomeBinding.fabWriteLetter.setOnClickListener {
             locateListener?.openWriteLetter()
@@ -63,7 +63,6 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
-
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -73,7 +72,10 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
         }
     }
 
-    fun selectTab(position: Int) {
-        fragmentHomeBinding.tabLayout.getTabAt(position)?.select()
+    private fun selectTab(position: Int) {
+        Handler().post {
+            fragmentHomeBinding.tabLayout.getTabAt(position)?.select()
+            fragmentHomeBinding.viewPager.currentItem = position
+        }
     }
 }
