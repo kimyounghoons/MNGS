@@ -32,4 +32,7 @@
     <string name="answers">답장들</string>
 
     <string name="reanswer">재답장</string>
+
+    <string name="logout">로그아웃</string>
+    <string name="withdraw">회원탈퇴</string>
 </resources>

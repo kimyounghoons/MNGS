@@ -41,4 +41,7 @@
     <string name="priority_high" translatable="false">(PRIORITY_HIGH)</string>
     <string name="priority_nor" translatable="false">(PRIORITY_NOR)</string>
     <string name="priority_low" translatable="false">(PRIORITY_LOW)</string>
+
+    <string name="logout">logout</string>
+    <string name="withdraw">withdraw</string>
 </resources>

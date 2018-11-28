@@ -2,6 +2,7 @@ package com.mngs.kimyounghoon.mngs.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.util.Linkify
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,15 +19,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.*
-import com.google.firebase.database.DataSnapshot
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.AGREEMENT_URL
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.EMPTY
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.PRIVACY_POLICY_URL
 import com.mngs.kimyounghoon.mngs.data.User
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.databinding.FragmentLoginBinding
 import java.util.*
+import java.util.regex.Pattern
 
 class LoginFragment : AbstractFragment(), LoginNavigator {
 
@@ -52,6 +59,13 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
         val root = inflater.inflate(R.layout.fragment_login, container, false)
         fragmentLoginBinding = FragmentLoginBinding.bind(root).apply {
             fragment = this@LoginFragment
+            this.signupExplainText.apply {
+                val transform = Linkify.TransformFilter { match, url -> EMPTY }
+                val agreeTermsPattern = Pattern.compile("이용약관")
+                val privacyPolicyPattern = Pattern.compile("개인정보 보호정책")
+                Linkify.addLinks(this, agreeTermsPattern, AGREEMENT_URL, null, transform)
+                Linkify.addLinks(this, privacyPolicyPattern, PRIVACY_POLICY_URL, null, transform)
+            }
         }
         return fragmentLoginBinding.root
     }
@@ -151,8 +165,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
         auth?.signInWithCredential(credential)
                 ?.addOnCompleteListener(activity!!) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        val user = auth?.getCurrentUser()
+                        val user = auth?.currentUser
                         tryHome()
                     } else {
                         Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show()

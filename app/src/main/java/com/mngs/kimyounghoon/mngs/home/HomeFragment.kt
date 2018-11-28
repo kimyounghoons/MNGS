@@ -3,12 +3,9 @@ package com.mngs.kimyounghoon.mngs.home
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
-import android.support.annotation.IntDef
 import android.support.design.widget.TabLayout
-import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import com.google.firebase.auth.FirebaseAuth
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.AccountManager
 import com.mngs.kimyounghoon.mngs.R
@@ -32,6 +29,7 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         showActionBar()
         AccountManager.getInstance().refreshFirebaseToken(context)
         homeFragmentStatePagerAdapter = HomeFragmentStatePagerAdapter(childFragmentManager)
@@ -78,6 +76,34 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
         Handler().post {
             fragmentHomeBinding.tabLayout.getTabAt(position)?.select()
             fragmentHomeBinding.viewPager.currentItem = position
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_home, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.menu_logout -> {
+            FirebaseAuth.getInstance().signOut()
+            locateListener?.openLogin()
+            true
+        }
+        R.id.menu_withdraw -> {
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.delete()
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            locateListener?.openLogin()
+                        } else {
+                            //todo 탈퇴 실패
+                        }
+                    }
+            true
+        }
+        else -> {
+            false
         }
     }
 }
