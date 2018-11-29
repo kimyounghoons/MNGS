@@ -8,10 +8,6 @@ import android.widget.Toast
 import com.mngs.kimyounghoon.mngs.ProgressDialogFragment
 import com.mngs.kimyounghoon.mngs.SingleLiveEvent
 
-
-/**
- * Triggers a snackbar message when the value contained by snackbarTaskMessageLiveEvent is modified.
- */
 fun View.setupToast(lifecycleOwner: LifecycleOwner,
                     toastMessageLiveEvent: SingleLiveEvent<Int>, timeLength: Int) {
     toastMessageLiveEvent.observe(lifecycleOwner, Observer { it ->

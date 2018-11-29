@@ -96,16 +96,15 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
         callbackManager = CallbackManager.Factory.create()
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                Log.d("LoginFragment", "FacebookCallback is Success")
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
             override fun onCancel() {
-                Log.d("LoginFragment", "FacebookCallback is Canceled")
+                dismissProgress()
             }
 
             override fun onError(error: FacebookException) {
-                Log.d("LoginFragment", "FacebookCallback is Error")
+                dismissProgress()
             }
         })
 
@@ -114,7 +113,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
     private fun tryHome() {
         reference.getUser(auth?.uid!!, object : LettersDataSource.UserCallback {
             override fun onSuccess(user: User) {
-                needProgress.value =false
+                dismissProgress()
                 locateListener?.openHome()
             }
 
@@ -123,12 +122,12 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
                 lettersDataSource.signup(object : LettersDataSource.SignupCallback {
                     override fun onSuccess() {
                         //가입 성공
-                        needProgress.value =false
+                        dismissProgress()
                         locateListener?.openHome()
                     }
 
                     override fun onFail() {
-                        needProgress.value =false
+                        dismissProgress()
                         //가입 실패
                     }
 
@@ -139,15 +138,13 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
-        needProgress.value =true
         var credential: AuthCredential = FacebookAuthProvider.getCredential(token.getToken())
         auth?.signInWithCredential(credential)?.addOnCompleteListener(activity!!) { task ->
             if (task.isSuccessful) {
-                needProgress.value =false
                 tryHome()
                 Log.d("MainActivity", "연동 성공")
             } else {
-                needProgress.value =false
+                dismissProgress()
                 Log.d("MainActivity", "연동 실패")
             }
         }
@@ -169,13 +166,12 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
                 val account = result.signInAccount
                 firebaseAuthWithGoogle(account!!)
             } else {
-                Log.d("LoginFragment", "google login fail")
+                dismissProgress()
             }
         }
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        needProgress.value =true
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         auth?.signInWithCredential(credential)
                 ?.addOnCompleteListener(activity!!) { task ->
@@ -183,19 +179,28 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
                         val user = auth?.currentUser
                         tryHome()
                     } else {
-                        needProgress.value =false
+                        dismissProgress()
                         Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show()
                     }
-
                 }
     }
 
     override fun onFacebookLogin() {
+        showProgress()
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"))
     }
 
     override fun onGoogleLogin() {
+        showProgress()
         signIn()
+    }
+
+    private fun showProgress(){
+        needProgress.value =true
+    }
+
+    private fun dismissProgress(){
+        needProgress.value =false
     }
 
 }

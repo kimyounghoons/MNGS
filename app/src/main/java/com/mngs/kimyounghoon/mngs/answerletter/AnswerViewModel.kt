@@ -33,7 +33,7 @@ class AnswerViewModel(private val lettersRepository: LettersRepository) : ViewMo
     fun sendAnswer(letter: Letter) {
         needProgress.value = true
         lettersRepository.answerLetter(Answer(lettersRepository.getAnswerId(), letter.id, letter.userId, FirebaseAuth.getInstance().currentUser!!.uid, content.get()
-                ?: EMPTY, TimeHelper.getCurrentTime()), this)
+                ?: EMPTY,false, TimeHelper.getCurrentTime()), this)
     }
 
     private fun showToastMessage(message: Int) {
