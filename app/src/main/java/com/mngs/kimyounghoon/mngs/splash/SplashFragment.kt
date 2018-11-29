@@ -79,7 +79,7 @@ class SplashFragment : AbstractFragment() {
         super.onViewCreated(view, savedInstanceState)
         obtainViewModel().let {
             view.setupToast(this, it.toastMessage, Toast.LENGTH_SHORT)
-            view.setupProgressDialog(this, it.needProgress)
+//            view.setupProgressDialog(this, it.needProgress)
         }
     }
 

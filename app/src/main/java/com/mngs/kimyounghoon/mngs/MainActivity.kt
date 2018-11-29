@@ -2,11 +2,10 @@ package com.mngs.kimyounghoon.mngs
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.os.Build
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
-import android.text.Html
-import android.widget.TextView
+import android.view.View
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mngs.kimyounghoon.mngs.answerletter.AnswerFragment
@@ -24,9 +23,7 @@ import com.mngs.kimyounghoon.mngs.reanswer.ReAnswerFragment
 import com.mngs.kimyounghoon.mngs.reanswers.ReAnswersFragment
 import com.mngs.kimyounghoon.mngs.signup.SignupFragment
 import com.mngs.kimyounghoon.mngs.splash.SplashFragment
-import com.mngs.kimyounghoon.mngs.utils.setupProgressDialog
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterFragment
-import kotlinx.android.synthetic.main.fragment_sent_answer.*
 
 
 class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
@@ -59,6 +56,16 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
             }
         }
         openSplash()
+    }
+
+    fun showQuickGuide() {
+        supportActionBar?.hide()
+        activityMainBinding.guideContainer.visibility = View.VISIBLE
+        activityMainBinding.closeGuideButton.setOnClickListener {
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(getString(R.string.need_guide), false).apply()
+            activityMainBinding.guideContainer.visibility = View.GONE
+            supportActionBar?.show()
+        }
     }
 
     override fun hide() {

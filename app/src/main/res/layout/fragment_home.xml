@@ -36,4 +36,5 @@
             app:layout_constraintBottom_toTopOf="@+id/tab_layout"/>
 
     </android.support.constraint.ConstraintLayout>
+
 </layout>

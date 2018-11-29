@@ -41,4 +41,7 @@
 
     <string name="logout_alert_text">로그아웃 하시겠습니까?</string>
     <string name="withdraw_alert_text">회원 탈퇴 하시겠습니까?</string>
+
+    <string name="guide">가이드</string>
+    <string name="close">닫기</string>
 </resources>

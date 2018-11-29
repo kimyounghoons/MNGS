@@ -3,14 +3,12 @@ package com.mngs.kimyounghoon.mngs.home
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AlertDialog
 import android.view.*
 import com.google.firebase.auth.FirebaseAuth
-import com.mngs.kimyounghoon.mngs.AbstractFragment
-import com.mngs.kimyounghoon.mngs.AccountManager
-import com.mngs.kimyounghoon.mngs.R
-import com.mngs.kimyounghoon.mngs.SingleLiveEvent
+import com.mngs.kimyounghoon.mngs.*
 import com.mngs.kimyounghoon.mngs.databinding.FragmentHomeBinding
 import com.mngs.kimyounghoon.mngs.utils.setupProgressDialog
 
@@ -49,6 +47,11 @@ class HomeFragment : AbstractFragment(), TabLayout.OnTabSelectedListener {
 
         fragmentHomeBinding.fabWriteLetter.setOnClickListener {
             locateListener?.openWriteLetter()
+        }
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(getString(R.string.need_guide), true)) {
+            if(context is MainActivity){
+                (context as MainActivity).showQuickGuide()
+            }
         }
         return fragmentHomeBinding.root
     }
