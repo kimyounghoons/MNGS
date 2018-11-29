@@ -30,6 +30,7 @@ class SplashViewModel(private val lettersRepository: LettersRepository) : ViewMo
 
     override fun onFailedToGetVersion() {
         needProgress.value = false
+        tryLoginCommand.value = true
     }
 
     private fun showToastMessage(message: Int) {

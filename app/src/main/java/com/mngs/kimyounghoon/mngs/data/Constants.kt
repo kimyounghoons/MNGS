@@ -33,5 +33,8 @@ class Constants {
         const val NEED_REFRESH_TOKEN = "needRefreshToken"
         const val VERSION = "version"
         const val VERSION_NAME = "versionName"
+
+        const val AGREEMENT = "이용약관"
+        const val PRIVACY_POLICY = "개인정보 취급방침"
     }
 }

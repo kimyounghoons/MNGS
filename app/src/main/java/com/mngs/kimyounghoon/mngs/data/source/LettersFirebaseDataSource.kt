@@ -68,7 +68,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     }
 
     override fun checkVersion(callback: LettersDataSource.VersionCallback) {
-        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(VERSION).collection(VERSION).document(VERSION_NAME).get().addOnSuccessListener {
+        FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(VERSION).get().addOnSuccessListener {
             val version = it.toObject(Version::class.java)
             version?.apply {
                 callback.onSuccess(version)

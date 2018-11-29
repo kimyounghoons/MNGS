@@ -35,4 +35,10 @@
 
     <string name="logout">로그아웃</string>
     <string name="withdraw">회원탈퇴</string>
+
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+
+    <string name="logout_alert_text">로그아웃 하시겠습니까?</string>
+    <string name="withdraw_alert_text">회원 탈퇴 하시겠습니까?</string>
 </resources>

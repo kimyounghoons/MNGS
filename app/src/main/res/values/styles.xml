@@ -8,7 +8,7 @@
         <!--<item name="colorAccent">@color/sky</item> &lt;!&ndash; 라디오 버튼 , 커서 , 등등 &ndash;&gt;-->
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:textColorPrimary">@color/sky</item> <!-- actionbar text color -->
+        <item name="android:textColorPrimary">@color/colorPrimary</item> <!-- actionbar text color -->
         <!--<item name="actionMenuTextColor">@color/sky</item>-->
     </style>
 

@@ -44,4 +44,10 @@
 
     <string name="logout">logout</string>
     <string name="withdraw">withdraw</string>
+
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+
+    <string name="logout_alert_text">are you sure logout?</string>
+    <string name="withdraw_alert_text">are you sure withdraw?</string>
 </resources>

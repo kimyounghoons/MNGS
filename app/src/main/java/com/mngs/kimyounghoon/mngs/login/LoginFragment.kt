@@ -25,13 +25,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.mngs.kimyounghoon.mngs.AbstractFragment
 import com.mngs.kimyounghoon.mngs.R
+import com.mngs.kimyounghoon.mngs.SingleLiveEvent
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.AGREEMENT
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.AGREEMENT_URL
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.EMPTY
+import com.mngs.kimyounghoon.mngs.data.Constants.Companion.PRIVACY_POLICY
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.PRIVACY_POLICY_URL
 import com.mngs.kimyounghoon.mngs.data.User
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersFirebaseDataSource
 import com.mngs.kimyounghoon.mngs.databinding.FragmentLoginBinding
+import com.mngs.kimyounghoon.mngs.utils.setupProgressDialog
 import java.util.*
 import java.util.regex.Pattern
 
@@ -54,6 +58,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
     private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
     private lateinit var fragmentLoginBinding: FragmentLoginBinding
     private lateinit var reference: LettersDataSource
+    private var needProgress = SingleLiveEvent<Boolean>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_login, container, false)
@@ -61,13 +66,18 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
             fragment = this@LoginFragment
             this.signupExplainText.apply {
                 val transform = Linkify.TransformFilter { match, url -> EMPTY }
-                val agreeTermsPattern = Pattern.compile("이용약관")
-                val privacyPolicyPattern = Pattern.compile("개인정보 보호정책")
+                val agreeTermsPattern = Pattern.compile(AGREEMENT)
+                val privacyPolicyPattern = Pattern.compile(PRIVACY_POLICY)
                 Linkify.addLinks(this, agreeTermsPattern, AGREEMENT_URL, null, transform)
                 Linkify.addLinks(this, privacyPolicyPattern, PRIVACY_POLICY_URL, null, transform)
             }
         }
         return fragmentLoginBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.setupProgressDialog(this,needProgress)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +114,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
     private fun tryHome() {
         reference.getUser(auth?.uid!!, object : LettersDataSource.UserCallback {
             override fun onSuccess(user: User) {
+                needProgress.value =false
                 locateListener?.openHome()
             }
 
@@ -112,10 +123,12 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
                 lettersDataSource.signup(object : LettersDataSource.SignupCallback {
                     override fun onSuccess() {
                         //가입 성공
+                        needProgress.value =false
                         locateListener?.openHome()
                     }
 
                     override fun onFail() {
+                        needProgress.value =false
                         //가입 실패
                     }
 
@@ -126,13 +139,15 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
-
+        needProgress.value =true
         var credential: AuthCredential = FacebookAuthProvider.getCredential(token.getToken())
         auth?.signInWithCredential(credential)?.addOnCompleteListener(activity!!) { task ->
             if (task.isSuccessful) {
+                needProgress.value =false
                 tryHome()
                 Log.d("MainActivity", "연동 성공")
             } else {
+                needProgress.value =false
                 Log.d("MainActivity", "연동 실패")
             }
         }
@@ -160,7 +175,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-
+        needProgress.value =true
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         auth?.signInWithCredential(credential)
                 ?.addOnCompleteListener(activity!!) { task ->
@@ -168,6 +183,7 @@ class LoginFragment : AbstractFragment(), LoginNavigator {
                         val user = auth?.currentUser
                         tryHome()
                     } else {
+                        needProgress.value =false
                         Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show()
                     }
 

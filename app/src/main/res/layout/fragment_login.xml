@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/facebook_login_button"
-            android:text="가입하면 다음에 동의함을 확인하게 됩니다. 이용약관 그리고 다음 내용을 읽고 이해함 : 개인정보 보호정책"
+            android:text="가입하면 다음에 동의함을 확인하게 됩니다. 이용약관 그리고 다음 내용을 읽고 이해함 : 개인정보 취급방침"
             android:textSize="12sp"
             android:gravity="center"
             android:layout_marginStart="100dp"
