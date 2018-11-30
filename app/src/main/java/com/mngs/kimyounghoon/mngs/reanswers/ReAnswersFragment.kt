@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.*
 import com.google.gson.Gson
 import com.mngs.kimyounghoon.mngs.AbstractFragment
+import com.mngs.kimyounghoon.mngs.ModelManager
 import com.mngs.kimyounghoon.mngs.R
 import com.mngs.kimyounghoon.mngs.data.Answer
 import com.mngs.kimyounghoon.mngs.data.Letter
@@ -54,6 +55,8 @@ class ReAnswersFragment : AbstractFragment() {
         val jsonAnswer = arguments?.getString(ReAnswersFragment.KEY_JSON_ANSWER)
                 ?: throw Exception("must be set jsonAnswer !!")
         answer = Gson().fromJson(jsonAnswer, Answer::class.java)
+        ModelManager.answers[answer.id] = answer
+
 
         if (jsonLetter == null) {
             obtainViewModel().getLetter(answer.letterId)
@@ -77,19 +80,19 @@ class ReAnswersFragment : AbstractFragment() {
             }
         })
 
-        if(letter!=null){
+        if (letter != null) {
             obtainViewModel().hasLetter.value = letter
         }
 
         return binding.root
     }
 
-    private fun setUpAdapter(letter : Letter) {
+    private fun setUpAdapter(letter: Letter) {
         val viewModel = binding.viewModel
         if (viewModel != null) {
             adapter = ReAnswersAdapter(letter, answer, binding)
             binding.recyclerview.adapter = adapter
-            val layoutManager =  LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             layoutManager.reverseLayout = true
             binding.linearLayoutManager = layoutManager
         } else {
