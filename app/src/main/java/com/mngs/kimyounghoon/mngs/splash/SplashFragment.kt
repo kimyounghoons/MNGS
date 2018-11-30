@@ -28,6 +28,7 @@ class SplashFragment : AbstractFragment() {
     }
 
     private lateinit var fragmentSplashBinding: FragmentSplashBinding
+    private lateinit var viewModel : SplashViewModel
 
     companion object {
         fun newInstance(): SplashFragment {
@@ -49,37 +50,32 @@ class SplashFragment : AbstractFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentSplashBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_splash, container, false)
-
-        Handler().postDelayed({
-            obtainViewModel().checkVersion()
-        }, 3000)
-
-        obtainViewModel().popupMessage.observe(this, Observer {
-
-        })
-        obtainViewModel().tryLoginCommand.observe(this, Observer {
-            it?.apply {
-                if (it) {
-                    showActionBar()
-                    val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-                    if (user != null) {
-                        locateListener?.openHome()
-                    } else {
-                        locateListener?.openLogin()
-                    }
-                } else {
-                    openMarket()
-                }
-            }
-        })
         return fragmentSplashBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        obtainViewModel().let {
-            view.setupToast(this, it.toastMessage, Toast.LENGTH_SHORT)
-//            view.setupProgressDialog(this, it.needProgress)
+        Handler().postDelayed({
+            viewModel.checkVersion()
+        }, 3000)
+        viewModel = obtainViewModel()
+        viewModel.apply {
+            tryLoginCommand.observe(this@SplashFragment, Observer {
+                it?.apply {
+                    if (it) {
+                        showActionBar()
+                        val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+                        if (user != null) {
+                            locateListener?.openHome()
+                        } else {
+                            locateListener?.openLogin()
+                        }
+                    } else {
+                        openMarket()
+                    }
+                }
+            })
+            view.setupToast(this@SplashFragment, toastMessage, Toast.LENGTH_SHORT)
         }
     }
 
