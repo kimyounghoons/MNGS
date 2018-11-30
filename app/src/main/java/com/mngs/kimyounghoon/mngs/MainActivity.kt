@@ -48,7 +48,9 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
                 openHome()
                 if (jsonLetter == null) {
                     val answer = Gson().fromJson(jsonAnswer, Answer::class.java)
-                    openReAnswers(answer)
+                    answer?.apply {
+                        openReAnswers(answer)
+                    }
                 } else {
                     openReAnswers(jsonLetter, jsonAnswer)
                 }
@@ -132,7 +134,7 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
         supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonLetter, jsonAnswer)).addToBackStack(null).commit()
     }
 
-    fun openReAnswers(jsonLetter: String, jsonAnswer: String) {
+    private fun openReAnswers(jsonLetter: String, jsonAnswer: String) {
         supportFragmentManager.beginTransaction().replace(R.id.container, ReAnswersFragment.newInstance(jsonLetter, jsonAnswer)).addToBackStack(null).commit()
     }
 
