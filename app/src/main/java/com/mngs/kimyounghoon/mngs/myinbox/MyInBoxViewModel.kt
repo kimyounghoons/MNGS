@@ -8,11 +8,11 @@ import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
 
 class MyInBoxViewModel(private val lettersRepository: LettersRepository) : RecyclerBaseViewModel() {
 
-    override fun loadRepositoryLetter(callback: LettersDataSource.LoadLettersCallback) {
+    override fun loadRepositoryItems(callback: LettersDataSource.LoadItemsCallback) {
         lettersRepository.loadInBox(callback)
     }
 
-    override fun loadMoreRepositoryLetter(callback: LettersDataSource.LoadMoreLettersCallback) {
+    override fun loadMoreRepositoryItems(callback: LettersDataSource.LoadMoreItemsCallback) {
         lettersRepository.loadMoreInBox(callback)
     }
 

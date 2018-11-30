@@ -22,42 +22,15 @@ interface LettersDataSource {
         fun onFail()
     }
 
-    interface LoadLettersCallback {
-        fun onLettersLoaded(letters: List<Letter>)
-
-        fun onFailedToLoadLetters()
+    interface LoadItemsCallback {
+        fun onLoaded(items: List<AbstractId>)
+        fun onFailedToLoadItems()
     }
 
-    interface LoadMoreLettersCallback {
-        fun onLettersMoreLoaded(letters: List<Letter>)
-
-        fun onFailedToLoadMoreLetters()
+    interface LoadMoreItemsCallback {
+        fun onMoreLoaded(items: List<AbstractId>)
+        fun onFailedToLoadMoreItems()
     }
-
-    interface LoadAnswersCallback {
-        fun onAnswersLoaded(answers: List<Answer>)
-
-        fun onFailedToLoadAnswers()
-    }
-
-    interface LoadMoreAnswersCallback {
-        fun onAnswersMoreLoaded(answers: List<Answer>)
-
-        fun onFailedToLoadMoreAnswers()
-    }
-
-    interface LoadReAnswersCallback {
-        fun onReAnswersLoaded(reAnswers: List<ReAnswer>)
-
-        fun onFailedToLoadReAnswers()
-    }
-
-    interface LoadMoreReAnswersCallback {
-        fun onReAnswersMoreLoaded(reAnswers: List<ReAnswer>)
-
-        fun onFailedToLoadMoreReAnswers()
-    }
-
 
     interface GetLetterCallback {
         fun onLetterLoaded(letter: Letter)
@@ -77,17 +50,25 @@ interface LettersDataSource {
         fun onFailedToSendAnswer()
     }
 
-    fun loadLetters(callback: LoadLettersCallback)
+    fun loadLetters(callback: LoadItemsCallback)
 
-    fun loadMoreLetters(callback: LoadMoreLettersCallback)
+    fun loadMoreLetters(callback: LoadMoreItemsCallback)
 
-    fun loadInBox(callback: LoadLettersCallback)
+    fun loadInBox(callback: LoadItemsCallback)
 
-    fun loadMoreInBox(callback: LoadMoreLettersCallback)
+    fun loadMoreInBox(callback: LoadMoreItemsCallback)
 
-    fun loadAnswers(letterId: String,callback: LettersDataSource.LoadAnswersCallback)
+    fun loadAnswers(letterId: String,callback: LettersDataSource.LoadItemsCallback)
 
-    fun loadMoreAnswers(callback: LettersDataSource.LoadMoreAnswersCallback)
+    fun loadMoreAnswers(callback: LettersDataSource.LoadMoreItemsCallback)
+
+    fun loadReAnswers(letterId: String, callback: LoadItemsCallback)
+
+    fun loadMoreReAnswers(callback: LoadMoreItemsCallback)
+
+    fun loadSentAnswers(callback: LettersDataSource.LoadItemsCallback)
+
+    fun loadMoreSentAnswers(callback: LoadMoreItemsCallback)
 
     fun getLetter(letterId: String, callBack: GetLetterCallback)
 
@@ -102,14 +83,6 @@ interface LettersDataSource {
     fun getAnswerId(): String
 
     fun getReAnswerId(): String
-
-    fun loadReAnswers(letterId: String, callback: LoadReAnswersCallback)
-
-    fun loadMoreReAnswers(callback: LoadMoreReAnswersCallback)
-
-    fun loadSentAnswers(callback: LettersDataSource.LoadAnswersCallback)
-
-    fun loadMoreSentAnswers(callback: LoadMoreAnswersCallback)
 
     fun signup(callback : SignupCallback)
 

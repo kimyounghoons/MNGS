@@ -226,7 +226,7 @@ object LettersFirebaseDataSource : LettersDataSource {
         return reAnswerDocumentReference.id
     }
 
-    override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {
+    override fun loadLetters(callback: LettersDataSource.LoadItemsCallback) {
         loadLettersCollection.get().addOnSuccessListener {
 
             val letters: ArrayList<Letter> = ArrayList()
@@ -241,18 +241,18 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (letters.size >= 0) {
-                callback.onLettersLoaded(letters)
+                callback.onLoaded(letters)
             }
             if (letters.size > 0) {
                 val lastVisible: DocumentSnapshot = it.documents[it.size() - 1]
                 loadMoreQuery = loadLettersCollection.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }.addOnFailureListener {
-            callback.onFailedToLoadLetters()
+            callback.onFailedToLoadItems()
         }
     }
 
-    override fun loadMoreLetters(callback: LettersDataSource.LoadMoreLettersCallback) {
+    override fun loadMoreLetters(callback: LettersDataSource.LoadMoreItemsCallback) {
         loadMoreQuery?.get()?.addOnSuccessListener {
 
             val letters: ArrayList<Letter> = ArrayList()
@@ -264,7 +264,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (letters.size >= 0) {
-                callback.onLettersMoreLoaded(letters)
+                callback.onMoreLoaded(letters)
             }
 
             if (it.documents.size > 0) {
@@ -272,11 +272,11 @@ object LettersFirebaseDataSource : LettersDataSource {
                 loadMoreQuery = loadLettersCollection.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
-            callback.onFailedToLoadMoreLetters()
+            callback.onFailedToLoadMoreItems()
         }
     }
 
-    override fun loadInBox(callback: LettersDataSource.LoadLettersCallback) {
+    override fun loadInBox(callback: LettersDataSource.LoadItemsCallback) {
         inboxCollection = FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document("letters").collection("letters").whereEqualTo("userId", FirebaseAuth.getInstance().uid)
         inboxCollection!!.orderBy(TIME, Query.Direction.DESCENDING).limit(10)
                 .get().addOnSuccessListener {
@@ -290,18 +290,18 @@ object LettersFirebaseDataSource : LettersDataSource {
                         }
                     }
                     if (letters.size >= 0) {
-                        callback.onLettersLoaded(letters)
+                        callback.onLoaded(letters)
                     }
                     if (letters.size > 0) {
                         val lastVisible: DocumentSnapshot = it.documents[it.size() - 1]
                         loadMoreInboxQuery = inboxCollection!!.startAfter(lastVisible).limit(LIMIT_PAGE)
                     }
                 }.addOnFailureListener {
-                    callback.onFailedToLoadLetters()
+                    callback.onFailedToLoadItems()
                 }
     }
 
-    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreLettersCallback) {
+    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreItemsCallback) {
         loadMoreInboxQuery?.get()?.addOnSuccessListener {
 
             val letters: ArrayList<Letter> = ArrayList()
@@ -313,7 +313,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (letters.size >= 0) {
-                callback.onLettersMoreLoaded(letters)
+                callback.onMoreLoaded(letters)
             }
 
             if (it.documents.size > 0) {
@@ -321,11 +321,11 @@ object LettersFirebaseDataSource : LettersDataSource {
                 loadMoreInboxQuery = inboxCollection!!.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
-            callback.onFailedToLoadMoreLetters()
+            callback.onFailedToLoadMoreItems()
         }
     }
 
-    override fun loadAnswers(letterId: String, callback: LettersDataSource.LoadAnswersCallback) {
+    override fun loadAnswers(letterId: String, callback: LettersDataSource.LoadItemsCallback) {
         loadAnswersQuery = answerCollection.whereEqualTo(LETTER_ID, letterId).limit(Constants.LIMIT_PAGE)
         loadAnswersQuery.orderBy(TIME, Query.Direction.DESCENDING).get().addOnSuccessListener {
 
@@ -338,7 +338,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (answers.size >= 0) {
-                callback.onAnswersLoaded(answers)
+                callback.onLoaded(answers)
             }
 
             if (it.documents.size > 0) {
@@ -346,11 +346,11 @@ object LettersFirebaseDataSource : LettersDataSource {
                 answersLoadMoreQuery = loadAnswersQuery.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }.addOnFailureListener {
-            callback.onFailedToLoadAnswers()
+            callback.onFailedToLoadItems()
         }
     }
 
-    override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
+    override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreItemsCallback) {
         answersLoadMoreQuery?.get()?.addOnSuccessListener {
 
             val answers: ArrayList<Answer> = ArrayList()
@@ -362,7 +362,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (answers.size >= 0) {
-                callback.onAnswersMoreLoaded(answers)
+                callback.onMoreLoaded(answers)
             }
 
             if (it.documents.size > 0) {
@@ -370,12 +370,12 @@ object LettersFirebaseDataSource : LettersDataSource {
                 answersLoadMoreQuery = answersLoadMoreQuery!!.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
-            callback.onFailedToLoadMoreAnswers()
+            callback.onFailedToLoadMoreItems()
         }
     }
 
 
-    override fun loadReAnswers(letterId: String, callback: LettersDataSource.LoadReAnswersCallback) {
+    override fun loadReAnswers(letterId: String, callback: LettersDataSource.LoadItemsCallback) {
         loadReAnswersQuery = reAnswerCollection.whereEqualTo(LETTER_ID, letterId).orderBy(TIME, Query.Direction.DESCENDING).limit(Constants.LIMIT_PAGE)
         loadReAnswersQuery.get().addOnSuccessListener {
 
@@ -388,7 +388,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (reAnswers.size >= 0) {
-                callback.onReAnswersLoaded(reAnswers)
+                callback.onLoaded(reAnswers)
             }
 
             if (it.documents.size > 0) {
@@ -396,11 +396,11 @@ object LettersFirebaseDataSource : LettersDataSource {
                 reAnswersLoadMoreQuery = loadReAnswersQuery.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }.addOnFailureListener {
-            callback.onFailedToLoadReAnswers()
+            callback.onFailedToLoadItems()
         }
     }
 
-    override fun loadMoreReAnswers(callback: LettersDataSource.LoadMoreReAnswersCallback) {
+    override fun loadMoreReAnswers(callback: LettersDataSource.LoadMoreItemsCallback) {
         reAnswersLoadMoreQuery?.get()?.addOnSuccessListener {
 
             val reAnswers: ArrayList<ReAnswer> = ArrayList()
@@ -412,7 +412,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (reAnswers.size >= 0) {
-                callback.onReAnswersMoreLoaded(reAnswers)
+                callback.onMoreLoaded(reAnswers)
             }
 
             if (it.documents.size > 0) {
@@ -420,11 +420,11 @@ object LettersFirebaseDataSource : LettersDataSource {
                 reAnswersLoadMoreQuery = reAnswersLoadMoreQuery!!.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
-            callback.onFailedToLoadMoreReAnswers()
+            callback.onFailedToLoadMoreItems()
         }
     }
 
-    override fun loadSentAnswers(callback: LettersDataSource.LoadAnswersCallback) {
+    override fun loadSentAnswers(callback: LettersDataSource.LoadItemsCallback) {
         loadSentAnswersQuery = answerCollection.whereEqualTo(ANSWER_USER_ID, FirebaseAuth.getInstance().currentUser!!.uid).limit(Constants.LIMIT_PAGE)
         loadSentAnswersQuery.orderBy(TIME, Query.Direction.DESCENDING).get().addOnSuccessListener {
 
@@ -437,7 +437,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (answers.size >= 0) {
-                callback.onAnswersLoaded(answers)
+                callback.onLoaded(answers)
             }
 
             if (it.documents.size > 0) {
@@ -445,11 +445,11 @@ object LettersFirebaseDataSource : LettersDataSource {
                 loadMoreSentAnswersQuery = loadSentAnswersQuery.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }.addOnFailureListener {
-            callback.onFailedToLoadAnswers()
+            callback.onFailedToLoadItems()
         }
     }
 
-    override fun loadMoreSentAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
+    override fun loadMoreSentAnswers(callback: LettersDataSource.LoadMoreItemsCallback) {
         loadMoreSentAnswersQuery?.get()?.addOnSuccessListener {
 
             val answers: ArrayList<Answer> = ArrayList()
@@ -461,7 +461,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
             if (answers.size >= 0) {
-                callback.onAnswersMoreLoaded(answers)
+                callback.onMoreLoaded(answers)
             }
 
             if (it.documents.size > 0) {
@@ -469,7 +469,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 loadMoreSentAnswersQuery = loadMoreSentAnswersQuery!!.startAfter(lastVisible).limit(LIMIT_PAGE)
             }
         }?.addOnFailureListener {
-            callback.onFailedToLoadMoreAnswers()
+            callback.onFailedToLoadMoreItems()
         }
     }
 }

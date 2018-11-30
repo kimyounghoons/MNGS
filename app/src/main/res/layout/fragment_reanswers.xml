@@ -33,9 +33,9 @@
                 android:layout_height="match_parent"
                 android:onScrollReAnswers="@{viewModel}"
                 app:layoutManager="@{linearLayoutManager}"
-                bind:isAllLoadedReAnswers="@{viewModel.isAllLoaded().get()}"
-                bind:prevReAnswers="@{viewModel.prevItemSize.get()}"
-                bind:reAnswers="@{viewModel.items.get()}" />
+                bind:isAllLoaded="@{viewModel.isAllLoaded().get()}"
+                bind:prev="@{viewModel.prevItemSize.get()}"
+                bind:items="@{viewModel.items.get()}" />
 
         <ImageView
             android:id="@+id/left_allow"

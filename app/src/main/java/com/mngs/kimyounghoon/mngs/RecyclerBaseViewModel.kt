@@ -3,8 +3,8 @@ package com.mngs.kimyounghoon.mngs
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
+import com.mngs.kimyounghoon.mngs.data.AbstractId
 import com.mngs.kimyounghoon.mngs.data.Constants
-import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 
 abstract class RecyclerBaseViewModel : ViewModel() {
@@ -16,20 +16,20 @@ abstract class RecyclerBaseViewModel : ViewModel() {
     val isLoading = ObservableBoolean(false)
     val isDataLoadingError = ObservableBoolean(false)
     internal val toastMessage = SingleLiveEvent<Int>()
-    var items: ObservableField<ArrayList<Letter>> = ObservableField()
+    var items: ObservableField<ArrayList<AbstractId>> = ObservableField()
     var prevItemSize: ObservableField<Int> = ObservableField(0)
     val empty = ObservableBoolean(false)
     val refreshing = ObservableField<Boolean>(false)
 
     fun start() {
-        loadLetters(true)
+        loadItems(true)
     }
 
-    fun loadLetters(forceUpdate: Boolean) {
-        loadLetters(forceUpdate, true)
+    fun loadItems(forceUpdate: Boolean) {
+        loadItems(forceUpdate, true)
     }
 
-    private fun loadLetters(forceUpdate: Boolean, showLoadingUI: Boolean) {
+    private fun loadItems(forceUpdate: Boolean, showLoadingUI: Boolean) {
         if (showLoadingUI) {
             if (refreshing.get() == false) {
                 refreshing.notifyChange()
@@ -44,63 +44,64 @@ abstract class RecyclerBaseViewModel : ViewModel() {
             isAllLoaded.set(false)
         }
 
-        loadRepositoryLetter(object : LettersDataSource.LoadLettersCallback {
-            override fun onLettersLoaded(letters: List<Letter>) {
-                val lettersToShow: List<Letter> = letters
+        loadRepositoryItems(object : LettersDataSource.LoadItemsCallback {
+            override fun onLoaded(items: List<AbstractId>) {
+                val itemsToShow: List<AbstractId> = items
 
                 if (showLoadingUI) {
                     isLoading.set(false)
                 }
                 isDataLoadingError.set(false)
 
-                items.set(lettersToShow as ArrayList<Letter>)
+                this@RecyclerBaseViewModel.items.set(itemsToShow as ArrayList<AbstractId>)
 
-                items.get()?.apply {
+                this@RecyclerBaseViewModel.items.get()?.apply {
                     empty.set(isEmpty())
                 }
 
-                if (letters.size < Constants.LIMIT_PAGE) {
+                if (items.size < Constants.LIMIT_PAGE) {
                     isAllLoaded.set(true)
                 }
 
             }
 
-            override fun onFailedToLoadLetters() {
+            override fun onFailedToLoadItems() {
 
             }
 
         })
     }
 
-    abstract fun loadRepositoryLetter(callback: LettersDataSource.LoadLettersCallback)
+    abstract fun loadRepositoryItems(callback: LettersDataSource.LoadItemsCallback)
 
-    fun loadMoreLetters() {
+    fun loadMoreItems() {
         isLoading.set(true)
 
-        loadMoreRepositoryLetter(object : LettersDataSource.LoadMoreLettersCallback {
-            override fun onLettersMoreLoaded(letters: List<Letter>) {
-                val lettersToShow: List<Letter> = letters
+        loadMoreRepositoryItems(object : LettersDataSource.LoadMoreItemsCallback {
+            override fun onMoreLoaded(items: List<AbstractId>) {
+                val itemsToShow: List<AbstractId> = items
 
                 isLoading.set(false)
                 isDataLoadingError.set(false)
 
-                prevItemSize.set(items.get()?.size ?: 0)
-                items.get()?.apply {
-                    addAll(size, lettersToShow)
+                prevItemSize.set(this@RecyclerBaseViewModel.items.get()?.size ?: 0)
+                this@RecyclerBaseViewModel.items.get()?.apply {
+                    addAll(size, itemsToShow)
                     empty.set(isEmpty())
-                    items.notifyChange()
+                    this@RecyclerBaseViewModel.items.notifyChange()
                 }
 
-                if (letters.size < Constants.LIMIT_PAGE) {
+                if (items.size < Constants.LIMIT_PAGE) {
                     isAllLoaded.set(true)
                 }
             }
 
-            override fun onFailedToLoadMoreLetters() {
+            override fun onFailedToLoadMoreItems() {
+
             }
         })
     }
 
-    abstract fun loadMoreRepositoryLetter(callback: LettersDataSource.LoadMoreLettersCallback)
+    abstract fun loadMoreRepositoryItems(callback: LettersDataSource.LoadMoreItemsCallback)
 
 }

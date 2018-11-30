@@ -1,7 +1,6 @@
 package com.mngs.kimyounghoon.mngs.writeletter
 
 import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.google.firebase.auth.FirebaseAuth
 import com.mngs.kimyounghoon.mngs.R
@@ -11,7 +10,6 @@ import com.mngs.kimyounghoon.mngs.data.Letter
 import com.mngs.kimyounghoon.mngs.data.source.LettersDataSource
 import com.mngs.kimyounghoon.mngs.data.source.LettersRepository
 import com.mngs.kimyounghoon.mngs.utils.TimeHelper
-import kotlin.math.acosh
 
 class WriteLetterViewModel(private val lettersRepository: LettersRepository) : ViewModel(), LettersDataSource.SendLetterCallback {
 
@@ -36,7 +34,8 @@ class WriteLetterViewModel(private val lettersRepository: LettersRepository) : V
 
     fun sendLetter() {
         needProgress.value = true
-        lettersRepository.sendLetter(Letter(lettersRepository.getLetterId(), FirebaseAuth.getInstance().currentUser!!.uid, false, false,title.get()?:EMPTY, content.get()?: EMPTY, TimeHelper.getCurrentTime()), this)
+        lettersRepository.sendLetter(Letter(lettersRepository.getLetterId(), FirebaseAuth.getInstance().currentUser!!.uid, false, false, title.get()
+                ?: EMPTY, content.get() ?: EMPTY, TimeHelper.getCurrentTime()), this)
     }
 
     private fun showToastMessage(message: Int) {

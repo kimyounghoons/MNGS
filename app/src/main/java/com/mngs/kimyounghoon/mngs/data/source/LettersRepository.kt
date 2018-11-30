@@ -41,28 +41,44 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
         return lettersDataSource.getLetterId()
     }
 
-    override fun loadLetters(callback: LettersDataSource.LoadLettersCallback) {
+    override fun loadLetters(callback: LettersDataSource.LoadItemsCallback) {
         lettersDataSource.loadLetters(callback)
     }
 
-    override fun loadMoreLetters(callback: LettersDataSource.LoadMoreLettersCallback) {
+    override fun loadMoreLetters(callback: LettersDataSource.LoadMoreItemsCallback) {
         lettersDataSource.loadMoreLetters(callback)
     }
 
-    override fun loadInBox(callback: LettersDataSource.LoadLettersCallback) {
+    override fun loadInBox(callback: LettersDataSource.LoadItemsCallback) {
         lettersDataSource.loadInBox(callback)
     }
 
-    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreLettersCallback) {
+    override fun loadMoreInBox(callback: LettersDataSource.LoadMoreItemsCallback) {
         lettersDataSource.loadMoreInBox(callback)
     }
 
-    override fun loadAnswers(letterId: String, callback: LettersDataSource.LoadAnswersCallback) {
+    override fun loadAnswers(letterId: String, callback: LettersDataSource.LoadItemsCallback) {
         lettersDataSource.loadAnswers(letterId, callback)
     }
 
-    override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
+    override fun loadMoreAnswers(callback: LettersDataSource.LoadMoreItemsCallback) {
         lettersDataSource.loadMoreAnswers(callback)
+    }
+
+    override fun loadReAnswers(letterId: String, callback: LettersDataSource.LoadItemsCallback) {
+        lettersDataSource.loadReAnswers(letterId, callback)
+    }
+
+    override fun loadMoreReAnswers(callback: LettersDataSource.LoadMoreItemsCallback) {
+        lettersDataSource.loadMoreReAnswers(callback)
+    }
+
+    override fun loadSentAnswers(callback: LettersDataSource.LoadItemsCallback) {
+        lettersDataSource.loadSentAnswers(callback)
+    }
+
+    override fun loadMoreSentAnswers(callback: LettersDataSource.LoadMoreItemsCallback) {
+        lettersDataSource.loadMoreSentAnswers(callback)
     }
 
     override fun getLetter(letterId: String, callBack: LettersDataSource.GetLetterCallback) {
@@ -71,22 +87,6 @@ class LettersRepository(private val lettersDataSource: LettersDataSource) : Lett
 
     override fun sendLetter(letter: Letter, callback: LettersDataSource.SendLetterCallback) {
         lettersDataSource.sendLetter(letter, callback)
-    }
-
-    override fun loadReAnswers(letterId: String, callback: LettersDataSource.LoadReAnswersCallback) {
-        lettersDataSource.loadReAnswers(letterId, callback)
-    }
-
-    override fun loadMoreReAnswers(callback: LettersDataSource.LoadMoreReAnswersCallback) {
-        lettersDataSource.loadMoreReAnswers(callback)
-    }
-
-    override fun loadSentAnswers(callback: LettersDataSource.LoadAnswersCallback) {
-        lettersDataSource.loadSentAnswers(callback)
-    }
-
-    override fun loadMoreSentAnswers(callback: LettersDataSource.LoadMoreAnswersCallback) {
-        lettersDataSource.loadMoreSentAnswers(callback)
     }
 
     companion object {
