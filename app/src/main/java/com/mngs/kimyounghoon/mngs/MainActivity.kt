@@ -21,7 +21,6 @@ import com.mngs.kimyounghoon.mngs.letterdetail.DetailLetterFragment
 import com.mngs.kimyounghoon.mngs.login.LoginFragment
 import com.mngs.kimyounghoon.mngs.reanswer.ReAnswerFragment
 import com.mngs.kimyounghoon.mngs.reanswers.ReAnswersFragment
-import com.mngs.kimyounghoon.mngs.signup.SignupFragment
 import com.mngs.kimyounghoon.mngs.splash.SplashFragment
 import com.mngs.kimyounghoon.mngs.writeletter.WriteLetterFragment
 
@@ -84,10 +83,6 @@ class MainActivity : AppCompatActivity(), LocateListener, ActionBarListener {
 
     override fun openLogin() {
         supportFragmentManager.beginTransaction().replace(R.id.container, LoginFragment.newInstance()).commit()
-    }
-
-    override fun openSignup() {
-        supportFragmentManager.beginTransaction().replace(R.id.container, SignupFragment.newInstance()).commit()
     }
 
     override fun openHome() {

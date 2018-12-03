@@ -11,8 +11,6 @@ interface LocateListener{
 
     fun openHome()
 
-    fun openSignup()
-
     fun openLetterDetail(letter:Letter)
 
     fun openAnswer(letter: Letter)
