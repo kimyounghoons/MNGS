@@ -13,7 +13,7 @@ interface LettersDataSource {
     interface UserCallback{
         fun onSuccess(user: User)
 
-        fun onFail()
+        fun onFailToGetUser()
     }
 
     interface SignupCallback{

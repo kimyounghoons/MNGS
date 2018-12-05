@@ -29,7 +29,6 @@ import com.mngs.kimyounghoon.mngs.data.Constants.Companion.REANSWER
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.TIME
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.USERS
 import com.mngs.kimyounghoon.mngs.data.Constants.Companion.VERSION
-import com.mngs.kimyounghoon.mngs.data.Constants.Companion.VERSION_NAME
 import com.mngs.kimyounghoon.mngs.firebases.FirebasePushDAO
 import com.mngs.kimyounghoon.mngs.models.FirebasePushData
 
@@ -81,7 +80,7 @@ object LettersFirebaseDataSource : LettersDataSource {
     override fun getUser(userId: String, callback: LettersDataSource.UserCallback) {
         FirebaseFirestore.getInstance().collection(BuildConfig.BUILD_TYPE).document(USERS).collection(USERS).whereEqualTo(ID, userId).get().addOnSuccessListener {
             if (it.documents.size == 0) {
-                callback.onFail()
+                callback.onFailToGetUser()
             } else {
                 for (doc in it.documents) {
                     val user = doc.toObject(User::class.java)
@@ -91,7 +90,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                 }
             }
         }.addOnFailureListener {
-            callback.onFail()
+            callback.onFailToGetUser()
         }
     }
 
@@ -122,7 +121,7 @@ object LettersFirebaseDataSource : LettersDataSource {
                     postFirebasePush(user.firebaseToken, answer)
                 }
 
-                override fun onFail() {
+                override fun onFailToGetUser() {
 
                 }
 
@@ -207,11 +206,12 @@ object LettersFirebaseDataSource : LettersDataSource {
                 reAnswer.originUserId
             }
             getUser(userId, object : LettersDataSource.UserCallback {
+
                 override fun onSuccess(user: User) {
                     postFirebasePush(user.firebaseToken, reAnswer)
                 }
 
-                override fun onFail() {
+                override fun onFailToGetUser() {
 
                 }
 
