@@ -12,3 +12,4 @@
   5. ConstraintLayout
   6. LiveData
   7. 푸시 팝업
+  8. 앱 버전 관리
